@@ -1,0 +1,140 @@
+---
+layout: default
+title: "Jurisdictions"
+---
+
+<div class="bg-white min-h-screen">
+  {% include nav.html %}
+
+  <main class="mx-auto max-w-7xl px-6 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Jurisdictions</h1>
+      <p class="mt-2 text-gray-600">
+        Browse eligibility rules by jurisdiction level.
+      </p>
+    </div>
+
+    <!-- Jurisdiction Levels -->
+    <div class="grid gap-8">
+      {% assign federal = site.data.jurisdictions | where: "level", "federal" %}
+      {% assign states = site.data.jurisdictions | where: "level", "state" %}
+      {% assign counties = site.data.jurisdictions | where: "level", "county" %}
+      {% assign cities = site.data.jurisdictions | where: "level", "city" %}
+
+      <!-- Federal -->
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Federal</h2>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {% for jurisdiction in federal %}
+          <a
+            href="{{ jurisdiction.url }}"
+            class="group p-6 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50/50 transition-colors"
+          >
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+              {{ jurisdiction.level | capitalize }}
+            </div>
+            <div class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-primary-600">
+              {{ jurisdiction.name }}
+            </div>
+            <div class="mt-1 text-sm text-gray-500">
+              {{ jurisdiction.service_count }} programs
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- States -->
+      {% if states.size > 0 %}
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-semibold text-gray-900">States</h2>
+          <a
+            href="/jurisdictions/states/"
+            class="text-sm text-primary-600 hover:text-primary-500"
+          >
+            View all states
+          </a>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {% for jurisdiction in states %}
+          <a
+            href="{{ jurisdiction.url }}"
+            class="group p-6 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50/50 transition-colors"
+          >
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+              {{ jurisdiction.level | capitalize }}
+            </div>
+            <div class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-primary-600">
+              {{ jurisdiction.name }}
+            </div>
+            <div class="mt-1 text-sm text-gray-500">
+              {{ jurisdiction.service_count }} programs
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      <!-- Counties -->
+      {% if counties.size > 0 %}
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Counties</h2>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {% for jurisdiction in counties %}
+          <a
+            href="{{ jurisdiction.url }}"
+            class="group p-6 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50/50 transition-colors"
+          >
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+              {{ jurisdiction.level | capitalize }}
+            </div>
+            <div class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-primary-600">
+              {{ jurisdiction.name }}
+            </div>
+            <div class="mt-1 text-sm text-gray-500">
+              {{ jurisdiction.service_count }} programs
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+
+      <!-- Cities -->
+      {% if cities.size > 0 %}
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Cities</h2>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {% for jurisdiction in cities %}
+          <a
+            href="{{ jurisdiction.url }}"
+            class="group p-6 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50/50 transition-colors"
+          >
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wide">
+              {{ jurisdiction.level | capitalize }}
+            </div>
+            <div class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-primary-600">
+              {{ jurisdiction.name }}
+            </div>
+            <div class="mt-1 text-sm text-gray-500">
+              {{ jurisdiction.service_count }} programs
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </div>
+
+    <p class="mt-8 text-sm text-gray-500">
+      Missing a jurisdiction? <a
+        href="/contribute/"
+        class="text-primary-600 hover:text-primary-500"
+      >Contribute</a> to add it.
+    </p>
+  </main>
+
+  {% include footer.html %}
+</div>
