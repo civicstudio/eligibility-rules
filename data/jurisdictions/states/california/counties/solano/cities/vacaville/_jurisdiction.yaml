@@ -1,0 +1,6 @@
+id: vacaville
+name: City of Vacaville
+level: city
+parent: solano-county
+geoid: "0681554"
+website: https://www.cityofvacaville.com/

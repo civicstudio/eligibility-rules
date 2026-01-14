@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eligibilityrules.org/schema/jurisdiction.schema.json",
+  "title": "Jurisdiction",
+  "description": "A governmental jurisdiction (federal, state, county, city)",
+  "type": "object",
+  "required": ["id", "name", "level"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique identifier (kebab-case)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name"
+    },
+    "level": {
+      "type": "string",
+      "enum": ["federal", "state", "county", "city", "special_district"],
+      "description": "Level in the jurisdiction hierarchy"
+    },
+    "parent": {
+      "type": "string",
+      "description": "ID of the parent jurisdiction"
+    },
+    "geoid": {
+      "type": "string",
+      "description": "Census GEOID"
+    },
+    "fips": {
+      "type": "string",
+      "description": "FIPS code"
+    },
+    "abbreviation": {
+      "type": "string",
+      "description": "State abbreviation (for states)"
+    },
+    "website": {
+      "type": "string",
+      "format": "uri",
+      "description": "Official government website"
+    }
+  },
+  "if": {
+    "properties": {
+      "level": { "const": "federal" }
+    }
+  },
+  "then": {
+    "properties": {
+      "parent": false
+    }
+  },
+  "else": {
+    "required": ["parent"]
+  }
+}

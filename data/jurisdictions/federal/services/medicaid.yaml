@@ -1,0 +1,99 @@
+id: medicaid
+name: Medicaid
+jurisdiction_id: united-states
+agency_id: cms
+service_type: benefit
+category: healthcare
+description: |
+  Medicaid provides free or low-cost health coverage to eligible
+  low-income adults, children, pregnant women, elderly adults,
+  and people with disabilities.
+application_url: https://www.healthcare.gov/medicaid-chip/
+source_urls:
+  - https://www.medicaid.gov/medicaid/eligibility/index.html
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: medicaid
+  effective_date: 2024-01-01
+  rules:
+    - id: income-adults
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 138
+      unit: percent
+      requirement: required
+      label: Income (Adults)
+      description: |
+        In states that expanded Medicaid, adults under 65 with
+        income up to 138% FPL qualify.
+      source_url: https://www.medicaid.gov/medicaid/eligibility/index.html
+
+    - id: residency
+      key: state_residency
+      operator: exists
+      requirement: required
+      label: State Residency
+      description: Must be a resident of the state where applying.
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - us_national
+        - qualified_alien
+      requirement: required
+      label: Citizenship/Immigration
+      description: |
+        Must be a U.S. citizen, U.S. national, or qualified immigrant.
+
+    - id: not-incarcerated
+      key: is_incarcerated
+      operator: equals
+      value: false
+      requirement: required
+      label: Not Incarcerated
+      description: Cannot be currently incarcerated.
+
+    - id: categorical-eligibility
+      key: eligibility_category
+      operator: in
+      values:
+        - low_income_adult
+        - pregnant
+        - child_under_19
+        - parent_caretaker
+        - elderly_65_plus
+        - disabled
+        - blind
+      requirement: required
+      label: Eligibility Category
+      description: Must fall into an eligible category.
+      any_of:
+        - id: cat-child
+          key: age
+          operator: less_than
+          value: 19
+          description: Children under 19
+        - id: cat-pregnant
+          key: is_pregnant
+          operator: equals
+          value: true
+          description: Pregnant individuals
+        - id: cat-elderly
+          key: age
+          operator: greater_than_or_equal
+          value: 65
+          description: Adults 65 and older
+        - id: cat-disabled
+          key: has_disability
+          operator: equals
+          value: true
+          description: Individuals with disabilities
+        - id: cat-adult-expansion
+          key: age
+          operator: between
+          min: 19
+          max: 64
+          description: Adults 19-64 (expansion states)

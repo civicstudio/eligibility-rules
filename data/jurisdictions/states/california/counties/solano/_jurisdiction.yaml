@@ -1,0 +1,7 @@
+id: solano-county
+name: Solano County
+level: county
+parent: california
+geoid: "06095"
+fips: "06095"
+website: https://www.solanocounty.com/

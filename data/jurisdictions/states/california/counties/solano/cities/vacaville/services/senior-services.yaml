@@ -1,0 +1,61 @@
+id: vacaville-senior-services
+name: Vacaville Senior Services
+jurisdiction_id: vacaville
+agency_id: vacaville-community-services
+service_type: assistance
+category: senior-services
+description: |
+  Vacaville Senior Services provides programs and resources for
+  older adults including meals, transportation, recreation, and
+  information and referral services.
+application_url: https://www.cityofvacaville.com/community-services/senior-services
+source_urls:
+  - https://www.cityofvacaville.com/community-services/senior-services
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: vacaville-senior-services
+  effective_date: 2024-01-01
+  rules:
+    - id: age
+      key: age
+      operator: greater_than_or_equal
+      value: 60
+      requirement: required
+      label: Age Requirement
+      description: Must be 60 years of age or older.
+
+    - id: residency
+      key: city_residency
+      operator: equals
+      value: vacaville
+      requirement: required
+      label: Vacaville Residency
+      description: |
+        Must be a resident of Vacaville or surrounding service area.
+
+    - id: congregate-meals
+      key: service_requested
+      operator: equals
+      value: congregate_meals
+      requirement: optional
+      label: Congregate Meals
+      description: |
+        Congregate meal program available at senior center.
+        Suggested donation but no one turned away for inability to pay.
+
+    - id: transportation
+      key: service_requested
+      operator: equals
+      value: transportation
+      requirement: optional
+      label: Transportation Services
+      description: |
+        Transportation available for medical appointments and
+        essential errands for qualifying seniors.
+      conditions:
+        - id: mobility-need
+          key: has_mobility_limitation
+          operator: equals
+          value: true
+          description: Has mobility limitation or no transportation

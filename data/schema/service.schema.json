@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eligibilityrules.org/schema/service.schema.json",
+  "title": "Service",
+  "description": "A government service or benefit program",
+  "type": "object",
+  "required": ["id", "name", "jurisdiction_id", "service_type"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique identifier (kebab-case)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Official service name"
+    },
+    "alternate_names": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Other names this service is known by"
+    },
+    "jurisdiction_id": {
+      "type": "string",
+      "description": "ID of the administering jurisdiction"
+    },
+    "agency_id": {
+      "type": "string",
+      "description": "ID of the administering agency"
+    },
+    "service_type": {
+      "type": "string",
+      "enum": ["benefit", "permit", "license", "registration", "assistance", "rebate", "exemption"],
+      "description": "Type of service"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "food-assistance",
+        "healthcare",
+        "housing",
+        "income-support",
+        "childcare",
+        "education",
+        "employment",
+        "disability",
+        "senior-services",
+        "utilities",
+        "transportation",
+        "legal",
+        "tax",
+        "other"
+      ],
+      "description": "Service category"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the service"
+    },
+    "application_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to apply for this service"
+    },
+    "source_urls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "Official source URLs for service information"
+    },
+    "last_verified": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when the service information was last verified"
+    }
+  }
+}

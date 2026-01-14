@@ -1,0 +1,61 @@
+id: social-security-retirement
+name: Social Security Retirement Benefits
+alternate_names:
+  - Social Security
+  - OASI
+jurisdiction_id: united-states
+agency_id: ssa
+service_type: benefit
+category: income-support
+description: |
+  Monthly retirement benefits for workers who have paid into
+  Social Security through payroll taxes.
+application_url: https://www.ssa.gov/benefits/retirement/
+source_urls:
+  - https://www.ssa.gov/benefits/retirement/planner/agereduction.html
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: social-security-retirement
+  effective_date: 2024-01-01
+  rules:
+    - id: age-minimum
+      key: age
+      operator: greater_than_or_equal
+      value: 62
+      requirement: required
+      label: Minimum Age
+      description: Must be at least 62 years old to claim benefits.
+
+    - id: work-credits
+      key: social_security_credits
+      operator: greater_than_or_equal
+      value: 40
+      requirement: required
+      label: Work Credits
+      description: |
+        Must have earned at least 40 Social Security credits
+        (approximately 10 years of work).
+      source_url: https://www.ssa.gov/benefits/retirement/planner/credits.html
+
+    - id: citizenship-or-residency
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - us_national
+        - lawful_permanent_resident
+      requirement: required
+      label: Citizenship/Status
+      description: Must be a U.S. citizen, national, or lawful resident.
+      any_of:
+        - id: is-citizen
+          key: citizenship_status
+          operator: equals
+          value: us_citizen
+          description: U.S. citizen
+        - id: is-resident-with-totalization
+          key: has_totalization_agreement
+          operator: equals
+          value: true
+          description: Has totalization agreement coverage

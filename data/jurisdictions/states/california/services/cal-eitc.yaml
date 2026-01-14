@@ -1,0 +1,78 @@
+id: cal-eitc
+name: California Earned Income Tax Credit
+alternate_names:
+  - CalEITC
+jurisdiction_id: california
+agency_id: ftb
+service_type: benefit
+category: tax
+description: |
+  CalEITC is a refundable state tax credit for low-income working
+  Californians, providing cash back even with no tax liability.
+application_url: https://www.ftb.ca.gov/file/personal/credits/california-earned-income-tax-credit.html
+source_urls:
+  - https://www.caleitc4me.org/
+  - https://www.ftb.ca.gov/file/personal/credits/california-earned-income-tax-credit.html
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: cal-eitc
+  effective_date: 2024-01-01
+  rules:
+    - id: earned-income
+      key: earned_income
+      operator: greater_than
+      value: 1
+      unit: dollars
+      requirement: required
+      label: Earned Income
+      description: Must have earned income of at least $1.
+
+    - id: income-limit
+      key: earned_income
+      operator: less_than_or_equal
+      value: 30950
+      unit: dollars
+      requirement: required
+      label: Income Limit
+      description: |
+        Earned income must be $30,950 or less (2024 tax year).
+        No limit on number of qualifying children.
+      source_url: https://www.ftb.ca.gov/file/personal/credits/california-earned-income-tax-credit.html
+
+    - id: age
+      key: age
+      operator: greater_than_or_equal
+      value: 18
+      requirement: required
+      label: Age Requirement
+      description: Must be at least 18 years old.
+
+    - id: residency
+      key: state_residency
+      operator: equals
+      value: CA
+      requirement: required
+      label: California Residency
+      description: |
+        Must be a California resident for more than half of the
+        tax year.
+
+    - id: itin-eligible
+      key: has_itin_or_ssn
+      operator: equals
+      value: true
+      requirement: required
+      label: SSN or ITIN
+      description: |
+        Must have a valid SSN or Individual Taxpayer Identification
+        Number (ITIN). Unlike federal EITC, ITINs are accepted.
+      source_url: https://www.caleitc4me.org/
+
+    - id: not-dependent
+      key: can_be_claimed_as_dependent
+      operator: equals
+      value: false
+      requirement: required
+      label: Not a Dependent
+      description: Cannot be claimed as a dependent on another return.

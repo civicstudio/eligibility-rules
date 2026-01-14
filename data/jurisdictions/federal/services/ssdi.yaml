@@ -1,0 +1,75 @@
+id: ssdi
+name: Social Security Disability Insurance
+alternate_names:
+  - SSDI
+  - Disability Insurance
+jurisdiction_id: united-states
+agency_id: ssa
+service_type: benefit
+category: disability
+description: |
+  SSDI pays benefits to you and certain family members if you are
+  "insured," meaning you worked long enough and paid Social Security taxes.
+application_url: https://www.ssa.gov/benefits/disability/
+source_urls:
+  - https://www.ssa.gov/benefits/disability/qualify.html
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: ssdi
+  effective_date: 2024-01-01
+  rules:
+    - id: disability-definition
+      key: has_ssa_disability
+      operator: equals
+      value: true
+      requirement: required
+      label: Disability Determination
+      description: |
+        Must have a medical condition that meets SSA's strict
+        definition of disability and is expected to last at least
+        12 months or result in death.
+      source_url: https://www.ssa.gov/benefits/disability/qualify.html
+
+    - id: work-credits-recent
+      key: recent_work_credits
+      operator: greater_than_or_equal
+      value: 20
+      requirement: required
+      label: Recent Work Credits
+      description: |
+        Must have earned enough recent work credits
+        (generally 20 credits in the last 10 years).
+      source_url: https://www.ssa.gov/benefits/disability/qualify.html
+
+    - id: work-credits-duration
+      key: lifetime_work_credits
+      operator: greater_than_or_equal
+      value: 6
+      requirement: required
+      label: Duration of Work
+      description: |
+        Must meet duration of work requirements based on age
+        at disability onset.
+
+    - id: not-working-sga
+      key: monthly_earnings
+      operator: less_than
+      value: 1550
+      unit: dollars
+      requirement: required
+      label: Substantial Gainful Activity
+      description: |
+        Cannot be engaged in substantial gainful activity
+        (earning more than $1,550/month in 2025, or $2,590 if blind).
+      source_url: https://www.ssa.gov/oact/cola/sga.html
+
+    - id: age-limit
+      key: age
+      operator: less_than
+      value: 67
+      requirement: required
+      label: Under Full Retirement Age
+      description: |
+        Must be under full retirement age (SSDI converts to
+        retirement benefits at full retirement age).

@@ -1,0 +1,23 @@
+{
+  "name": "s3-jekyll",
+  "version": "1.0.0",
+  "description": "jekyll with tailwind to s3 via github actions",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.0"
+  },
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i ./assets/css/tailwind.css -o ./assets/css/main.css --minify",
+    "build": "npm run build:css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afomi/jekyll-with-tailwind.git"
+  },
+  "author": "ryanwold.net",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/afomi/jekyll-with-tailwind/issues"
+  },
+  "homepage": "https://github.com/afomi/jekyll-with-tailwind#readme"
+}

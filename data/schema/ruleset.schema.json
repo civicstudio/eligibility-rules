@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eligibilityrules.org/schema/ruleset.schema.json",
+  "title": "Ruleset",
+  "description": "A set of eligibility rules for a service",
+  "type": "object",
+  "required": ["service_id", "rules"],
+  "properties": {
+    "service_id": {
+      "type": "string",
+      "description": "ID of the service these rules apply to"
+    },
+    "effective_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date these rules became effective"
+    },
+    "rules": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/rule" },
+      "description": "List of eligibility rules"
+    }
+  },
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "required": ["id", "key", "operator"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "Unique rule identifier within this ruleset"
+        },
+        "key": {
+          "type": "string",
+          "description": "The attribute key to evaluate (e.g., 'income_fpl', 'age', 'residency')"
+        },
+        "operator": {
+          "type": "string",
+          "enum": [
+            "equals",
+            "not_equals",
+            "less_than",
+            "less_than_or_equal",
+            "greater_than",
+            "greater_than_or_equal",
+            "in",
+            "not_in",
+            "between",
+            "exists",
+            "not_exists",
+            "matches"
+          ],
+          "description": "Comparison operator"
+        },
+        "value": {
+          "description": "The value to compare against (type depends on operator)"
+        },
+        "values": {
+          "type": "array",
+          "description": "List of values for 'in' or 'not_in' operators"
+        },
+        "min": {
+          "type": "number",
+          "description": "Minimum value for 'between' operator"
+        },
+        "max": {
+          "type": "number",
+          "description": "Maximum value for 'between' operator"
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["percent", "dollars", "years", "months", "days", "hours"],
+          "description": "Unit of measurement for the value"
+        },
+        "requirement": {
+          "type": "string",
+          "enum": ["required", "optional", "disqualifying"],
+          "default": "required",
+          "description": "Whether this rule is required, optional, or disqualifying"
+        },
+        "label": {
+          "type": "string",
+          "description": "Short human-readable label for display"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of this rule"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Official source URL for this rule"
+        },
+        "conditions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Nested conditions (AND logic within this rule)"
+        },
+        "any_of": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/rule" },
+          "description": "Alternative conditions (OR logic - any one must be true)"
+        }
+      }
+    }
+  }
+}

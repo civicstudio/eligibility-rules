@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eligibilityrules.org/schema/agency.schema.json",
+  "title": "Agency",
+  "description": "A government agency that administers services",
+  "type": "object",
+  "required": ["id", "name", "jurisdiction_id"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique identifier (kebab-case)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full agency name"
+    },
+    "abbreviation": {
+      "type": "string",
+      "description": "Common abbreviation (e.g., SSA, CDSS)"
+    },
+    "jurisdiction_id": {
+      "type": "string",
+      "description": "ID of the jurisdiction this agency belongs to"
+    },
+    "agency_type": {
+      "type": "string",
+      "enum": ["department", "bureau", "office", "commission", "authority", "board"],
+      "description": "Type of agency"
+    },
+    "website": {
+      "type": "string",
+      "format": "uri",
+      "description": "Agency website"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Main contact phone number"
+    }
+  }
+}

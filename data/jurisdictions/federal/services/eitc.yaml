@@ -1,0 +1,105 @@
+id: eitc
+name: Earned Income Tax Credit
+alternate_names:
+  - EITC
+  - EIC
+jurisdiction_id: united-states
+agency_id: ssa
+service_type: benefit
+category: tax
+description: |
+  The EITC is a refundable tax credit for low- to moderate-income
+  working individuals and couples, particularly those with children.
+application_url: https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit-eitc
+source_urls:
+  - https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/who-qualifies-for-the-earned-income-tax-credit-eitc
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: eitc
+  effective_date: 2024-01-01
+  rules:
+    - id: earned-income
+      key: earned_income
+      operator: greater_than
+      value: 0
+      unit: dollars
+      requirement: required
+      label: Earned Income
+      description: Must have earned income from employment or self-employment.
+
+    - id: income-limit-no-children
+      key: adjusted_gross_income
+      operator: less_than
+      value: 18591
+      unit: dollars
+      requirement: required
+      label: Income Limit (No Children)
+      description: |
+        AGI must be less than $18,591 (single) or $25,511 (married)
+        with no qualifying children (2024 tax year).
+      conditions:
+        - id: no-children
+          key: qualifying_children
+          operator: equals
+          value: 0
+
+    - id: income-limit-with-children
+      key: adjusted_gross_income
+      operator: less_than
+      value: 59899
+      unit: dollars
+      requirement: required
+      label: Income Limit (With Children)
+      description: |
+        AGI limits increase with qualifying children:
+        1 child: $49,084/$56,004
+        2 children: $55,768/$62,688
+        3+ children: $59,899/$66,819
+
+    - id: investment-income
+      key: investment_income
+      operator: less_than
+      value: 11600
+      unit: dollars
+      requirement: required
+      label: Investment Income Limit
+      description: Investment income must be $11,600 or less (2024).
+
+    - id: filing-status
+      key: filing_status
+      operator: not_in
+      values:
+        - married_filing_separately
+      requirement: required
+      label: Filing Status
+      description: Cannot file as married filing separately.
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - resident_alien_full_year
+      requirement: required
+      label: Citizenship/Status
+      description: |
+        Must be a U.S. citizen or resident alien for the entire year.
+
+    - id: ssn
+      key: has_valid_ssn
+      operator: equals
+      value: true
+      requirement: required
+      label: Valid SSN
+      description: |
+        You, your spouse (if filing jointly), and any qualifying
+        children must have valid Social Security numbers.
+
+    - id: not-dependent
+      key: can_be_claimed_as_dependent
+      operator: equals
+      value: false
+      requirement: required
+      label: Not a Dependent
+      description: Cannot be claimed as a dependent on another person's return.

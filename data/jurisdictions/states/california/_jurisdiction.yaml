@@ -1,0 +1,8 @@
+id: california
+name: California
+level: state
+parent: united-states
+geoid: "06"
+fips: "06"
+abbreviation: CA
+website: https://www.ca.gov/

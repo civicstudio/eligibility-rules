@@ -1,0 +1,95 @@
+id: tanf
+name: Temporary Assistance for Needy Families
+alternate_names:
+  - TANF
+  - Welfare
+  - Cash Assistance
+jurisdiction_id: united-states
+agency_id: hud
+service_type: benefit
+category: income-support
+description: |
+  TANF provides temporary financial assistance to pregnant women and
+  families with dependent children. States design their own programs
+  within federal guidelines.
+application_url: https://www.acf.hhs.gov/ofa/programs/tanf
+source_urls:
+  - https://www.acf.hhs.gov/ofa/programs/tanf/about
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: tanf
+  effective_date: 2024-01-01
+  rules:
+    - id: has-dependent-child
+      key: has_dependent_child
+      operator: equals
+      value: true
+      requirement: required
+      label: Dependent Child
+      description: |
+        Must have a dependent child under 18 (or 19 if full-time
+        student expected to graduate before 19).
+      any_of:
+        - id: pregnant
+          key: is_pregnant
+          operator: equals
+          value: true
+          description: Is pregnant (third trimester in most states)
+        - id: child-present
+          key: has_child_under_18
+          operator: equals
+          value: true
+          description: Child under 18 living in household
+
+    - id: income
+      key: household_income
+      operator: less_than
+      value: state_tanf_limit
+      requirement: required
+      label: Income Limit
+      description: |
+        Household income must be below state-specific limits
+        (varies significantly by state).
+
+    - id: assets
+      key: countable_assets
+      operator: less_than
+      value: state_tanf_asset_limit
+      requirement: required
+      label: Asset Limit
+      description: |
+        Countable assets must be below state limit
+        (many states have eliminated asset tests).
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - qualified_alien_5_years
+      requirement: required
+      label: Citizenship/Immigration
+      description: |
+        Must be U.S. citizen or qualified alien who has been
+        in the U.S. for 5+ years (state exceptions may apply).
+
+    - id: work-participation
+      key: meets_work_requirement
+      operator: equals
+      value: true
+      requirement: required
+      label: Work Requirements
+      description: |
+        Adults must participate in work activities unless exempt.
+        Single parents: 30 hours/week. Two-parent families: 35-55 hours/week.
+
+    - id: time-limit
+      key: tanf_months_received
+      operator: less_than
+      value: 60
+      requirement: required
+      label: Time Limit
+      description: |
+        Federal lifetime limit of 60 months of assistance
+        (states may have shorter limits).

@@ -1,0 +1,86 @@
+id: vacaville-utility-assistance
+name: Vacaville Utility Assistance Program
+jurisdiction_id: vacaville
+agency_id: vacaville-community-services
+service_type: assistance
+category: utilities
+description: |
+  The City of Vacaville provides utility assistance for low-income
+  residents to help with water and sewer bills.
+application_url: https://www.cityofvacaville.com/utilities
+source_urls:
+  - https://www.cityofvacaville.com/utilities
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: vacaville-utility-assistance
+  effective_date: 2024-01-01
+  rules:
+    - id: income
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 200
+      unit: percent
+      requirement: required
+      label: Income Limit
+      description: |
+        Household income must be at or below 200% of the
+        Federal Poverty Level.
+
+    - id: residency
+      key: city_residency
+      operator: equals
+      value: vacaville
+      requirement: required
+      label: Vacaville Residency
+      description: Must be a resident of Vacaville.
+
+    - id: utility-account
+      key: has_vacaville_utility_account
+      operator: equals
+      value: true
+      requirement: required
+      label: Utility Account
+      description: |
+        Must have a City of Vacaville utility account in applicant's
+        name.
+
+    - id: past-due
+      key: utility_past_due
+      operator: equals
+      value: true
+      requirement: optional
+      label: Past Due Balance
+      description: |
+        Priority given to accounts with past due balances or
+        facing disconnection.
+
+    - id: once-per-year
+      key: received_utility_assistance_this_year
+      operator: equals
+      value: false
+      requirement: required
+      label: Annual Limit
+      description: |
+        Assistance available once per calendar year per household.
+
+    - id: senior-discount
+      key: age
+      operator: greater_than_or_equal
+      value: 62
+      requirement: optional
+      label: Senior Discount
+      description: |
+        Seniors 62+ may qualify for ongoing rate discount in
+        addition to one-time assistance.
+      any_of:
+        - id: is-senior
+          key: age
+          operator: greater_than_or_equal
+          value: 62
+          description: Age 62 or older
+        - id: is-disabled
+          key: has_disability
+          operator: equals
+          value: true
+          description: Has qualifying disability

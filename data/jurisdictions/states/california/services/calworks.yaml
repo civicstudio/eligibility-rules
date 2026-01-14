@@ -1,0 +1,105 @@
+id: calworks
+name: California Work Opportunity and Responsibility to Kids
+alternate_names:
+  - CalWORKs
+  - California TANF
+  - Welfare
+jurisdiction_id: california
+agency_id: cdss
+service_type: benefit
+category: income-support
+description: |
+  CalWORKs is California's TANF program, providing temporary cash
+  assistance and services to families with children.
+application_url: https://benefitscal.com/
+source_urls:
+  - https://www.cdss.ca.gov/calworks
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: calworks
+  effective_date: 2024-01-01
+  rules:
+    - id: has-child
+      key: has_dependent_child
+      operator: equals
+      value: true
+      requirement: required
+      label: Dependent Child
+      description: |
+        Must have a dependent child under 18 in the household,
+        or be pregnant.
+      any_of:
+        - id: child-present
+          key: has_child_under_18
+          operator: equals
+          value: true
+          description: Has child under 18 in home
+        - id: pregnant
+          key: is_pregnant
+          operator: equals
+          value: true
+          description: Is pregnant
+
+    - id: income
+      key: household_income
+      operator: less_than
+      value: mbsac
+      requirement: required
+      label: Income Limit
+      description: |
+        Income must be below the Minimum Basic Standard of Adequate
+        Care (MBSAC) for your family size and county.
+      source_url: https://www.cdss.ca.gov/calworks
+
+    - id: assets
+      key: countable_assets
+      operator: less_than_or_equal
+      value: 15649
+      unit: dollars
+      requirement: required
+      label: Asset Limit
+      description: |
+        Countable resources must be $15,649 or less (one vehicle
+        per licensed adult driver excluded, plus other exclusions).
+      source_url: https://www.cdss.ca.gov/calworks
+
+    - id: residency
+      key: state_residency
+      operator: equals
+      value: CA
+      requirement: required
+      label: California Residency
+      description: Must be a California resident.
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - qualified_alien
+      requirement: required
+      label: Citizenship/Immigration
+      description: |
+        Must be a U.S. citizen or qualified immigrant.
+        Five-year bar applies to some qualified immigrants.
+
+    - id: work-participation
+      key: participates_in_welfare_to_work
+      operator: equals
+      value: true
+      requirement: required
+      label: Welfare-to-Work Participation
+      description: |
+        Adults must participate in Welfare-to-Work activities
+        unless exempt (disability, caring for infant, etc.).
+
+    - id: time-limit
+      key: calworks_months
+      operator: less_than
+      value: 48
+      requirement: required
+      label: Time Limit
+      description: |
+        48-month lifetime limit for adults (children's aid continues).
+        Extensions available for good cause.

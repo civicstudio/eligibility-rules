@@ -1,0 +1,76 @@
+id: medicare
+name: Medicare
+jurisdiction_id: united-states
+agency_id: cms
+service_type: benefit
+category: healthcare
+description: |
+  Federal health insurance program for people 65 or older,
+  certain younger people with disabilities, and people with
+  End-Stage Renal Disease.
+application_url: https://www.medicare.gov/sign-up-change-plans/how-do-i-get-parts-a-b
+source_urls:
+  - https://www.medicare.gov/basics/get-started-with-medicare/medicare-basics/who-can-get-medicare
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: medicare
+  effective_date: 2024-01-01
+  rules:
+    - id: age-or-disability
+      key: medicare_eligibility_basis
+      operator: in
+      values:
+        - age_65_plus
+        - ssdi_recipient_24_months
+        - als
+        - esrd
+      requirement: required
+      label: Eligibility Basis
+      description: |
+        Must be 65+, received SSDI for 24 months, have ALS,
+        or have End-Stage Renal Disease.
+      any_of:
+        - id: age-65
+          key: age
+          operator: greater_than_or_equal
+          value: 65
+          description: Age 65 or older
+        - id: ssdi-24-months
+          key: ssdi_months_received
+          operator: greater_than_or_equal
+          value: 24
+          description: Received SSDI for 24+ months
+        - id: has-als
+          key: has_als
+          operator: equals
+          value: true
+          description: Diagnosed with ALS (Lou Gehrig's disease)
+        - id: has-esrd
+          key: has_esrd
+          operator: equals
+          value: true
+          description: Has End-Stage Renal Disease
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - lawful_permanent_resident_5_years
+      requirement: required
+      label: Citizenship/Residency
+      description: |
+        Must be a U.S. citizen or lawful permanent resident
+        for at least 5 continuous years.
+
+    - id: work-history
+      key: medicare_work_credits
+      operator: greater_than_or_equal
+      value: 40
+      requirement: required
+      label: Work History (Premium-Free Part A)
+      description: |
+        For premium-free Part A, you or your spouse must have
+        worked and paid Medicare taxes for at least 10 years.
+      source_url: https://www.medicare.gov/basics/get-started-with-medicare/medicare-basics/who-can-get-medicare

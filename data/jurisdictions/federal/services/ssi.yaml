@@ -1,0 +1,101 @@
+id: ssi
+name: Supplemental Security Income
+alternate_names:
+  - SSI
+jurisdiction_id: united-states
+agency_id: ssa
+service_type: benefit
+category: income-support
+description: |
+  SSI provides monthly payments to people with limited income and
+  resources who are disabled, blind, or age 65 or older.
+application_url: https://www.ssa.gov/benefits/ssi/
+source_urls:
+  - https://www.ssa.gov/ssi/eligibility-requirements
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: ssi
+  effective_date: 2024-01-01
+  rules:
+    - id: age-or-disability
+      key: eligibility_basis
+      operator: in
+      values:
+        - age_65_plus
+        - disabled
+        - blind
+      requirement: required
+      label: Age/Disability Requirement
+      description: Must be 65+, disabled, or blind.
+      any_of:
+        - id: age-65
+          key: age
+          operator: greater_than_or_equal
+          value: 65
+          description: Age 65 or older
+        - id: is-disabled
+          key: has_ssa_disability
+          operator: equals
+          value: true
+          description: Meets SSA disability criteria
+        - id: is-blind
+          key: is_legally_blind
+          operator: equals
+          value: true
+          description: Is legally blind
+
+    - id: income-limit
+      key: countable_income
+      operator: less_than_or_equal
+      value: 1971
+      unit: dollars
+      requirement: required
+      label: Income Limit
+      description: |
+        Countable income must be below the Federal Benefit Rate
+        ($967/month for individuals, $1,450 for couples in 2025).
+      source_url: https://www.ssa.gov/oact/cola/SSI.html
+
+    - id: resource-limit
+      key: countable_resources
+      operator: less_than_or_equal
+      value: 2000
+      unit: dollars
+      requirement: required
+      label: Resource Limit
+      description: |
+        Resources must be $2,000 or less for individuals
+        ($3,000 for couples).
+      source_url: https://www.ssa.gov/ssi/eligibility-requirements
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - us_national
+        - certain_noncitizens
+      requirement: required
+      label: Citizenship
+      description: |
+        Must be a U.S. citizen, national, or meet specific
+        noncitizen requirements.
+
+    - id: residency
+      key: residency
+      operator: in
+      values:
+        - US
+        - northern_mariana_islands
+      requirement: required
+      label: Residency
+      description: Must reside in the U.S. or Northern Mariana Islands.
+
+    - id: not-absent
+      key: days_outside_us
+      operator: less_than
+      value: 30
+      requirement: required
+      label: Continuous Presence
+      description: Cannot be absent from U.S. for 30+ consecutive days.

@@ -1,0 +1,96 @@
+id: medi-cal
+name: Medi-Cal
+alternate_names:
+  - California Medicaid
+jurisdiction_id: california
+agency_id: dhcs
+service_type: benefit
+category: healthcare
+description: |
+  Medi-Cal is California's Medicaid program, providing free or low-cost
+  health coverage to eligible California residents with limited income.
+application_url: https://www.coveredca.com/
+source_urls:
+  - https://www.dhcs.ca.gov/services/medi-cal
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: medi-cal
+  effective_date: 2024-01-01
+  rules:
+    - id: income-adults
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 138
+      unit: percent
+      requirement: required
+      label: Income Limit (Adults)
+      description: |
+        Adults 19-64 with income up to 138% FPL qualify.
+        Higher limits apply to children and pregnant women.
+      source_url: https://www.dhcs.ca.gov/services/medi-cal/eligibility
+
+    - id: income-children
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 266
+      unit: percent
+      requirement: required
+      label: Income Limit (Children)
+      description: Children under 19 qualify up to 266% FPL.
+      conditions:
+        - id: is-child
+          key: age
+          operator: less_than
+          value: 19
+
+    - id: income-pregnant
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 213
+      unit: percent
+      requirement: required
+      label: Income Limit (Pregnant)
+      description: Pregnant women qualify up to 213% FPL.
+      conditions:
+        - id: is-pregnant
+          key: is_pregnant
+          operator: equals
+          value: true
+
+    - id: residency
+      key: state_residency
+      operator: equals
+      value: CA
+      requirement: required
+      label: California Residency
+      description: Must be a California resident.
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - permanent_resident
+        - refugee
+        - asylee
+        - prucol
+        - undocumented_under_26
+        - undocumented_50_plus
+      requirement: required
+      label: Citizenship/Immigration
+      description: |
+        California provides full-scope Medi-Cal to undocumented
+        residents under 26 or 50+ years old, regardless of
+        immigration status.
+      source_url: https://www.dhcs.ca.gov/services/medi-cal/eligibility/Pages/Medi-Cal-for-Immigrants.aspx
+
+    - id: no-other-coverage
+      key: has_other_qualifying_coverage
+      operator: equals
+      value: false
+      requirement: required
+      label: No Other Coverage
+      description: |
+        Generally cannot have other qualifying health coverage
+        (some exceptions for Medicare dual eligibles).

@@ -1,0 +1,93 @@
+id: solano-general-assistance
+name: Solano County General Assistance
+alternate_names:
+  - GA
+  - General Relief
+jurisdiction_id: solano-county
+agency_id: solano-hhss
+service_type: benefit
+category: income-support
+description: |
+  General Assistance provides temporary cash aid to indigent adults
+  who are not eligible for other aid programs. County-funded program
+  of last resort.
+application_url: https://www.solanocounty.com/depts/hss/benefits/
+source_urls:
+  - https://www.solanocounty.com/depts/hss/
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: solano-general-assistance
+  effective_date: 2024-01-01
+  rules:
+    - id: not-eligible-other
+      key: eligible_for_other_aid
+      operator: equals
+      value: false
+      requirement: required
+      label: No Other Aid
+      description: |
+        Must not be eligible for any other state or federal
+        cash assistance program (CalWORKs, SSI, etc.).
+
+    - id: residency
+      key: county_residency
+      operator: equals
+      value: solano
+      requirement: required
+      label: Solano County Residency
+      description: Must be a resident of Solano County.
+
+    - id: income
+      key: monthly_income
+      operator: less_than
+      value: 350
+      unit: dollars
+      requirement: required
+      label: Income Limit
+      description: |
+        Monthly income must be below county General Assistance
+        grant level (approximately $350/month).
+
+    - id: assets
+      key: countable_assets
+      operator: less_than_or_equal
+      value: 100
+      unit: dollars
+      requirement: required
+      label: Asset Limit
+      description: Countable resources must be $100 or less.
+
+    - id: employable
+      key: is_employable
+      operator: equals
+      value: true
+      requirement: required
+      label: Employability
+      description: |
+        Must be willing to seek employment or participate in
+        workfare, unless disabled or unemployable.
+      any_of:
+        - id: seeking-work
+          key: actively_seeking_work
+          operator: equals
+          value: true
+          description: Actively seeking employment
+        - id: in-workfare
+          key: participating_in_workfare
+          operator: equals
+          value: true
+          description: Participating in workfare program
+        - id: unemployable
+          key: has_verified_disability
+          operator: equals
+          value: true
+          description: Verified unemployable disability
+
+    - id: age
+      key: age
+      operator: greater_than_or_equal
+      value: 18
+      requirement: required
+      label: Adult
+      description: Must be 18 years or older.

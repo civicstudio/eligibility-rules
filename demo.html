@@ -1,0 +1,692 @@
+---
+layout: default
+title: "Ruleset Viewer Demo"
+---
+
+<div class="bg-white min-h-screen">
+  <header class="border-b border-gray-200">
+    <nav class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+      <a
+        href="/"
+        class="font-semibold text-gray-900"
+      >
+        EligibilityRules<span class="text-primary-600">.org</span>
+      </a>
+      <div class="flex gap-6">
+        <a
+          href="/browse/"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          Browse Rules
+        </a>
+        <a
+          href="https://github.com/eligibilityrules/eligibility-rules"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          GitHub
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-6 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Ruleset Viewer Demo</h1>
+      <p class="mt-2 text-gray-600">
+        See how eligibility rules are displayed and validated against user attributes.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left: Full Ruleset View -->
+      <div class="lg:col-span-2">
+        <div
+          id="ruleset-full"
+          class="bg-white rounded-xl border border-gray-200 p-6"
+        >
+          <!-- Ruleset will be rendered here -->
+        </div>
+      </div>
+
+      <!-- Right: User Attributes & Validation -->
+      <div class="space-y-6">
+        <!-- Attribute Input Form -->
+        <div class="bg-white rounded-xl border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Your Attributes</h2>
+          <form
+            id="attributes-form"
+            class="space-y-4"
+          >
+            <div>
+              <label
+                for="household_income_fpl"
+                class="block text-sm font-medium text-gray-700"
+              >
+                Household Income (% FPL)
+              </label>
+              <input
+                type="number"
+                id="household_income_fpl"
+                name="household_income_fpl"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border"
+                placeholder="e.g., 125"
+              >
+            </div>
+
+            <div>
+              <label
+                for="state_residency"
+                class="block text-sm font-medium text-gray-700"
+              >
+                State Residency
+              </label>
+              <select
+                id="state_residency"
+                name="state_residency"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border"
+              >
+                <option value="">Select state...</option>
+                <option value="CA">California</option>
+                <option value="TX">Texas</option>
+                <option value="NY">New York</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                for="citizenship_status"
+                class="block text-sm font-medium text-gray-700"
+              >
+                Citizenship Status
+              </label>
+              <select
+                id="citizenship_status"
+                name="citizenship_status"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border"
+              >
+                <option value="">Select status...</option>
+                <option value="us_citizen">U.S. Citizen</option>
+                <option value="permanent_resident">Permanent Resident</option>
+                <option value="refugee">Refugee</option>
+                <option value="asylee">Asylee</option>
+                <option value="undocumented">Undocumented</option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                for="age"
+                class="block text-sm font-medium text-gray-700"
+              >
+                Age
+              </label>
+              <input
+                type="number"
+                id="age"
+                name="age"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border"
+                placeholder="e.g., 35"
+              >
+            </div>
+
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="has_disability"
+                name="has_disability"
+                class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+              >
+              <label
+                for="has_disability"
+                class="ml-2 block text-sm text-gray-700"
+              >
+                Has disability
+              </label>
+            </div>
+
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="has_dependent_child"
+                name="has_dependent_child"
+                class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+              >
+              <label
+                for="has_dependent_child"
+                class="ml-2 block text-sm text-gray-700"
+              >
+                Has dependent child
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+            >
+              Check Eligibility
+            </button>
+          </form>
+        </div>
+
+        <!-- Compact Validation Result -->
+        <div
+          id="ruleset-compact"
+          class="hidden"
+        >
+          <!-- Compact view will be rendered here -->
+        </div>
+
+        <!-- Event Log -->
+        <div class="bg-gray-50 rounded-xl border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Validation Events</h2>
+          <div
+            id="event-log"
+            class="text-xs font-mono text-gray-600 max-h-48 overflow-y-auto"
+          >
+            <p class="text-gray-400">No events yet. Check eligibility to see events.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+  /* Ruleset Viewer Styles */
+  .ruleset-viewer--full {
+    font-family: Georgia, serif;
+  }
+
+  .ruleset-header {
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .ruleset-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+  }
+
+  .ruleset-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+  }
+
+  .ruleset-description {
+    margin-top: 0.75rem;
+    color: #4b5563;
+    line-height: 1.6;
+  }
+
+  .ruleset-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.75rem;
+  }
+
+  .ruleset-intro {
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .rules-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .rule {
+    border-left: 3px solid #e5e7eb;
+    padding: 1rem 0 1rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .rule--passed {
+    border-left-color: #10b981;
+    background-color: #f0fdf4;
+  }
+
+  .rule--failed {
+    border-left-color: #ef4444;
+    background-color: #fef2f2;
+  }
+
+  .rule--skipped {
+    border-left-color: #f59e0b;
+    background-color: #fffbeb;
+  }
+
+  .rule-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+  }
+
+  .rule-number {
+    font-weight: 600;
+    color: #6b7280;
+    min-width: 2rem;
+  }
+
+  .rule-label {
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .rule-status {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-weight: 500;
+  }
+
+  .rule-status--passed {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+
+  .rule-status--failed {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  .rule-status--skipped {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+
+  .rule-condition {
+    margin-top: 0.5rem;
+  }
+
+  .condition-expression {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    align-items: center;
+    background-color: #f3f4f6;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.875rem;
+  }
+
+  .condition-key {
+    color: #7c3aed;
+    font-weight: 500;
+  }
+
+  .condition-operator {
+    color: #6b7280;
+  }
+
+  .condition-value {
+    color: #059669;
+    font-weight: 500;
+  }
+
+  .condition-unit {
+    color: #6b7280;
+    font-size: 0.75rem;
+  }
+
+  .condition-value--list {
+    display: inline-flex;
+    gap: 0.25rem;
+  }
+
+  .condition-value-item {
+    background-color: #e5e7eb;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+  }
+
+  .rule-description {
+    margin-top: 0.75rem;
+    color: #4b5563;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .rule-source {
+    margin-top: 0.5rem;
+  }
+
+  .rule-source a {
+    font-size: 0.75rem;
+    color: #2563eb;
+    text-decoration: none;
+  }
+
+  .rule-source a:hover {
+    text-decoration: underline;
+  }
+
+  .rule-nested,
+  .rule-alternatives {
+    margin-top: 1rem;
+    padding-left: 1rem;
+  }
+
+  .rule-nested-intro,
+  .rule-alternatives-intro {
+    font-size: 0.875rem;
+    color: #6b7280;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+  }
+
+  .alternatives-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .alternative {
+    padding: 0.5rem 0;
+    border-left: 2px solid #d1d5db;
+    padding-left: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .alternative--passed {
+    border-left-color: #10b981;
+  }
+
+  .alternative-marker {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #9333ea;
+    margin-right: 0.5rem;
+  }
+
+  .alternative-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-left: 0.5rem;
+  }
+
+  /* Compact View */
+  .ruleset-viewer--compact {
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem;
+  }
+
+  .ruleset-viewer--eligible {
+    border-color: #10b981;
+    background-color: #f0fdf4;
+  }
+
+  .ruleset-viewer--ineligible {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+  }
+
+  .compact-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .compact-title {
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+  }
+
+  .compact-status {
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+  }
+
+  .compact-status--eligible {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+
+  .compact-status--ineligible {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  .compact-summary {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .compact-stat {
+    font-size: 0.875rem;
+  }
+
+  .compact-stat--passed {
+    color: #059669;
+  }
+
+  .compact-stat--failed {
+    color: #dc2626;
+  }
+
+  .compact-failures h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #991b1b;
+    margin-bottom: 0.5rem;
+  }
+
+  .compact-failures ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .compact-failure {
+    font-size: 0.875rem;
+    padding: 0.25rem 0;
+  }
+
+  .compact-failure-label {
+    font-weight: 500;
+    color: #111827;
+  }
+
+  .compact-failure-message {
+    color: #6b7280;
+    margin-left: 0.25rem;
+  }
+
+  .compact-expand {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    color: #2563eb;
+    background: none;
+    border: 1px solid #2563eb;
+    border-radius: 0.375rem;
+    cursor: pointer;
+  }
+
+  .compact-expand:hover {
+    background-color: #eff6ff;
+  }
+
+  /* Collapsed state */
+  .rule--collapsed .rule-nested,
+  .rule--collapsed .rule-alternatives {
+    display: none;
+  }
+
+  .rule--collapsed .rule-header::after {
+    content: ' [+]';
+    color: #6b7280;
+    font-size: 0.75rem;
+  }
+</style>
+
+<script>
+  // Sample CalFresh ruleset
+  const calfreshRuleset = {
+    service_id: 'calfresh',
+    name: 'CalFresh (California SNAP)',
+    jurisdiction: 'California',
+    effective_date: '2024-10-01',
+    description: 'CalFresh provides monthly food benefits to eligible low-income households via an EBT card.',
+    source_urls: [
+      'https://www.cdss.ca.gov/calfresh',
+      'https://www.getcalfresh.org/'
+    ],
+    rules: [
+      {
+        id: 'income-gross',
+        key: 'household_income_fpl',
+        operator: 'less_than_or_equal',
+        value: 200,
+        unit: 'percent',
+        requirement: 'required',
+        label: 'Gross Income',
+        description: 'Gross monthly income must be at or below 200% of the Federal Poverty Level (California uses Broad-Based Categorical Eligibility).',
+        source_url: 'https://www.cdss.ca.gov/calfresh/eligibility'
+      },
+      {
+        id: 'residency',
+        key: 'state_residency',
+        operator: 'equals',
+        value: 'CA',
+        requirement: 'required',
+        label: 'California Residency',
+        description: 'Must be a California resident.'
+      },
+      {
+        id: 'citizenship',
+        key: 'citizenship_status',
+        operator: 'in',
+        values: ['us_citizen', 'permanent_resident', 'refugee', 'asylee', 'trafficking_victim'],
+        requirement: 'required',
+        label: 'Citizenship/Immigration',
+        description: 'Must be a U.S. citizen or qualified immigrant. California extends benefits to some immigrant categories not covered federally.',
+        source_url: 'https://www.cdss.ca.gov/calfresh/eligibility'
+      },
+      {
+        id: 'work-requirements',
+        key: 'age',
+        operator: 'between',
+        min: 18,
+        max: 49,
+        requirement: 'required',
+        label: 'ABAWD Work Requirements',
+        description: 'Able-bodied adults without dependents (ABAWDs) aged 18-49 must meet work requirements unless exempt.',
+        any_of: [
+          {
+            id: 'exempt-disabled',
+            key: 'has_disability',
+            operator: 'equals',
+            value: true,
+            description: 'Has a disability'
+          },
+          {
+            id: 'exempt-dependent',
+            key: 'has_dependent_child',
+            operator: 'equals',
+            value: true,
+            description: 'Cares for a dependent child'
+          }
+        ]
+      }
+    ]
+  };
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    // Create viewer and engine instances
+    const fullViewer = new RulesetViewer('#ruleset-full', {
+      mode: 'full',
+      showSources: true
+    });
+
+    const compactViewer = new RulesetViewer('#ruleset-compact', {
+      mode: 'compact'
+    });
+
+    const engine = new ValidationEngine({
+      logEvents: true,
+      eventCallback: function(event) {
+        updateEventLog(event);
+      }
+    });
+
+    // Render initial ruleset
+    fullViewer.render(calfreshRuleset);
+
+    // Handle form submission
+    document.getElementById('attributes-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Collect form values
+      const formData = new FormData(e.target);
+      const attributes = {};
+
+      // Process form fields
+      const income = formData.get('household_income_fpl');
+      if (income) attributes.household_income_fpl = Number(income);
+
+      const residency = formData.get('state_residency');
+      if (residency) attributes.state_residency = residency;
+
+      const citizenship = formData.get('citizenship_status');
+      if (citizenship) attributes.citizenship_status = citizenship;
+
+      const age = formData.get('age');
+      if (age) attributes.age = Number(age);
+
+      attributes.has_disability = formData.get('has_disability') === 'on';
+      attributes.has_dependent_child = formData.get('has_dependent_child') === 'on';
+
+      // Run validation
+      const result = engine.validate(calfreshRuleset, attributes);
+
+      // Update views with validation results
+      fullViewer.render(calfreshRuleset, result);
+
+      // Show compact view
+      const compactContainer = document.getElementById('ruleset-compact');
+      compactContainer.classList.remove('hidden');
+      compactViewer.render(calfreshRuleset, result);
+    });
+
+    // Update event log display
+    function updateEventLog(event) {
+      const logEl = document.getElementById('event-log');
+      const eventHtml = `
+        <div class="mb-2 p-2 bg-white rounded border border-gray-200">
+          <div class="flex justify-between text-xs">
+            <span class="${event.valid ? 'text-green-600' : 'text-red-600'} font-medium">
+              ${event.valid ? 'ELIGIBLE' : 'NOT ELIGIBLE'}
+            </span>
+            <span class="text-gray-400">${event.duration_ms}ms</span>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            ${event.passed_count} passed, ${event.failed_count} failed, ${event.skipped_count} skipped
+          </div>
+        </div>
+      `;
+      logEl.innerHTML = eventHtml + logEl.innerHTML.replace('<p class="text-gray-400">No events yet. Check eligibility to see events.</p>', '');
+    }
+  });
+</script>

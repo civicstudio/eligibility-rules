@@ -1,0 +1,37 @@
+url: "https://eligibilityrules.org"
+baseurl: ""
+
+title: "EligibilityRules.org"
+description: "Open source government eligibility rules"
+
+plugins:
+  - jekyll-sitemap
+
+collections:
+  services:
+    output: true
+    permalink: /services/:path/
+  jurisdictions:
+    output: true
+    permalink: /jurisdictions/:path/
+
+defaults:
+  - scope:
+      path: ""
+      type: "services"
+    values:
+      layout: "service"
+  - scope:
+      path: ""
+      type: "jurisdictions"
+    values:
+      layout: "jurisdiction"
+
+exclude:
+  - package.json
+  - package-lock.json
+  - postcss.config.js
+  - tailwind.config.js
+  - node_modules
+  - Gemfile
+  - Gemfile.lock

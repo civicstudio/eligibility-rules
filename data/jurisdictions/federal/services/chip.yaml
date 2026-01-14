@@ -1,0 +1,77 @@
+id: chip
+name: Children's Health Insurance Program
+alternate_names:
+  - CHIP
+jurisdiction_id: united-states
+agency_id: cms
+service_type: benefit
+category: healthcare
+description: |
+  CHIP provides low-cost health coverage to children in families that
+  earn too much to qualify for Medicaid but can't afford private insurance.
+application_url: https://www.healthcare.gov/medicaid-chip/childrens-health-insurance-program/
+source_urls:
+  - https://www.medicaid.gov/chip/index.html
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: chip
+  effective_date: 2024-01-01
+  rules:
+    - id: age
+      key: age
+      operator: less_than
+      value: 19
+      requirement: required
+      label: Age Requirement
+      description: Child must be under 19 years old.
+
+    - id: income
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 300
+      unit: percent
+      requirement: required
+      label: Income Limit
+      description: |
+        Family income must be within state CHIP limits
+        (up to 300% FPL in most states, varies by state).
+      source_url: https://www.medicaid.gov/chip/index.html
+
+    - id: not-medicaid-eligible
+      key: medicaid_eligible
+      operator: equals
+      value: false
+      requirement: required
+      label: Not Medicaid Eligible
+      description: |
+        Child cannot be eligible for Medicaid
+        (income too high for Medicaid but qualifies for CHIP).
+
+    - id: not-covered
+      key: has_other_health_insurance
+      operator: equals
+      value: false
+      requirement: required
+      label: No Other Coverage
+      description: |
+        Child cannot be covered under a group health plan
+        or other qualifying coverage.
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - us_national
+        - qualified_immigrant
+      requirement: required
+      label: Citizenship/Immigration
+      description: Must be a U.S. citizen, national, or qualified immigrant.
+
+    - id: residency
+      key: state_residency
+      operator: exists
+      requirement: required
+      label: State Residency
+      description: Must be a resident of the state where applying.

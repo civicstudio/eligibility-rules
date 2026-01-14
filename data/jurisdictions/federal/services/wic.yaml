@@ -1,0 +1,91 @@
+id: wic
+name: Women, Infants, and Children Program
+alternate_names:
+  - WIC
+jurisdiction_id: united-states
+agency_id: usda-fns
+service_type: benefit
+category: food-assistance
+description: |
+  WIC provides supplemental foods, health care referrals, and
+  nutrition education for low-income pregnant, breastfeeding,
+  and non-breastfeeding postpartum women, and to infants and
+  children up to age 5.
+application_url: https://www.fns.usda.gov/wic/wic-how-apply
+source_urls:
+  - https://www.fns.usda.gov/wic/wic-eligibility-requirements
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: wic
+  effective_date: 2024-01-01
+  rules:
+    - id: categorical
+      key: wic_category
+      operator: in
+      values:
+        - pregnant
+        - postpartum
+        - breastfeeding
+        - infant
+        - child_under_5
+      requirement: required
+      label: Categorical Eligibility
+      description: |
+        Must be pregnant, postpartum (up to 6 months), breastfeeding
+        (up to 1 year), an infant (under 1), or child under 5.
+      any_of:
+        - id: pregnant
+          key: is_pregnant
+          operator: equals
+          value: true
+          description: Currently pregnant
+        - id: postpartum
+          key: months_postpartum
+          operator: less_than_or_equal
+          value: 6
+          description: Within 6 months postpartum
+        - id: breastfeeding
+          key: is_breastfeeding
+          operator: equals
+          value: true
+          description: Currently breastfeeding (up to 1 year)
+        - id: infant
+          key: age_months
+          operator: less_than
+          value: 12
+          description: Infant under 12 months
+        - id: child
+          key: age
+          operator: less_than
+          value: 5
+          description: Child under 5 years old
+
+    - id: income
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 185
+      unit: percent
+      requirement: required
+      label: Income Limit
+      description: |
+        Household income must be at or below 185% of the
+        Federal Poverty Level.
+      source_url: https://www.fns.usda.gov/wic/wic-eligibility-requirements
+
+    - id: residency
+      key: state_residency
+      operator: exists
+      requirement: required
+      label: State Residency
+      description: Must be a resident of the state where applying.
+
+    - id: nutritional-risk
+      key: has_nutritional_risk
+      operator: equals
+      value: true
+      requirement: required
+      label: Nutritional Risk
+      description: |
+        Must be determined to be at nutritional risk by a health
+        professional (medical or dietary risk factors).

@@ -1,0 +1,78 @@
+id: liheap
+name: Low Income Home Energy Assistance Program
+alternate_names:
+  - LIHEAP
+jurisdiction_id: united-states
+agency_id: hud
+service_type: assistance
+category: utilities
+description: |
+  LIHEAP helps low-income households with their home energy bills,
+  energy crises, weatherization, and minor energy-related home repairs.
+application_url: https://www.acf.hhs.gov/ocs/programs/liheap
+source_urls:
+  - https://www.acf.hhs.gov/ocs/low-income-home-energy-assistance-program-liheap
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: liheap
+  effective_date: 2024-01-01
+  rules:
+    - id: income
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 150
+      unit: percent
+      requirement: required
+      label: Income Limit
+      description: |
+        Household income must be at or below 150% of the Federal
+        Poverty Level (or 60% of state median income, whichever higher).
+      source_url: https://www.acf.hhs.gov/ocs/low-income-home-energy-assistance-program-liheap
+
+    - id: residency
+      key: state_residency
+      operator: exists
+      requirement: required
+      label: State Residency
+      description: Must be a resident of the state where applying.
+
+    - id: responsible-for-energy
+      key: responsible_for_energy_costs
+      operator: equals
+      value: true
+      requirement: required
+      label: Energy Cost Responsibility
+      description: |
+        Must be responsible for home energy costs, either directly
+        or included in rent.
+
+    - id: priority-households
+      key: household_priority
+      operator: in
+      values:
+        - elderly
+        - disabled
+        - young_child
+        - high_energy_burden
+      requirement: optional
+      label: Priority Households
+      description: |
+        Priority given to households with elderly members, disabled
+        members, young children, or high energy burden.
+      any_of:
+        - id: has-elderly
+          key: has_member_age_60_plus
+          operator: equals
+          value: true
+          description: Has household member 60+
+        - id: has-disabled
+          key: has_disabled_member
+          operator: equals
+          value: true
+          description: Has disabled household member
+        - id: has-young-child
+          key: has_child_under_6
+          operator: equals
+          value: true
+          description: Has child under 6

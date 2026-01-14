@@ -1,0 +1,87 @@
+id: solano-ihss
+name: In-Home Supportive Services
+alternate_names:
+  - IHSS
+jurisdiction_id: solano-county
+agency_id: solano-hhss
+service_type: assistance
+category: disability
+description: |
+  IHSS provides in-home care services to eligible aged, blind, or
+  disabled individuals to help them remain safely in their homes.
+application_url: https://www.solanocounty.com/depts/hss/adult_and_aging/ihss.asp
+source_urls:
+  - https://www.cdss.ca.gov/in-home-supportive-services
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: solano-ihss
+  effective_date: 2024-01-01
+  rules:
+    - id: medi-cal
+      key: has_medi_cal
+      operator: equals
+      value: true
+      requirement: required
+      label: Medi-Cal Eligibility
+      description: Must be eligible for Medi-Cal.
+
+    - id: age-or-disability
+      key: ihss_eligibility_basis
+      operator: in
+      values:
+        - aged
+        - blind
+        - disabled
+      requirement: required
+      label: Aged/Blind/Disabled
+      description: Must be aged (65+), blind, or disabled.
+      any_of:
+        - id: aged
+          key: age
+          operator: greater_than_or_equal
+          value: 65
+          description: Age 65 or older
+        - id: blind
+          key: is_legally_blind
+          operator: equals
+          value: true
+          description: Legally blind
+        - id: disabled
+          key: has_disability
+          operator: equals
+          value: true
+          description: Has qualifying disability
+
+    - id: residency
+      key: county_residency
+      operator: equals
+      value: solano
+      requirement: required
+      label: Solano County Residency
+      description: Must be a resident of Solano County.
+
+    - id: living-situation
+      key: living_situation
+      operator: in
+      values:
+        - own_home
+        - apartment
+        - family_home
+        - abode
+      requirement: required
+      label: Living at Home
+      description: |
+        Must live in own home (not a licensed care facility).
+        Can live with family members.
+
+    - id: needs-services
+      key: needs_ihss_services
+      operator: equals
+      value: true
+      requirement: required
+      label: Service Need
+      description: |
+        Must need assistance with daily living activities such as
+        housekeeping, meal preparation, personal care, or medical
+        accompaniment.

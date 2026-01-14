@@ -1,0 +1,79 @@
+id: section-8
+name: Housing Choice Voucher Program
+alternate_names:
+  - Section 8
+  - HCV
+jurisdiction_id: united-states
+agency_id: hud
+service_type: benefit
+category: housing
+description: |
+  The Housing Choice Voucher Program helps very low-income families,
+  the elderly, and the disabled afford decent, safe housing in the
+  private market.
+application_url: https://www.hud.gov/topics/housing_choice_voucher_program_section_8
+source_urls:
+  - https://www.hud.gov/program_offices/public_indian_housing/programs/hcv/about/fact_sheet
+last_verified: 2026-01-13
+
+ruleset:
+  service_id: section-8
+  effective_date: 2024-01-01
+  rules:
+    - id: income-limit
+      key: household_income_ami
+      operator: less_than_or_equal
+      value: 50
+      unit: percent
+      requirement: required
+      label: Income Limit
+      description: |
+        Family income must not exceed 50% of the area median income.
+        75% of vouchers must go to families at or below 30% AMI.
+      source_url: https://www.hud.gov/program_offices/public_indian_housing/programs/hcv/about/fact_sheet
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - us_national
+        - eligible_immigrant
+      requirement: required
+      label: Citizenship/Immigration
+      description: |
+        At least one family member must be a U.S. citizen, national,
+        or eligible immigrant.
+
+    - id: family-composition
+      key: household_type
+      operator: in
+      values:
+        - family_with_children
+        - elderly_head
+        - disabled_head
+        - single_person
+        - remaining_family_member
+      requirement: required
+      label: Family Composition
+      description: Must meet HUD definition of "family."
+
+    - id: not-evicted-drugs
+      key: evicted_for_drugs_3_years
+      operator: equals
+      value: false
+      requirement: required
+      label: No Drug-Related Eviction
+      description: |
+        Cannot have been evicted from federally assisted housing
+        for drug-related activity in the past 3 years.
+
+    - id: background-check
+      key: passes_pha_screening
+      operator: equals
+      value: true
+      requirement: required
+      label: Background Screening
+      description: |
+        Must pass the local Public Housing Authority's screening
+        criteria (criminal background, rental history, etc.).
