@@ -3,16 +3,18 @@ layout: default
 title: "Contribute"
 ---
 
-<div class="bg-white min-h-screen">
+<div class="min-h-screen bg-white">
   {% include nav.html %}
 
-  <main class="mx-auto max-w-7xl px-6 py-12">
-    <div class="mb-12">
-      <h1 class="text-4xl font-bold text-gray-900">Contribute</h1>
-      <p class="mt-4 text-lg text-gray-600 max-w-3xl">
-        EligibilityRules.org is built by the community. Whether you're a policy expert, developer, or just someone who knows about a program, there's a way to help.
-      </p>
-    </div>
+  <!-- Hero -->
+  <div class="mx-auto max-w-7xl px-6 py-12">
+    <h1 class="text-4xl font-bold text-gray-900">Contribute</h1>
+    <p class="mt-4 text-lg text-gray-600 max-w-3xl">
+      EligibilityRules.org is built by the community. Whether you're a policy expert, developer, or just someone who knows about a program, there's a way to help.
+    </p>
+  </div>
+
+  <main class="mx-auto max-w-7xl px-6 pb-12 bg-white">
 
     <!-- Workflow Visualization -->
     <div class="mb-12 p-6 bg-primary-50 rounded-xl border border-primary-100">
@@ -300,38 +302,48 @@ title: "Contribute"
       </div>
     </div>
 
-    <!-- FAQ Section -->
-    <div class="mt-16">
-      <h2 class="text-2xl font-bold text-gray-900 mb-8">Frequently Asked Questions</h2>
-      <dl class="space-y-6">
-        <div class="rounded-xl border border-gray-200 p-6">
-          <dt class="font-semibold text-gray-900">Do I need to know how to code?</dt>
-          <dd class="mt-2 text-gray-600">
-            No! The easiest way to contribute is to suggest a program by sharing a link. We'll handle the technical encoding. If you do know YAML and Git, you can contribute directly via pull requests.
-          </dd>
-        </div>
-        <div class="rounded-xl border border-gray-200 p-6">
-          <dt class="font-semibold text-gray-900">How are contributions verified?</dt>
-          <dd class="mt-2 text-gray-600">
-            All contributions are reviewed before being merged. We check that rules are accurately sourced from official government documentation and that the YAML structure follows our schema.
-          </dd>
-        </div>
-        <div class="rounded-xl border border-gray-200 p-6">
-          <dt class="font-semibold text-gray-900">What programs should I suggest?</dt>
-          <dd class="mt-2 text-gray-600">
-            Any government program with eligibility requirements! This includes federal programs (SNAP, Medicaid, SSI), state programs, county programs, and city programs. The more specific and local, the better.
-          </dd>
-        </div>
-        <div class="rounded-xl border border-gray-200 p-6">
-          <dt class="font-semibold text-gray-900">How do I report an error in existing data?</dt>
-          <dd class="mt-2 text-gray-600">
-            Click the "Edit on GitHub" link on any service page to propose a correction, or open an issue describing the error and the correct information with a source link.
-          </dd>
-        </div>
-      </dl>
-    </div>
+  </main>
 
-    <!-- How to Add Ruleset (for developers) -->
+  <!-- FAQ Section with background -->
+  <div
+    class="relative mt-16"
+    style="background-image: url('{{ site.baseurl }}/assets/img/contribution-bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+  >
+    <div class="bg-white/20 py-16">
+      <div class="mx-auto max-w-7xl px-6">
+        <h2 class="text-2xl font-bold text-gray-900 mb-8">Frequently Asked Questions</h2>
+        <dl class="space-y-6">
+          <div class="rounded-xl border border-gray-200 bg-white/80 p-6">
+            <dt class="font-semibold text-gray-900">Do I need to know how to code?</dt>
+            <dd class="mt-2 text-gray-600">
+              No! The easiest way to contribute is to suggest a program by sharing a link. We'll handle the technical encoding. If you do know YAML and Git, you can contribute directly via pull requests.
+            </dd>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white/80 p-6">
+            <dt class="font-semibold text-gray-900">How are contributions verified?</dt>
+            <dd class="mt-2 text-gray-600">
+              All contributions are reviewed before being merged. We check that rules are accurately sourced from official government documentation and that the YAML structure follows our schema.
+            </dd>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white/80 p-6">
+            <dt class="font-semibold text-gray-900">What programs should I suggest?</dt>
+            <dd class="mt-2 text-gray-600">
+              Any government program with eligibility requirements! This includes federal programs (SNAP, Medicaid, SSI), state programs, county programs, and city programs. The more specific and local, the better.
+            </dd>
+          </div>
+          <div class="rounded-xl border border-gray-200 bg-white/80 p-6">
+            <dt class="font-semibold text-gray-900">How do I report an error in existing data?</dt>
+            <dd class="mt-2 text-gray-600">
+              Click the "Edit on GitHub" link on any service page to propose a correction, or open an issue describing the error and the correct information with a source link.
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- How to Add Ruleset (for developers) -->
+  <div class="mx-auto max-w-7xl px-6 pb-12 bg-white">
     <div class="mt-16">
       <h2 class="text-2xl font-bold text-gray-900 mb-2">For Developers: Adding a Ruleset</h2>
       <p class="text-gray-600 mb-8">If you're comfortable with Git and YAML, you can contribute directly.</p>
@@ -403,7 +415,7 @@ ruleset:
       source_url: https://example.gov/eligibility</code></pre>
       </div>
     </div>
-  </main>
+  </div>
 
   {% include footer.html %}
 </div>
