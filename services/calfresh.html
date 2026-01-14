@@ -1,0 +1,170 @@
+---
+layout: service
+title: "CalFresh"
+alternate_names:
+  - California Food Stamps
+  - SNAP (California)
+jurisdiction: California
+jurisdiction_url: /jurisdictions/states/california/
+agency: California Department of Social Services
+service_type: benefit
+category: food-assistance
+description: "CalFresh is California's version of SNAP, providing monthly food benefits to eligible low-income households via an EBT card."
+application_url: https://benefitscal.com/
+source_urls:
+  - https://www.cdss.ca.gov/calfresh
+  - https://www.getcalfresh.org/
+last_verified: 2026-01-13
+data_path: data/jurisdictions/states/california/services/calfresh.yaml
+---
+
+<div class="ruleset-viewer ruleset-viewer--full">
+  <section class="mb-8">
+    <h2 class="text-xl font-semibold text-gray-900 mb-4">Eligibility Requirements</h2>
+    <p class="text-gray-600 mb-6 italic">
+      To be eligible, an applicant <strong>must meet all</strong> of the following requirements:
+    </p>
+
+    <ol class="space-y-6">
+      <!-- Rule 1: Income -->
+      <li class="border-l-4 border-gray-200 pl-6 py-2">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-gray-500 font-semibold">1.</span>
+          <span class="font-semibold text-gray-900">Gross Income</span>
+        </div>
+        <div class="mb-3">
+          <code class="inline-flex items-center gap-2 bg-gray-100 px-3 py-2 rounded text-sm font-mono">
+            <span class="text-purple-600">household_income_fpl</span>
+            <span class="text-gray-500"><=</span>
+            <span class="text-green-600">200</span>
+            <span class="text-gray-500">percent</span>
+          </code>
+        </div>
+        <p class="text-gray-600 text-sm">
+          Gross monthly income must be at or below 200% of the Federal Poverty Level
+          (California uses Broad-Based Categorical Eligibility).
+        </p>
+        <a
+          href="https://www.cdss.ca.gov/calfresh/eligibility"
+          class="text-xs text-primary-600 hover:text-primary-500"
+          target="_blank"
+        >
+          Source
+        </a>
+      </li>
+
+      <!-- Rule 2: Residency -->
+      <li class="border-l-4 border-gray-200 pl-6 py-2">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-gray-500 font-semibold">2.</span>
+          <span class="font-semibold text-gray-900">California Residency</span>
+        </div>
+        <div class="mb-3">
+          <code class="inline-flex items-center gap-2 bg-gray-100 px-3 py-2 rounded text-sm font-mono">
+            <span class="text-purple-600">state_residency</span>
+            <span class="text-gray-500">=</span>
+            <span class="text-green-600">CA</span>
+          </code>
+        </div>
+        <p class="text-gray-600 text-sm">
+          Must be a California resident.
+        </p>
+      </li>
+
+      <!-- Rule 3: Citizenship -->
+      <li class="border-l-4 border-gray-200 pl-6 py-2">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-gray-500 font-semibold">3.</span>
+          <span class="font-semibold text-gray-900">Citizenship/Immigration</span>
+        </div>
+        <div class="mb-3">
+          <code class="inline-flex flex-wrap items-center gap-2 bg-gray-100 px-3 py-2 rounded text-sm font-mono">
+            <span class="text-purple-600">citizenship_status</span>
+            <span class="text-gray-500">is one of</span>
+            <span class="inline-flex gap-1">
+              <span class="bg-gray-200 px-2 py-0.5 rounded text-green-600">us_citizen</span>
+              <span class="bg-gray-200 px-2 py-0.5 rounded text-green-600">permanent_resident</span>
+              <span class="bg-gray-200 px-2 py-0.5 rounded text-green-600">refugee</span>
+              <span class="bg-gray-200 px-2 py-0.5 rounded text-green-600">asylee</span>
+            </span>
+          </code>
+        </div>
+        <p class="text-gray-600 text-sm">
+          Must be a U.S. citizen or qualified immigrant. California extends benefits
+          to some immigrant categories not covered federally.
+        </p>
+        <a
+          href="https://www.cdss.ca.gov/calfresh/eligibility"
+          class="text-xs text-primary-600 hover:text-primary-500"
+          target="_blank"
+        >
+          Source
+        </a>
+      </li>
+
+      <!-- Rule 4: Work Requirements -->
+      <li class="border-l-4 border-gray-200 pl-6 py-2">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-gray-500 font-semibold">4.</span>
+          <span class="font-semibold text-gray-900">ABAWD Work Requirements</span>
+        </div>
+        <div class="mb-3">
+          <code class="inline-flex items-center gap-2 bg-gray-100 px-3 py-2 rounded text-sm font-mono">
+            <span class="text-purple-600">age</span>
+            <span class="text-gray-500">is between</span>
+            <span class="text-green-600">18</span>
+            <span class="text-gray-500">and</span>
+            <span class="text-green-600">49</span>
+          </code>
+        </div>
+        <p class="text-gray-600 text-sm mb-4">
+          Able-bodied adults without dependents (ABAWDs) aged 18-49 must meet work
+          requirements unless exempt.
+        </p>
+
+        <!-- OR conditions -->
+        <div class="ml-4 border-l-2 border-purple-200 pl-4">
+          <p class="text-sm text-gray-500 italic mb-3">
+            OR satisfy <strong>any one</strong> of the following exemptions:
+          </p>
+          <ul class="space-y-2">
+            <li class="flex items-center gap-2 text-sm">
+              <span class="text-purple-600 font-medium">OR</span>
+              <code class="bg-gray-50 px-2 py-1 rounded font-mono text-xs">
+                <span class="text-purple-600">county_abawd_waiver</span> = <span class="text-green-600">true</span>
+              </code>
+              <span class="text-gray-500">- County has ABAWD waiver</span>
+            </li>
+            <li class="flex items-center gap-2 text-sm">
+              <span class="text-purple-600 font-medium">OR</span>
+              <code class="bg-gray-50 px-2 py-1 rounded font-mono text-xs">
+                <span class="text-purple-600">has_disability</span> = <span class="text-green-600">true</span>
+              </code>
+              <span class="text-gray-500">- Has a disability</span>
+            </li>
+            <li class="flex items-center gap-2 text-sm">
+              <span class="text-purple-600 font-medium">OR</span>
+              <code class="bg-gray-50 px-2 py-1 rounded font-mono text-xs">
+                <span class="text-purple-600">has_dependent_child</span> = <span class="text-green-600">true</span>
+              </code>
+              <span class="text-gray-500">- Cares for a dependent child</span>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="mt-12 p-6 bg-gray-50 rounded-xl">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Try the Eligibility Checker</h2>
+    <p class="text-sm text-gray-600 mb-4">
+      See how the rules engine validates your attributes against this ruleset.
+    </p>
+    <a
+      href="/demo/"
+      class="inline-flex items-center rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
+    >
+      Open Demo
+    </a>
+  </section>
+</div>

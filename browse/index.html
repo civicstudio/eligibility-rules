@@ -1,0 +1,200 @@
+---
+layout: default
+title: "Browse Rules"
+---
+
+<div class="bg-white min-h-screen">
+  <header class="border-b border-gray-200">
+    <nav class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+      <a
+        href="/"
+        class="font-semibold text-gray-900"
+      >
+        EligibilityRules<span class="text-primary-600">.org</span>
+      </a>
+      <div class="flex gap-6">
+        <a
+          href="/demo/"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          Demo
+        </a>
+        <a
+          href="https://github.com/eligibilityrules/eligibility-rules"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          GitHub
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-6 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Browse Eligibility Rules</h1>
+      <p class="mt-2 text-gray-600">
+        Explore eligibility rules by jurisdiction or program category.
+      </p>
+    </div>
+
+    <div class="grid gap-12">
+      <!-- By Jurisdiction -->
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">By Jurisdiction</h2>
+
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <a
+            href="/jurisdictions/federal/"
+            class="group p-6 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50/50 transition-colors"
+          >
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wide">Federal</div>
+            <div class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-primary-600">United States</div>
+            <div class="mt-1 text-sm text-gray-500">12 programs</div>
+          </a>
+
+          <a
+            href="/jurisdictions/states/california/"
+            class="group p-6 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50/50 transition-colors"
+          >
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wide">State</div>
+            <div class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-primary-600">California</div>
+            <div class="mt-1 text-sm text-gray-500">4 programs</div>
+          </a>
+
+          <a
+            href="/jurisdictions/states/california/counties/solano/"
+            class="group p-6 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50/50 transition-colors"
+          >
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wide">County</div>
+            <div class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-primary-600">Solano County</div>
+            <div class="mt-1 text-sm text-gray-500">2 programs</div>
+          </a>
+
+          <a
+            href="/jurisdictions/states/california/counties/solano/cities/vacaville/"
+            class="group p-6 rounded-xl border border-gray-200 hover:border-primary-300 hover:bg-primary-50/50 transition-colors"
+          >
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wide">City</div>
+            <div class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-primary-600">Vacaville</div>
+            <div class="mt-1 text-sm text-gray-500">2 programs</div>
+          </a>
+        </div>
+      </section>
+
+      <!-- By Category -->
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">By Category</h2>
+
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="p-4 rounded-lg border border-gray-200">
+            <h3 class="font-medium text-gray-900">Food Assistance</h3>
+            <p class="text-sm text-gray-500 mt-1">SNAP, CalFresh, WIC</p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-gray-200">
+            <h3 class="font-medium text-gray-900">Healthcare</h3>
+            <p class="text-sm text-gray-500 mt-1">Medicaid, Medicare, Medi-Cal, CHIP</p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-gray-200">
+            <h3 class="font-medium text-gray-900">Income Support</h3>
+            <p class="text-sm text-gray-500 mt-1">SSI, TANF, CalWORKs, General Assistance</p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-gray-200">
+            <h3 class="font-medium text-gray-900">Housing</h3>
+            <p class="text-sm text-gray-500 mt-1">Section 8</p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-gray-200">
+            <h3 class="font-medium text-gray-900">Disability</h3>
+            <p class="text-sm text-gray-500 mt-1">SSDI, IHSS</p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-gray-200">
+            <h3 class="font-medium text-gray-900">Utilities</h3>
+            <p class="text-sm text-gray-500 mt-1">LIHEAP, Utility Assistance</p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-gray-200">
+            <h3 class="font-medium text-gray-900">Tax Credits</h3>
+            <p class="text-sm text-gray-500 mt-1">EITC, CalEITC</p>
+          </div>
+
+          <div class="p-4 rounded-lg border border-gray-200">
+            <h3 class="font-medium text-gray-900">Senior Services</h3>
+            <p class="text-sm text-gray-500 mt-1">Social Security, Senior Programs</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- All Programs -->
+      <section>
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">All Programs</h2>
+
+        <div class="overflow-hidden rounded-xl border border-gray-200">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jurisdiction</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap"><a href="/demo/" class="text-primary-600 hover:text-primary-500 font-medium">SNAP</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Federal</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Food Assistance</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Benefit</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap"><a href="#" class="text-primary-600 hover:text-primary-500 font-medium">Medicaid</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Federal</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Healthcare</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Benefit</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap"><a href="#" class="text-primary-600 hover:text-primary-500 font-medium">CalFresh</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">California</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Food Assistance</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Benefit</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap"><a href="#" class="text-primary-600 hover:text-primary-500 font-medium">Medi-Cal</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">California</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Healthcare</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Benefit</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap"><a href="#" class="text-primary-600 hover:text-primary-500 font-medium">General Assistance</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Solano County</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Income Support</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Benefit</span></td>
+              </tr>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap"><a href="#" class="text-primary-600 hover:text-primary-500 font-medium">Utility Assistance</a></td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Vacaville</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Utilities</td>
+                <td class="px-6 py-4 whitespace-nowrap"><span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">Assistance</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-4 text-sm text-gray-500">
+          Showing 6 of 20 programs. <a href="#" class="text-primary-600 hover:text-primary-500">View all</a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="mx-auto max-w-7xl px-6 pb-8">
+    <div class="border-t border-gray-200 pt-8">
+      <p class="text-sm text-gray-500">
+        Data: <a href="https://creativecommons.org/publicdomain/zero/1.0/" class="text-primary-600 hover:text-primary-500">CC0</a>.
+        Code: <a href="https://opensource.org/licenses/MIT" class="text-primary-600 hover:text-primary-500">MIT</a>.
+      </p>
+    </div>
+  </footer>
+</div>

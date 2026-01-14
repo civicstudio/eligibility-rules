@@ -1,0 +1,156 @@
+---
+layout: default
+---
+
+<div class="bg-white min-h-screen">
+  <header class="border-b border-gray-200">
+    <nav class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+      <a
+        href="/"
+        class="font-semibold text-gray-900"
+      >
+        EligibilityRules<span class="text-primary-600">.org</span>
+      </a>
+      <div class="flex gap-6">
+        <a
+          href="/browse/"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          Browse Rules
+        </a>
+        <a
+          href="https://github.com/eligibilityrules/eligibility-rules"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          GitHub
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-6 py-12">
+    <!-- Breadcrumb -->
+    <nav class="mb-6">
+      <ol class="flex items-center gap-2 text-sm text-gray-500">
+        <li><a href="/" class="hover:text-gray-700">Home</a></li>
+        <li>/</li>
+        <li><a href="{{ page.jurisdiction_url }}" class="hover:text-gray-700">{{ page.jurisdiction }}</a></li>
+        <li>/</li>
+        <li class="text-gray-900 font-medium">{{ page.title }}</li>
+      </ol>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Main Content -->
+      <div class="lg:col-span-2">
+        <div class="mb-6">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700 ring-1 ring-inset ring-primary-600/20">
+              {{ page.jurisdiction }}
+            </span>
+            <span class="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+              {{ page.service_type | capitalize }}
+            </span>
+          </div>
+          <h1 class="text-3xl font-bold text-gray-900">{{ page.title }}</h1>
+          {% if page.alternate_names %}
+          <p class="mt-1 text-gray-500">Also known as: {{ page.alternate_names | join: ", " }}</p>
+          {% endif %}
+        </div>
+
+        {% if page.description %}
+        <div class="prose prose-gray max-w-none mb-8">
+          <p>{{ page.description }}</p>
+        </div>
+        {% endif %}
+
+        {{ content }}
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        <!-- Quick Info -->
+        <div class="rounded-xl border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Info</h2>
+          <dl class="space-y-3 text-sm">
+            <div>
+              <dt class="text-gray-500">Agency</dt>
+              <dd class="font-medium text-gray-900">{{ page.agency }}</dd>
+            </div>
+            <div>
+              <dt class="text-gray-500">Category</dt>
+              <dd class="font-medium text-gray-900">{{ page.category | replace: "-", " " | capitalize }}</dd>
+            </div>
+            {% if page.last_verified %}
+            <div>
+              <dt class="text-gray-500">Last Verified</dt>
+              <dd class="font-medium text-gray-900">{{ page.last_verified }}</dd>
+            </div>
+            {% endif %}
+          </dl>
+        </div>
+
+        <!-- Apply -->
+        {% if page.application_url %}
+        <div class="rounded-xl border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Apply</h2>
+          <a
+            href="{{ page.application_url }}"
+            target="_blank"
+            rel="noopener"
+            class="block w-full rounded-md bg-primary-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
+          >
+            Apply Online
+          </a>
+        </div>
+        {% endif %}
+
+        <!-- Sources -->
+        {% if page.source_urls %}
+        <div class="rounded-xl border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Official Sources</h2>
+          <ul class="space-y-2 text-sm">
+            {% for url in page.source_urls %}
+            <li>
+              <a
+                href="{{ url }}"
+                target="_blank"
+                rel="noopener"
+                class="text-primary-600 hover:text-primary-500 break-all"
+              >
+                {{ url | truncate: 50 }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        <!-- Edit -->
+        <div class="rounded-xl bg-gray-50 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-2">Contribute</h2>
+          <p class="text-sm text-gray-600 mb-4">
+            Found an error or have updated information?
+          </p>
+          <a
+            href="https://github.com/eligibilityrules/eligibility-rules/edit/main/{{ page.data_path }}"
+            target="_blank"
+            rel="noopener"
+            class="text-sm text-primary-600 hover:text-primary-500 font-medium"
+          >
+            Edit on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="mx-auto max-w-7xl px-6 pb-8">
+    <div class="border-t border-gray-200 pt-8">
+      <p class="text-sm text-gray-500">
+        Data: <a href="https://creativecommons.org/publicdomain/zero/1.0/" class="text-primary-600 hover:text-primary-500">CC0</a>.
+        Code: <a href="https://opensource.org/licenses/MIT" class="text-primary-600 hover:text-primary-500">MIT</a>.
+      </p>
+    </div>
+  </footer>
+</div>

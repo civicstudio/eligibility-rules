@@ -1,0 +1,71 @@
+---
+layout: default
+---
+
+<div class="bg-white min-h-screen">
+  <header class="border-b border-gray-200">
+    <nav class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+      <a
+        href="/"
+        class="font-semibold text-gray-900"
+      >
+        EligibilityRules<span class="text-primary-600">.org</span>
+      </a>
+      <div class="flex gap-6">
+        <a
+          href="/browse/"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          Browse Rules
+        </a>
+        <a
+          href="https://github.com/eligibilityrules/eligibility-rules"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          GitHub
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-6 py-12">
+    <!-- Breadcrumb -->
+    <nav class="mb-6">
+      <ol class="flex items-center gap-2 text-sm text-gray-500">
+        <li><a href="/" class="hover:text-gray-700">Home</a></li>
+        <li>/</li>
+        {% if page.parent %}
+        <li><a href="{{ page.parent_url }}" class="hover:text-gray-700">{{ page.parent }}</a></li>
+        <li>/</li>
+        {% endif %}
+        <li class="text-gray-900 font-medium">{{ page.title }}</li>
+      </ol>
+    </nav>
+
+    <div class="mb-8">
+      <span class="inline-flex items-center rounded-full bg-primary-50 px-3 py-1 text-xs font-medium text-primary-700 ring-1 ring-inset ring-primary-600/20 mb-3">
+        {{ page.level | capitalize }}
+      </span>
+      <h1 class="text-3xl font-bold text-gray-900">{{ page.title }}</h1>
+      {% if page.description %}
+      <p class="mt-2 text-gray-600">{{ page.description }}</p>
+      {% endif %}
+    </div>
+
+    {{ content }}
+  </main>
+
+  <footer class="mx-auto max-w-7xl px-6 pb-8">
+    <div class="border-t border-gray-200 pt-8">
+      <p class="text-sm text-gray-500">
+        Data: <a href="https://creativecommons.org/publicdomain/zero/1.0/" class="text-primary-600 hover:text-primary-500">CC0</a>.
+        <a
+          href="https://github.com/eligibilityrules/eligibility-rules/edit/main/{{ page.path }}"
+          class="text-primary-600 hover:text-primary-500"
+        >
+          Edit on GitHub
+        </a>
+      </p>
+    </div>
+  </footer>
+</div>
