@@ -59,8 +59,8 @@ layout: default
                     {% endif %}
                   </div>
                   <p class="text-sm text-gray-600 mb-3">{{ rule.description | strip_newlines }}</p>
-                  <code class="inline-flex items-center gap-1 bg-gray-100 px-2 py-1 rounded text-xs font-mono">
-                    <span class="text-purple-600">{{ rule.key }}</span>
+                  <code class="flex flex-wrap items-center gap-1 bg-gray-100 px-2 py-1.5 rounded text-xs font-mono">
+                    <span class="text-purple-600 break-all">{{ rule.key }}</span>
                     <span class="text-gray-500">
                       {% case rule.operator %}
                         {% when 'less_than' %}&lt;
@@ -75,7 +75,7 @@ layout: default
                         {% else %}{{ rule.operator }}
                       {% endcase %}
                     </span>
-                    <span class="text-green-600">
+                    <span class="text-green-600 break-all">
                       {% if rule.operator == 'between' %}
                         {{ rule.min }} <span class="text-gray-500">and</span> {{ rule.max }}
                       {% elsif rule.operator == 'in' or rule.operator == 'not_in' %}
@@ -89,11 +89,11 @@ layout: default
                   {% if rule.conditions %}
                   <div class="mt-3 pl-3 border-l-2 border-gray-200">
                     <p class="text-xs text-gray-500 italic mb-2">All of:</p>
-                    <ul class="space-y-1 text-xs text-gray-600">
+                    <ul class="space-y-2 text-xs text-gray-600">
                       {% for condition in rule.conditions %}
-                      <li class="flex items-center gap-1">
+                      <li class="flex flex-wrap items-center gap-1">
                         <span class="text-gray-500 font-medium">AND</span>
-                        <code class="text-purple-600">{{ condition.key }}</code>
+                        <code class="text-purple-600 break-all">{{ condition.key }}</code>
                         <span class="text-gray-500">
                           {% case condition.operator %}
                             {% when 'less_than' %}&lt;
@@ -105,7 +105,7 @@ layout: default
                             {% else %}{{ condition.operator }}
                           {% endcase %}
                         </span>
-                        <span class="text-green-600">{{ condition.value }}</span>
+                        <span class="text-green-600 break-all">{{ condition.value }}</span>
                       </li>
                       {% endfor %}
                     </ul>
@@ -115,11 +115,11 @@ layout: default
                   {% if rule.any_of %}
                   <div class="mt-3 pl-3 border-l-2 border-purple-200">
                     <p class="text-xs text-gray-500 italic mb-2">Exempt if any:</p>
-                    <ul class="space-y-1 text-xs text-gray-600">
+                    <ul class="space-y-2 text-xs text-gray-600">
                       {% for option in rule.any_of %}
-                      <li class="flex items-center gap-1">
+                      <li class="flex flex-wrap items-center gap-1">
                         <span class="text-purple-500 font-medium">OR</span>
-                        <code class="text-purple-600">{{ option.key }}</code>
+                        <code class="text-purple-600 break-all">{{ option.key }}</code>
                         <span class="text-gray-500">
                           {% case option.operator %}
                             {% when 'less_than' %}&lt;
@@ -131,7 +131,7 @@ layout: default
                             {% else %}{{ option.operator }}
                           {% endcase %}
                         </span>
-                        <span class="text-green-600">{{ option.value }}</span>
+                        <span class="text-green-600 break-all">{{ option.value }}</span>
                       </li>
                       {% endfor %}
                     </ul>
