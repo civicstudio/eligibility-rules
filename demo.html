@@ -31,36 +31,53 @@ title: "Ruleset Viewer Demo"
 
   <main class="mx-auto max-w-7xl px-6 py-12">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900">Ruleset Viewer Demo</h1>
+      <h1 class="text-3xl font-bold text-gray-900">Eligibility Checker</h1>
       <p class="mt-2 text-gray-600">
-        See how eligibility rules are displayed and validated against user attributes.
+        Enter your attributes to check eligibility against program requirements.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <!-- Left: Full Ruleset View -->
-      <div class="lg:col-span-2">
-        <div
-          id="ruleset-full"
-          class="bg-white rounded-xl border border-gray-200 p-6"
-        >
-          <!-- Ruleset will be rendered here -->
-        </div>
+    <!-- Program Header -->
+    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+      <div class="flex items-center gap-3">
+        <span class="text-xs font-medium text-gray-500 uppercase tracking-wide bg-white px-2 py-1 rounded">California</span>
+        <h2 class="text-xl font-semibold text-gray-900">CalFresh (California SNAP)</h2>
       </div>
+      <p class="mt-2 text-sm text-gray-600">
+        CalFresh provides monthly food benefits to eligible low-income households via an EBT card.
+      </p>
+    </div>
 
-      <!-- Right: User Attributes & Validation -->
-      <div class="space-y-6">
-        <!-- Attribute Input Form -->
-        <div class="bg-white rounded-xl border border-gray-200 p-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Your Attributes</h2>
-          <form
-            id="attributes-form"
-            class="space-y-4"
-          >
-            <div>
+    <!-- Validation Result Banner -->
+    <div
+      id="validation-result"
+      class="hidden mb-6"
+    >
+    </div>
+
+    <!-- Main Table Layout -->
+    <div class="border border-gray-200 rounded-xl overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 w-1/3">
+              Your Attributes
+            </th>
+            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 w-1/3">
+              Requirement
+            </th>
+            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-900 w-1/3">
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200" id="rules-table-body">
+          <!-- Row 1: Income -->
+          <tr class="rule-row" data-rule-id="income-gross">
+            <td class="px-6 py-4 align-top">
               <label
                 for="household_income_fpl"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
               >
                 Household Income (% FPL)
               </label>
@@ -68,22 +85,41 @@ title: "Ruleset Viewer Demo"
                 type="number"
                 id="household_income_fpl"
                 name="household_income_fpl"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border text-sm"
                 placeholder="e.g., 125"
               >
-            </div>
+            </td>
+            <td class="px-6 py-4 align-top">
+              <div class="text-sm font-medium text-gray-900 mb-1">Gross Income</div>
+              <code class="inline-flex items-center gap-1 bg-gray-100 px-2 py-1 rounded text-xs font-mono">
+                <span class="text-purple-600">household_income_fpl</span>
+                <span class="text-gray-500">&le;</span>
+                <span class="text-green-600">200%</span>
+              </code>
+              <p class="mt-2 text-xs text-gray-500">
+                Gross monthly income at or below 200% FPL.
+              </p>
+            </td>
+            <td class="px-6 py-4 align-top">
+              <span class="rule-status inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                Not checked
+              </span>
+            </td>
+          </tr>
 
-            <div>
+          <!-- Row 2: Residency -->
+          <tr class="rule-row" data-rule-id="residency">
+            <td class="px-6 py-4 align-top">
               <label
                 for="state_residency"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
               >
                 State Residency
               </label>
               <select
                 id="state_residency"
                 name="state_residency"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border text-sm"
               >
                 <option value="">Select state...</option>
                 <option value="CA">California</option>
@@ -91,19 +127,38 @@ title: "Ruleset Viewer Demo"
                 <option value="NY">New York</option>
                 <option value="other">Other</option>
               </select>
-            </div>
+            </td>
+            <td class="px-6 py-4 align-top">
+              <div class="text-sm font-medium text-gray-900 mb-1">California Residency</div>
+              <code class="inline-flex items-center gap-1 bg-gray-100 px-2 py-1 rounded text-xs font-mono">
+                <span class="text-purple-600">state_residency</span>
+                <span class="text-gray-500">=</span>
+                <span class="text-green-600">CA</span>
+              </code>
+              <p class="mt-2 text-xs text-gray-500">
+                Must be a California resident.
+              </p>
+            </td>
+            <td class="px-6 py-4 align-top">
+              <span class="rule-status inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                Not checked
+              </span>
+            </td>
+          </tr>
 
-            <div>
+          <!-- Row 3: Citizenship -->
+          <tr class="rule-row" data-rule-id="citizenship">
+            <td class="px-6 py-4 align-top">
               <label
                 for="citizenship_status"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
               >
                 Citizenship Status
               </label>
               <select
                 id="citizenship_status"
                 name="citizenship_status"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border text-sm"
               >
                 <option value="">Select status...</option>
                 <option value="us_citizen">U.S. Citizen</option>
@@ -112,12 +167,31 @@ title: "Ruleset Viewer Demo"
                 <option value="asylee">Asylee</option>
                 <option value="undocumented">Undocumented</option>
               </select>
-            </div>
+            </td>
+            <td class="px-6 py-4 align-top">
+              <div class="text-sm font-medium text-gray-900 mb-1">Citizenship/Immigration</div>
+              <code class="inline-flex flex-wrap items-center gap-1 bg-gray-100 px-2 py-1 rounded text-xs font-mono">
+                <span class="text-purple-600">citizenship_status</span>
+                <span class="text-gray-500">in</span>
+                <span class="text-green-600">[us_citizen, permanent_resident, refugee, asylee]</span>
+              </code>
+              <p class="mt-2 text-xs text-gray-500">
+                Must be a U.S. citizen or qualified immigrant.
+              </p>
+            </td>
+            <td class="px-6 py-4 align-top">
+              <span class="rule-status inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                Not checked
+              </span>
+            </td>
+          </tr>
 
-            <div>
+          <!-- Row 4: Age / Work Requirements -->
+          <tr class="rule-row" data-rule-id="work-requirements">
+            <td class="px-6 py-4 align-top">
               <label
                 for="age"
-                class="block text-sm font-medium text-gray-700"
+                class="block text-sm font-medium text-gray-700 mb-1"
               >
                 Age
               </label>
@@ -125,418 +199,127 @@ title: "Ruleset Viewer Demo"
                 type="number"
                 id="age"
                 name="age"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 px-3 py-2 border text-sm mb-3"
                 placeholder="e.g., 35"
               >
-            </div>
 
-            <div class="flex items-center">
-              <input
-                type="checkbox"
-                id="has_disability"
-                name="has_disability"
-                class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-              >
-              <label
-                for="has_disability"
-                class="ml-2 block text-sm text-gray-700"
-              >
-                Has disability
-              </label>
-            </div>
+              <div class="space-y-2 pt-2 border-t border-gray-100">
+                <div class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="has_disability"
+                    name="has_disability"
+                    class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                  >
+                  <label
+                    for="has_disability"
+                    class="ml-2 block text-sm text-gray-700"
+                  >
+                    Has disability
+                  </label>
+                </div>
+                <div class="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="has_dependent_child"
+                    name="has_dependent_child"
+                    class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                  >
+                  <label
+                    for="has_dependent_child"
+                    class="ml-2 block text-sm text-gray-700"
+                  >
+                    Has dependent child
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 align-top">
+              <div class="text-sm font-medium text-gray-900 mb-1">ABAWD Work Requirements</div>
+              <code class="inline-flex items-center gap-1 bg-gray-100 px-2 py-1 rounded text-xs font-mono">
+                <span class="text-purple-600">age</span>
+                <span class="text-gray-500">between</span>
+                <span class="text-green-600">18</span>
+                <span class="text-gray-500">and</span>
+                <span class="text-green-600">49</span>
+              </code>
+              <p class="mt-2 text-xs text-gray-500">
+                ABAWDs aged 18-49 must meet work requirements.
+              </p>
 
-            <div class="flex items-center">
-              <input
-                type="checkbox"
-                id="has_dependent_child"
-                name="has_dependent_child"
-                class="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-              >
-              <label
-                for="has_dependent_child"
-                class="ml-2 block text-sm text-gray-700"
-              >
-                Has dependent child
-              </label>
-            </div>
-
-            <button
-              type="submit"
-              class="w-full rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-            >
-              Check Eligibility
-            </button>
-          </form>
-        </div>
-
-        <!-- Compact Validation Result -->
-        <div
-          id="ruleset-compact"
-          class="hidden"
-        >
-          <!-- Compact view will be rendered here -->
-        </div>
-
-        <!-- Event Log -->
-        <div class="bg-gray-50 rounded-xl border border-gray-200 p-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Validation Events</h2>
-          <div
-            id="event-log"
-            class="text-xs font-mono text-gray-600 max-h-48 overflow-y-auto"
-          >
-            <p class="text-gray-400">No events yet. Check eligibility to see events.</p>
-          </div>
-        </div>
-      </div>
+              <div class="mt-3 pl-3 border-l-2 border-purple-200">
+                <p class="text-xs text-gray-500 italic mb-2">Exempt if any:</p>
+                <ul class="space-y-1 text-xs text-gray-600">
+                  <li class="flex items-center gap-1">
+                    <span class="text-purple-500 font-medium">OR</span>
+                    <code class="text-purple-600">has_disability</code> = <span class="text-green-600">true</span>
+                  </li>
+                  <li class="flex items-center gap-1">
+                    <span class="text-purple-500 font-medium">OR</span>
+                    <code class="text-purple-600">has_dependent_child</code> = <span class="text-green-600">true</span>
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td class="px-6 py-4 align-top">
+              <span class="rule-status inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                Not checked
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+    <!-- Check Button -->
+    <div class="mt-6 flex justify-end">
+      <button
+        id="check-eligibility-btn"
+        type="button"
+        class="rounded-md bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+      >
+        Check Eligibility
+      </button>
+    </div>
+
+    <!-- Event Log (collapsible) -->
+    <details class="mt-8">
+      <summary class="text-sm font-medium text-gray-700 cursor-pointer">
+        Validation Events (Developer View)
+      </summary>
+      <div
+        id="event-log"
+        class="mt-3 p-4 bg-gray-50 rounded-lg text-xs font-mono text-gray-600 max-h-48 overflow-y-auto"
+      >
+        <p class="text-gray-400">No events yet. Check eligibility to see events.</p>
+      </div>
+    </details>
   </main>
 </div>
 
 <style>
-  /* Ruleset Viewer Styles */
-  .ruleset-viewer--full {
-    font-family: Georgia, serif;
-  }
-
-  .ruleset-header {
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .ruleset-meta {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin-bottom: 0.5rem;
-  }
-
-  .ruleset-title {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: #111827;
-    margin: 0;
-  }
-
-  .ruleset-description {
-    margin-top: 0.75rem;
-    color: #4b5563;
-    line-height: 1.6;
-  }
-
-  .ruleset-section-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 0.75rem;
-  }
-
-  .ruleset-intro {
-    color: #4b5563;
-    margin-bottom: 1.5rem;
-    font-style: italic;
-  }
-
-  .rules-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .rule {
-    border-left: 3px solid #e5e7eb;
-    padding: 1rem 0 1rem 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .rule--passed {
-    border-left-color: #10b981;
+  .rule-row.passed {
     background-color: #f0fdf4;
   }
-
-  .rule--failed {
-    border-left-color: #ef4444;
-    background-color: #fef2f2;
+  .rule-row.passed .rule-status {
+    background-color: #d1fae5;
+    color: #065f46;
   }
 
-  .rule--skipped {
-    border-left-color: #f59e0b;
+  .rule-row.failed {
+    background-color: #fef2f2;
+  }
+  .rule-row.failed .rule-status {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  .rule-row.skipped {
     background-color: #fffbeb;
   }
-
-  .rule-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-  }
-
-  .rule-number {
-    font-weight: 600;
-    color: #6b7280;
-    min-width: 2rem;
-  }
-
-  .rule-label {
-    font-weight: 600;
-    color: #111827;
-  }
-
-  .rule-status {
-    font-size: 0.75rem;
-    padding: 0.125rem 0.5rem;
-    border-radius: 9999px;
-    font-weight: 500;
-  }
-
-  .rule-status--passed {
-    background-color: #d1fae5;
-    color: #065f46;
-  }
-
-  .rule-status--failed {
-    background-color: #fee2e2;
-    color: #991b1b;
-  }
-
-  .rule-status--skipped {
+  .rule-row.skipped .rule-status {
     background-color: #fef3c7;
     color: #92400e;
-  }
-
-  .rule-condition {
-    margin-top: 0.5rem;
-  }
-
-  .condition-expression {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-    align-items: center;
-    background-color: #f3f4f6;
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.375rem;
-    font-family: ui-monospace, monospace;
-    font-size: 0.875rem;
-  }
-
-  .condition-key {
-    color: #7c3aed;
-    font-weight: 500;
-  }
-
-  .condition-operator {
-    color: #6b7280;
-  }
-
-  .condition-value {
-    color: #059669;
-    font-weight: 500;
-  }
-
-  .condition-unit {
-    color: #6b7280;
-    font-size: 0.75rem;
-  }
-
-  .condition-value--list {
-    display: inline-flex;
-    gap: 0.25rem;
-  }
-
-  .condition-value-item {
-    background-color: #e5e7eb;
-    padding: 0.125rem 0.375rem;
-    border-radius: 0.25rem;
-  }
-
-  .rule-description {
-    margin-top: 0.75rem;
-    color: #4b5563;
-    font-size: 0.9375rem;
-    line-height: 1.5;
-  }
-
-  .rule-source {
-    margin-top: 0.5rem;
-  }
-
-  .rule-source a {
-    font-size: 0.75rem;
-    color: #2563eb;
-    text-decoration: none;
-  }
-
-  .rule-source a:hover {
-    text-decoration: underline;
-  }
-
-  .rule-nested,
-  .rule-alternatives {
-    margin-top: 1rem;
-    padding-left: 1rem;
-  }
-
-  .rule-nested-intro,
-  .rule-alternatives-intro {
-    font-size: 0.875rem;
-    color: #6b7280;
-    font-style: italic;
-    margin-bottom: 0.75rem;
-  }
-
-  .alternatives-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .alternative {
-    padding: 0.5rem 0;
-    border-left: 2px solid #d1d5db;
-    padding-left: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .alternative--passed {
-    border-left-color: #10b981;
-  }
-
-  .alternative-marker {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #9333ea;
-    margin-right: 0.5rem;
-  }
-
-  .alternative-description {
-    color: #6b7280;
-    font-size: 0.875rem;
-    margin-left: 0.5rem;
-  }
-
-  /* Compact View */
-  .ruleset-viewer--compact {
-    background-color: #ffffff;
-    border-radius: 0.75rem;
-    border: 1px solid #e5e7eb;
-    padding: 1.5rem;
-  }
-
-  .ruleset-viewer--eligible {
-    border-color: #10b981;
-    background-color: #f0fdf4;
-  }
-
-  .ruleset-viewer--ineligible {
-    border-color: #ef4444;
-    background-color: #fef2f2;
-  }
-
-  .compact-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .compact-title {
-    font-weight: 600;
-    color: #111827;
-    margin: 0;
-  }
-
-  .compact-status {
-    font-size: 0.875rem;
-    font-weight: 500;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-  }
-
-  .compact-status--eligible {
-    background-color: #d1fae5;
-    color: #065f46;
-  }
-
-  .compact-status--ineligible {
-    background-color: #fee2e2;
-    color: #991b1b;
-  }
-
-  .compact-summary {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .compact-stat {
-    font-size: 0.875rem;
-  }
-
-  .compact-stat--passed {
-    color: #059669;
-  }
-
-  .compact-stat--failed {
-    color: #dc2626;
-  }
-
-  .compact-failures h4 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #991b1b;
-    margin-bottom: 0.5rem;
-  }
-
-  .compact-failures ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .compact-failure {
-    font-size: 0.875rem;
-    padding: 0.25rem 0;
-  }
-
-  .compact-failure-label {
-    font-weight: 500;
-    color: #111827;
-  }
-
-  .compact-failure-message {
-    color: #6b7280;
-    margin-left: 0.25rem;
-  }
-
-  .compact-expand {
-    margin-top: 1rem;
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 0.875rem;
-    color: #2563eb;
-    background: none;
-    border: 1px solid #2563eb;
-    border-radius: 0.375rem;
-    cursor: pointer;
-  }
-
-  .compact-expand:hover {
-    background-color: #eff6ff;
-  }
-
-  /* Collapsed state */
-  .rule--collapsed .rule-nested,
-  .rule--collapsed .rule-alternatives {
-    display: none;
-  }
-
-  .rule--collapsed .rule-header::after {
-    content: ' [+]';
-    color: #6b7280;
-    font-size: 0.75rem;
   }
 </style>
 
@@ -561,7 +344,7 @@ title: "Ruleset Viewer Demo"
         unit: 'percent',
         requirement: 'required',
         label: 'Gross Income',
-        description: 'Gross monthly income must be at or below 200% of the Federal Poverty Level (California uses Broad-Based Categorical Eligibility).',
+        description: 'Gross monthly income must be at or below 200% of the Federal Poverty Level.',
         source_url: 'https://www.cdss.ca.gov/calfresh/eligibility'
       },
       {
@@ -580,7 +363,7 @@ title: "Ruleset Viewer Demo"
         values: ['us_citizen', 'permanent_resident', 'refugee', 'asylee', 'trafficking_victim'],
         requirement: 'required',
         label: 'Citizenship/Immigration',
-        description: 'Must be a U.S. citizen or qualified immigrant. California extends benefits to some immigrant categories not covered federally.',
+        description: 'Must be a U.S. citizen or qualified immigrant.',
         source_url: 'https://www.cdss.ca.gov/calfresh/eligibility'
       },
       {
@@ -591,7 +374,7 @@ title: "Ruleset Viewer Demo"
         max: 49,
         requirement: 'required',
         label: 'ABAWD Work Requirements',
-        description: 'Able-bodied adults without dependents (ABAWDs) aged 18-49 must meet work requirements unless exempt.',
+        description: 'ABAWDs aged 18-49 must meet work requirements unless exempt.',
         any_of: [
           {
             id: 'exempt-disabled',
@@ -612,18 +395,7 @@ title: "Ruleset Viewer Demo"
     ]
   };
 
-  // Initialize when DOM is ready
   document.addEventListener('DOMContentLoaded', function() {
-    // Create viewer and engine instances
-    const fullViewer = new RulesetViewer('#ruleset-full', {
-      mode: 'full',
-      showSources: true
-    });
-
-    const compactViewer = new RulesetViewer('#ruleset-compact', {
-      mode: 'compact'
-    });
-
     const engine = new ValidationEngine({
       logEvents: true,
       eventCallback: function(event) {
@@ -631,57 +403,94 @@ title: "Ruleset Viewer Demo"
       }
     });
 
-    // Render initial ruleset
-    fullViewer.render(calfreshRuleset);
-
-    // Handle form submission
-    document.getElementById('attributes-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-
+    document.getElementById('check-eligibility-btn').addEventListener('click', function() {
       // Collect form values
-      const formData = new FormData(e.target);
       const attributes = {};
 
-      // Process form fields
-      const income = formData.get('household_income_fpl');
+      const income = document.getElementById('household_income_fpl').value;
       if (income) attributes.household_income_fpl = Number(income);
 
-      const residency = formData.get('state_residency');
+      const residency = document.getElementById('state_residency').value;
       if (residency) attributes.state_residency = residency;
 
-      const citizenship = formData.get('citizenship_status');
+      const citizenship = document.getElementById('citizenship_status').value;
       if (citizenship) attributes.citizenship_status = citizenship;
 
-      const age = formData.get('age');
+      const age = document.getElementById('age').value;
       if (age) attributes.age = Number(age);
 
-      attributes.has_disability = formData.get('has_disability') === 'on';
-      attributes.has_dependent_child = formData.get('has_dependent_child') === 'on';
+      attributes.has_disability = document.getElementById('has_disability').checked;
+      attributes.has_dependent_child = document.getElementById('has_dependent_child').checked;
 
       // Run validation
       const result = engine.validate(calfreshRuleset, attributes);
 
-      // Update views with validation results
-      fullViewer.render(calfreshRuleset, result);
+      // Update table rows
+      document.querySelectorAll('.rule-row').forEach(row => {
+        const ruleId = row.dataset.ruleId;
+        row.classList.remove('passed', 'failed', 'skipped');
 
-      // Show compact view
-      const compactContainer = document.getElementById('ruleset-compact');
-      compactContainer.classList.remove('hidden');
-      compactViewer.render(calfreshRuleset, result);
+        const statusEl = row.querySelector('.rule-status');
+
+        if (result.passed.some(r => r.id === ruleId)) {
+          row.classList.add('passed');
+          statusEl.textContent = 'Passed';
+        } else if (result.failed.some(r => r.id === ruleId)) {
+          row.classList.add('failed');
+          statusEl.textContent = 'Failed';
+        } else if (result.skipped.some(r => r.id === ruleId)) {
+          row.classList.add('skipped');
+          statusEl.textContent = 'Missing data';
+        }
+      });
+
+      // Show result banner
+      const resultEl = document.getElementById('validation-result');
+      resultEl.classList.remove('hidden');
+
+      if (result.valid) {
+        resultEl.innerHTML = `
+          <div class="p-4 rounded-lg bg-green-50 border border-green-200">
+            <div class="flex items-center gap-3">
+              <svg class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h3 class="font-semibold text-green-800">Potentially Eligible</h3>
+                <p class="text-sm text-green-700">You appear to meet the basic eligibility requirements for CalFresh.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        const failedRules = result.failed.map(f => f.label || f.key).join(', ');
+        resultEl.innerHTML = `
+          <div class="p-4 rounded-lg bg-red-50 border border-red-200">
+            <div class="flex items-center gap-3">
+              <svg class="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h3 class="font-semibold text-red-800">Not Eligible</h3>
+                <p class="text-sm text-red-700">Requirements not met: ${failedRules}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
     });
 
-    // Update event log display
     function updateEventLog(event) {
       const logEl = document.getElementById('event-log');
       const eventHtml = `
         <div class="mb-2 p-2 bg-white rounded border border-gray-200">
-          <div class="flex justify-between text-xs">
+          <div class="flex justify-between">
             <span class="${event.valid ? 'text-green-600' : 'text-red-600'} font-medium">
               ${event.valid ? 'ELIGIBLE' : 'NOT ELIGIBLE'}
             </span>
             <span class="text-gray-400">${event.duration_ms}ms</span>
           </div>
-          <div class="text-xs text-gray-500 mt-1">
+          <div class="text-gray-500 mt-1">
             ${event.passed_count} passed, ${event.failed_count} failed, ${event.skipped_count} skipped
           </div>
         </div>
