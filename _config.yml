@@ -27,6 +27,9 @@ defaults:
     values:
       layout: "jurisdiction"
 
+# Load YAML data files
+data_dir: data
+
 exclude:
   - package.json
   - package-lock.json

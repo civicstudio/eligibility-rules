@@ -1,0 +1,424 @@
+---
+layout: default
+title: "Integration"
+---
+
+<div class="bg-white min-h-screen">
+  <header class="border-b border-gray-200">
+    <nav class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+      <a
+        href="/"
+        class="font-semibold text-gray-900"
+      >
+        EligibilityRules<span class="text-primary-600">.org</span>
+      </a>
+      <div class="flex gap-6">
+        <a
+          href="/browse/"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          Browse Rules
+        </a>
+        <a
+          href="/contribute/"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          Contribute
+        </a>
+        <a
+          href="https://github.com/civicstudio/eligibility-rules"
+          class="text-sm text-gray-600 hover:text-gray-900"
+        >
+          GitHub
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-6 py-12">
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold text-gray-900">Integration</h1>
+      <p class="mt-4 text-lg text-gray-600 max-w-3xl">
+        How eligibility rules flow from policy to code, and how to integrate structured rulesets into your systems.
+      </p>
+    </div>
+
+    <!-- Part A: How It Works -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">How Eligibility Determination Works</h2>
+
+      <div class="rounded-2xl border border-gray-200 p-8 mb-8">
+        <div class="grid gap-8 md:grid-cols-3">
+          <!-- Step 1: User Attributes -->
+          <div class="text-center">
+            <div class="mx-auto flex size-16 items-center justify-center rounded-full bg-primary-100 mb-4">
+              <svg
+                class="size-8 text-primary-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">User Attributes</h3>
+            <p class="text-sm text-gray-600">
+              A person's circumstances expressed as key/value pairs: income, age, household size, residency, etc.
+            </p>
+            <div class="mt-4 rounded-lg bg-gray-50 p-3 text-left">
+              <code class="text-xs text-gray-700">
+                {<br>
+                &nbsp;&nbsp;"household_income": 2400,<br>
+                &nbsp;&nbsp;"household_size": 3,<br>
+                &nbsp;&nbsp;"age": 34,<br>
+                &nbsp;&nbsp;"residency": "CA"<br>
+                }
+              </code>
+            </div>
+          </div>
+
+          <!-- Arrow -->
+          <div class="hidden md:flex items-center justify-center">
+            <div class="flex flex-col items-center">
+              <svg
+                class="size-8 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+                />
+              </svg>
+              <div class="my-4 rounded-xl bg-gray-900 px-4 py-3 text-center">
+                <div class="text-xs text-gray-400 uppercase tracking-wide">Rules Engine</div>
+                <div class="text-sm font-medium text-white mt-1">validate(ruleset, attributes)</div>
+              </div>
+              <svg
+                class="size-8 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Step 3: Determination -->
+          <div class="text-center">
+            <div class="mx-auto flex size-16 items-center justify-center rounded-full bg-green-100 mb-4">
+              <svg
+                class="size-8 text-green-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <h3 class="font-semibold text-gray-900 mb-2">Determination</h3>
+            <p class="text-sm text-gray-600">
+              A clear, consistent, calculable result: eligible or not, with detailed validation messages.
+            </p>
+            <div class="mt-4 rounded-lg bg-gray-50 p-3 text-left">
+              <code class="text-xs text-gray-700">
+                {<br>
+                &nbsp;&nbsp;"eligible": true,<br>
+                &nbsp;&nbsp;"passed": ["income", "age"],<br>
+                &nbsp;&nbsp;"failed": [],<br>
+                &nbsp;&nbsp;"messages": [...]<br>
+                }
+              </code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile arrows -->
+        <div class="md:hidden flex justify-center my-6">
+          <div class="rounded-xl bg-gray-900 px-4 py-3 text-center">
+            <div class="text-xs text-gray-400 uppercase tracking-wide">Rules Engine</div>
+            <div class="text-sm font-medium text-white mt-1">validate(ruleset, attributes)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prose prose-gray max-w-none">
+        <p>
+          The rules engine is a pure function: given a person's attributes and a program's ruleset, it returns a determination. The same inputs always produce the same outputs. This makes eligibility <strong>calculable</strong>, <strong>testable</strong>, and <strong>auditable</strong>.
+        </p>
+        <p>
+          Each rule in a ruleset maps to a specific attribute key. The engine evaluates each condition and returns which rules passed, which failed, and which were skipped (due to missing data or conditional logic).
+        </p>
+      </div>
+    </section>
+
+    <!-- Part B: From Policy to Code -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">From Policy to Code</h2>
+
+      <p class="text-gray-600 mb-8 max-w-3xl">
+        Eligibility rules originate in legislation, regulation, and policy documents. The path to implementation often looks like this:
+      </p>
+
+      <div class="relative">
+        <!-- Timeline -->
+        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-200 md:left-1/2 md:-ml-px"></div>
+
+        <div class="space-y-12">
+          <!-- Step 1: Legislation/Policy -->
+          <div class="relative flex items-start md:justify-center">
+            <div class="flex md:w-1/2 md:pr-8 md:justify-end">
+              <div class="ml-16 md:ml-0 rounded-xl border border-gray-200 p-6 max-w-md">
+                <div class="absolute left-6 md:left-1/2 md:-ml-3 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-xs font-bold">1</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Legislation & Policy</h3>
+                <p class="text-sm text-gray-600">
+                  Laws and regulations define who qualifies for a program. These documents contain the authoritative eligibility criteria, often in legal language.
+                </p>
+                <div class="mt-3 text-xs text-gray-500 italic">
+                  "...households with gross income at or below 130 percent of the poverty line..."
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Agency Interpretation -->
+          <div class="relative flex items-start md:justify-center">
+            <div class="md:w-1/2 md:pl-8 md:ml-auto">
+              <div class="ml-16 md:ml-0 rounded-xl border border-gray-200 p-6 max-w-md">
+                <div class="absolute left-6 md:left-1/2 md:-ml-3 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-xs font-bold">2</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Agency Interpretation</h3>
+                <p class="text-sm text-gray-600">
+                  Agencies publish guidance, handbooks, and FAQs that clarify how rules apply. This is where edge cases and exceptions get documented.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Structured Encoding -->
+          <div class="relative flex items-start md:justify-center">
+            <div class="flex md:w-1/2 md:pr-8 md:justify-end">
+              <div class="ml-16 md:ml-0 rounded-xl border border-gray-200 p-6 max-w-md">
+                <div class="absolute left-6 md:left-1/2 md:-ml-3 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-xs font-bold">3</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Structured Encoding</h3>
+                <p class="text-sm text-gray-600">
+                  Rules are distilled into machine-readable YAML with clear operators, values, and source citations. Each condition becomes testable.
+                </p>
+                <div class="mt-3 rounded bg-gray-900 p-2">
+                  <code class="text-xs text-gray-300">
+                    operator: less_than_or_equal<br>
+                    value: 130<br>
+                    unit: percent_fpl
+                  </code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Software Integration -->
+          <div class="relative flex items-start md:justify-center">
+            <div class="md:w-1/2 md:pl-8 md:ml-auto">
+              <div class="ml-16 md:ml-0 rounded-xl border border-gray-200 p-6 max-w-md">
+                <div class="absolute left-6 md:left-1/2 md:-ml-3 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-xs font-bold">4</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Software Integration</h3>
+                <p class="text-sm text-gray-600">
+                  Applications consume the ruleset via API or direct import. The rules engine evaluates user data against the current ruleset version.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5: Version & Update -->
+          <div class="relative flex items-start md:justify-center">
+            <div class="flex md:w-1/2 md:pr-8 md:justify-end">
+              <div class="ml-16 md:ml-0 rounded-xl border border-gray-200 p-6 max-w-md">
+                <div class="absolute left-6 md:left-1/2 md:-ml-3 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-xs font-bold">5</div>
+                <h3 class="font-semibold text-gray-900 mb-2">Version & Update</h3>
+                <p class="text-sm text-gray-600">
+                  When policy changes, the ruleset is updated via pull request. Git history provides full audit trail. Downstream systems pull the new version.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- For Agency Staff -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">For Agency Staff & Policy Teams</h2>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="rounded-xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-3">Encoding Existing Programs</h3>
+          <p class="text-sm text-gray-600 mb-4">
+            Your program's eligibility rules likely already exist in handbooks, policy documents, or legacy systems. These can be reliably distilled into structured rulesets.
+          </p>
+          <p class="text-sm text-gray-600">
+            Start with your program's eligibility page or handbook. Identify each discrete condition (income limits, age ranges, residency requirements). Map each to a rule with a clear operator and value.
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-3">Adding New Rules</h3>
+          <p class="text-sm text-gray-600 mb-4">
+            When policy changes, add or update conditions in the ruleset. Each change is a clear, versioned edit that can be reviewed, tested, and deployed.
+          </p>
+          <p class="text-sm text-gray-600">
+            New rules should include: a unique ID, the attribute key being checked, the operator and value, a human-readable description, and a source URL citing the authoritative policy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Distillation Prompt -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">Distillation Prompt</h2>
+      <p class="text-gray-600 mb-6 max-w-3xl">
+        Use this prompt with an LLM to extract eligibility conditions from a program's documentation into a structured ruleset:
+      </p>
+
+      <div class="rounded-2xl bg-gray-900 p-6 ring-1 ring-white/10">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs text-gray-400 uppercase tracking-wide">Prompt Template</span>
+          <button
+            onclick="navigator.clipboard.writeText(document.getElementById('distillation-prompt').innerText)"
+            class="text-xs text-gray-400 hover:text-white transition-colors"
+          >
+            Copy
+          </button>
+        </div>
+        <pre
+          id="distillation-prompt"
+          class="text-sm text-gray-300 overflow-x-auto whitespace-pre-wrap"
+>You are an eligibility rules encoder. Given a program's documentation, extract the eligibility conditions into a structured YAML ruleset.
+
+For each eligibility condition, create a rule with:
+- id: A unique snake_case identifier (e.g., "income_gross_limit")
+- type: The category (income_fpl, age, residency, citizenship, household, employment, disability, enrollment, assets)
+- key: The attribute key to check (e.g., "household_income_fpl_percent")
+- operator: One of: equals, not_equals, in, not_in, less_than, less_than_or_equal, greater_than, greater_than_or_equal, between, exists, matches
+- value: The threshold or allowed values
+- unit: If applicable (percent, dollars, months, years)
+- description: A clear, human-readable explanation
+- source_url: The URL where this rule is documented
+
+Use these conventions:
+- Income as FPL percentage: key ends in "_fpl_percent", value is the percentage (e.g., 130 for 130% FPL)
+- Age ranges: use "between" operator with [min, max] array
+- Categorical requirements: use "in" operator with array of valid values
+- Boolean conditions: use "exists" operator
+
+Output only valid YAML. Include all conditions you can identify, even if some details require assumptions (note assumptions in the description).
+
+---
+
+Program URL: [URL]
+
+Program Documentation:
+[PASTE CONTENT HERE]</pre>
+      </div>
+    </section>
+
+    <!-- Technical Integration -->
+    <section class="mb-20">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8">Technical Integration</h2>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-3">Direct Import</h3>
+          <p class="text-sm text-gray-600 mb-4">
+            Clone the repository and import YAML files directly into your application. Parse with any YAML library.
+          </p>
+          <code class="text-xs bg-gray-100 px-2 py-1 rounded">
+            data/jurisdictions/federal/services/snap.yaml
+          </code>
+        </div>
+
+        <div class="rounded-xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-3">Raw GitHub URLs</h3>
+          <p class="text-sm text-gray-600 mb-4">
+            Fetch rulesets directly from GitHub's raw content URLs for always-current data.
+          </p>
+          <code class="text-xs bg-gray-100 px-2 py-1 rounded break-all">
+            raw.githubusercontent.com/civicstudio/eligibility-rules/main/data/...
+          </code>
+        </div>
+
+        <div class="rounded-xl border border-gray-200 p-6">
+          <h3 class="font-semibold text-gray-900 mb-3">Rules Engine</h3>
+          <p class="text-sm text-gray-600 mb-4">
+            Implement the validation function in your language. See the <a
+              href="/docs/RULES_ENGINE.md"
+              class="text-primary-600 hover:text-primary-500"
+            >rules engine spec</a> for the algorithm.
+          </p>
+          <code class="text-xs bg-gray-100 px-2 py-1 rounded">
+            validate(ruleset, attributes) → result
+          </code>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="rounded-2xl bg-gray-50 p-8 text-center">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Ready to integrate?</h2>
+      <p class="text-gray-600 mb-6 max-w-xl mx-auto">
+        Browse existing rulesets, request an encoding for your program, or contribute directly via GitHub.
+      </p>
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        <a
+          href="/browse/"
+          class="rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
+        >
+          Browse Rules
+        </a>
+        <a
+          href="/contribute/"
+          class="rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800"
+        >
+          Request an Encoding
+        </a>
+        <a
+          href="https://github.com/civicstudio/eligibility-rules"
+          class="text-sm font-semibold text-gray-900 hover:text-gray-700"
+        >
+          View on GitHub <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mx-auto max-w-7xl px-6 pb-8">
+    <div class="border-t border-gray-200 pt-8">
+      <p class="text-sm text-gray-500">
+        Data: <a
+          href="https://creativecommons.org/publicdomain/zero/1.0/"
+          class="text-primary-600 hover:text-primary-500"
+        >CC0</a>.
+        Code: <a
+          href="https://opensource.org/licenses/MIT"
+          class="text-primary-600 hover:text-primary-500"
+        >MIT</a>.
+      </p>
+    </div>
+  </footer>
+</div>

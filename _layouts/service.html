@@ -64,6 +64,139 @@ layout: default
         </div>
         {% endif %}
 
+        <!-- Eligibility Rules -->
+        {% if page.ruleset.rules %}
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Eligibility Requirements</h2>
+          <div class="space-y-4">
+            {% for rule in page.ruleset.rules %}
+            <div class="rounded-lg border border-gray-200 p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex-1">
+                  <div class="flex items-center gap-2 mb-2">
+                    <h3 class="font-medium text-gray-900">{{ rule.label | default: rule.id }}</h3>
+                    {% if rule.requirement == 'required' %}
+                    <span class="inline-flex items-center rounded px-1.5 py-0.5 text-xs font-medium bg-red-50 text-red-700">
+                      Required
+                    </span>
+                    {% endif %}
+                  </div>
+                  <p class="text-sm text-gray-600 mb-3">{{ rule.description | strip_newlines }}</p>
+                  <code class="inline-flex items-center gap-1 bg-gray-100 px-2 py-1 rounded text-xs font-mono">
+                    <span class="text-purple-600">{{ rule.key }}</span>
+                    <span class="text-gray-500">
+                      {% case rule.operator %}
+                        {% when 'less_than' %}&lt;
+                        {% when 'less_than_or_equal' %}&le;
+                        {% when 'greater_than' %}&gt;
+                        {% when 'greater_than_or_equal' %}&ge;
+                        {% when 'equals' %}=
+                        {% when 'not_equals' %}&ne;
+                        {% when 'in' %}in
+                        {% when 'not_in' %}not in
+                        {% when 'between' %}between
+                        {% else %}{{ rule.operator }}
+                      {% endcase %}
+                    </span>
+                    <span class="text-green-600">
+                      {% if rule.operator == 'between' %}
+                        {{ rule.min }} <span class="text-gray-500">and</span> {{ rule.max }}
+                      {% elsif rule.operator == 'in' or rule.operator == 'not_in' %}
+                        [{{ rule.values | join: ', ' }}]
+                      {% else %}
+                        {{ rule.value }}{% if rule.unit %} {{ rule.unit }}{% endif %}
+                      {% endif %}
+                    </span>
+                  </code>
+
+                  {% if rule.conditions %}
+                  <div class="mt-3 pl-3 border-l-2 border-gray-200">
+                    <p class="text-xs text-gray-500 italic mb-2">All of:</p>
+                    <ul class="space-y-1 text-xs text-gray-600">
+                      {% for condition in rule.conditions %}
+                      <li class="flex items-center gap-1">
+                        <span class="text-gray-500 font-medium">AND</span>
+                        <code class="text-purple-600">{{ condition.key }}</code>
+                        <span class="text-gray-500">
+                          {% case condition.operator %}
+                            {% when 'less_than' %}&lt;
+                            {% when 'less_than_or_equal' %}&le;
+                            {% when 'greater_than' %}&gt;
+                            {% when 'greater_than_or_equal' %}&ge;
+                            {% when 'equals' %}=
+                            {% when 'not_equals' %}&ne;
+                            {% else %}{{ condition.operator }}
+                          {% endcase %}
+                        </span>
+                        <span class="text-green-600">{{ condition.value }}</span>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  {% endif %}
+
+                  {% if rule.any_of %}
+                  <div class="mt-3 pl-3 border-l-2 border-purple-200">
+                    <p class="text-xs text-gray-500 italic mb-2">Exempt if any:</p>
+                    <ul class="space-y-1 text-xs text-gray-600">
+                      {% for option in rule.any_of %}
+                      <li class="flex items-center gap-1">
+                        <span class="text-purple-500 font-medium">OR</span>
+                        <code class="text-purple-600">{{ option.key }}</code>
+                        <span class="text-gray-500">
+                          {% case option.operator %}
+                            {% when 'less_than' %}&lt;
+                            {% when 'less_than_or_equal' %}&le;
+                            {% when 'greater_than' %}&gt;
+                            {% when 'greater_than_or_equal' %}&ge;
+                            {% when 'equals' %}=
+                            {% when 'not_equals' %}&ne;
+                            {% else %}{{ option.operator }}
+                          {% endcase %}
+                        </span>
+                        <span class="text-green-600">{{ option.value }}</span>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  {% endif %}
+                </div>
+                {% if rule.source_url %}
+                <a
+                  href="{{ rule.source_url }}"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-gray-400 hover:text-gray-600"
+                  title="View source"
+                >
+                  <svg
+                    class="size-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                    />
+                  </svg>
+                </a>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if page.ruleset.effective_date %}
+        <p class="text-sm text-gray-500">
+          Ruleset effective: {{ page.ruleset.effective_date }}
+        </p>
+        {% endif %}
+        {% endif %}
+
         {{ content }}
       </div>
 
