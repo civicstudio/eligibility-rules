@@ -9,8 +9,9 @@ module Jekyll
       # Find all service YAML files in data/jurisdictions
       service_files = Dir.glob(File.join(site.source, 'data', 'jurisdictions', '**', 'services', '*.yaml'))
 
-      # Collect all services for the index
+      # Collect all services and jurisdictions for the index
       all_services = []
+      jurisdictions_hash = {}
 
       service_files.each do |file|
         # Use safe_load with permitted_classes to allow Date objects
@@ -27,6 +28,19 @@ module Jekyll
         jurisdiction_path = jurisdiction_parts.join('/')
         jurisdiction_name = build_jurisdiction_name(site, jurisdiction_parts)
         jurisdiction_url = "/jurisdictions/#{jurisdiction_path}/"
+        jurisdiction_level = determine_level(jurisdiction_parts)
+
+        # Track jurisdiction
+        unless jurisdictions_hash[jurisdiction_path]
+          jurisdictions_hash[jurisdiction_path] = {
+            'name' => jurisdiction_name,
+            'url' => jurisdiction_url,
+            'level' => jurisdiction_level,
+            'path' => jurisdiction_path,
+            'service_count' => 0
+          }
+        end
+        jurisdictions_hash[jurisdiction_path]['service_count'] += 1
 
         # Create the page
         page = ServicePage.new(site, site.source, data, file, jurisdiction_name, jurisdiction_url)
@@ -48,6 +62,18 @@ module Jekyll
 
       # Sort services by name and store in site.data for use in templates
       site.data['services'] = all_services.sort_by { |s| s['name'].downcase }
+
+      # Sort jurisdictions by level then name
+      level_order = { 'federal' => 0, 'state' => 1, 'county' => 2, 'city' => 3 }
+      site.data['jurisdictions'] = jurisdictions_hash.values.sort_by { |j| [level_order[j['level']] || 99, j['name'].downcase] }
+    end
+
+    def determine_level(parts)
+      return 'federal' if parts.length == 1 && parts[0] == 'federal'
+      return 'state' if parts.length == 2 && parts[0] == 'states'
+      return 'county' if parts.include?('counties')
+      return 'city' if parts.include?('cities')
+      'other'
     end
 
     def build_jurisdiction_name(site, parts)
