@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   THEME CONFIGURATION
+
+   Customize your site colors here. These CSS custom properties are used
+   throughout the site and can be easily modified.
+   ========================================================================== */
+
+@theme {
+  /* Primary brand color */
+  --color-primary-50: oklch(0.97 0.02 265);
+  --color-primary-100: oklch(0.94 0.04 265);
+  --color-primary-200: oklch(0.88 0.08 265);
+  --color-primary-300: oklch(0.79 0.13 265);
+  --color-primary-400: oklch(0.68 0.18 265);
+  --color-primary-500: oklch(0.58 0.22 265);
+  --color-primary-600: oklch(0.50 0.22 265);
+  --color-primary-700: oklch(0.44 0.19 265);
+  --color-primary-800: oklch(0.38 0.15 265);
+  --color-primary-900: oklch(0.33 0.12 265);
+  --color-primary-950: oklch(0.24 0.09 265);
+
+  /* Secondary/accent color */
+  --color-secondary-50: oklch(0.98 0.02 160);
+  --color-secondary-100: oklch(0.95 0.05 160);
+  --color-secondary-200: oklch(0.90 0.10 160);
+  --color-secondary-300: oklch(0.82 0.15 160);
+  --color-secondary-400: oklch(0.72 0.18 160);
+  --color-secondary-500: oklch(0.62 0.18 160);
+  --color-secondary-600: oklch(0.52 0.16 160);
+  --color-secondary-700: oklch(0.44 0.14 160);
+  --color-secondary-800: oklch(0.38 0.11 160);
+  --color-secondary-900: oklch(0.33 0.09 160);
+  --color-secondary-950: oklch(0.22 0.06 160);
+
+  /* Accent color (for highlights, CTAs) */
+  --color-accent-50: oklch(0.98 0.02 85);
+  --color-accent-100: oklch(0.96 0.06 85);
+  --color-accent-200: oklch(0.92 0.12 85);
+  --color-accent-300: oklch(0.87 0.18 85);
+  --color-accent-400: oklch(0.80 0.22 85);
+  --color-accent-500: oklch(0.75 0.20 85);
+  --color-accent-600: oklch(0.65 0.18 85);
+  --color-accent-700: oklch(0.55 0.15 85);
+  --color-accent-800: oklch(0.45 0.12 85);
+  --color-accent-900: oklch(0.38 0.09 85);
+  --color-accent-950: oklch(0.25 0.06 85);
+
+  /* Neutral/gray scale */
+  --color-neutral-50: oklch(0.98 0.00 0);
+  --color-neutral-100: oklch(0.96 0.00 0);
+  --color-neutral-200: oklch(0.92 0.00 0);
+  --color-neutral-300: oklch(0.87 0.00 0);
+  --color-neutral-400: oklch(0.71 0.00 0);
+  --color-neutral-500: oklch(0.55 0.00 0);
+  --color-neutral-600: oklch(0.45 0.00 0);
+  --color-neutral-700: oklch(0.37 0.00 0);
+  --color-neutral-800: oklch(0.27 0.00 0);
+  --color-neutral-900: oklch(0.20 0.00 0);
+  --color-neutral-950: oklch(0.13 0.00 0);
+
+  /* Semantic colors */
+  --color-success-500: oklch(0.62 0.18 145);
+  --color-warning-500: oklch(0.75 0.18 65);
+  --color-error-500: oklch(0.58 0.22 25);
+  --color-info-500: oklch(0.58 0.18 240);
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("/assets/fonts/PublicSans-Regular.woff2") format("woff2"),
+       url("/assets/fonts/PublicSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("/assets/fonts/PublicSans-Bold.woff2") format("woff2"),
+       url("/assets/fonts/PublicSans-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+html {
+  font-family: "Public Sans", sans-serif;
+}
