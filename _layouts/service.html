@@ -41,6 +41,38 @@ layout: default
         </div>
         {% endif %}
 
+        <!-- At a Glance Summary -->
+        {% if page.ruleset.rules %}
+        <div class="mb-8 rounded-xl bg-primary-50 border border-primary-100 p-6">
+          <h2 class="text-lg font-semibold text-primary-900 mb-3">At a Glance</h2>
+          <ul class="space-y-2 text-sm text-primary-800">
+            {% for rule in page.ruleset.rules limit:4 %}
+            <li class="flex items-start gap-2">
+              <svg
+                class="size-5 text-primary-600 flex-shrink-0 mt-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{{ rule.description | strip_newlines | truncate: 100 }}</span>
+            </li>
+            {% endfor %}
+            {% if page.ruleset.rules.size > 4 %}
+            <li class="text-primary-600 text-xs pt-1">
+              + {{ page.ruleset.rules.size | minus: 4 }} more requirements below
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
+
         <!-- Eligibility Rules -->
         {% if page.ruleset.rules %}
         <div class="mb-8">
@@ -202,15 +234,31 @@ layout: default
 
         <!-- Apply -->
         {% if page.application_url %}
-        <div class="rounded-xl border border-gray-200 p-6">
-          <h2 class="text-lg font-semibold text-gray-900 mb-4">Apply</h2>
+        <div class="rounded-xl border-2 border-primary-200 bg-primary-50 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-2">Ready to Apply?</h2>
+          <p class="text-sm text-gray-600 mb-4">
+            Visit the official application portal to get started.
+          </p>
           <a
             href="{{ page.application_url }}"
             target="_blank"
             rel="noopener"
-            class="block w-full rounded-md bg-primary-600 px-4 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
+            class="block w-full rounded-md bg-primary-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-primary-500 transition-colors"
           >
             Apply Online
+            <svg
+              class="inline-block ml-1 size-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+              />
+            </svg>
           </a>
         </div>
         {% endif %}
@@ -256,4 +304,19 @@ layout: default
   </main>
 
   {% include footer.html %}
+
+  <!-- Mobile Sticky Apply Button -->
+  {% if page.application_url %}
+  <div class="lg:hidden fixed bottom-0 inset-x-0 bg-white border-t border-gray-200 p-4 safe-area-inset-bottom">
+    <a
+      href="{{ page.application_url }}"
+      target="_blank"
+      rel="noopener"
+      class="block w-full rounded-md bg-primary-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
+    >
+      Apply for {{ page.title }}
+    </a>
+  </div>
+  <div class="lg:hidden h-20"></div>
+  {% endif %}
 </div>
