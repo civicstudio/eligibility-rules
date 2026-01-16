@@ -204,6 +204,61 @@ layout: default
           Ruleset effective: {{ page.ruleset.effective_date }}
         </p>
         {% endif %}
+
+        <!-- Collapsible JSON Viewer -->
+        <details class="mt-6">
+          <summary class="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900 flex items-center gap-2">
+            <svg
+              class="size-4 transition-transform details-open:rotate-90"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+            View as JSON
+          </summary>
+          <div class="mt-4">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-500">
+                <a
+                  href="/rulesets/{{ page.id }}.json"
+                  class="text-primary-600 hover:text-primary-500"
+                >
+                  /rulesets/{{ page.id }}.json
+                </a>
+              </span>
+              <button
+                onclick="copyRulesetJson()"
+                class="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1"
+              >
+                <svg
+                  class="size-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
+                  />
+                </svg>
+                Copy
+              </button>
+            </div>
+            <pre
+              id="ruleset-json"
+              class="rounded-lg bg-gray-900 p-4 text-sm text-gray-100 overflow-x-auto max-h-96"
+            ><code class="language-json">{{ page.ruleset | jsonify | escape }}</code></pre>
+          </div>
+        </details>
         {% endif %}
 
         {{ content }}
@@ -320,3 +375,58 @@ layout: default
   <div class="lg:hidden h-20"></div>
   {% endif %}
 </div>
+
+<style>
+  /* Rotate chevron when details is open */
+  details[open] summary svg {
+    transform: rotate(90deg);
+  }
+
+  /* JSON syntax highlighting */
+  #ruleset-json .json-key { color: #7dd3fc; }
+  #ruleset-json .json-string { color: #86efac; }
+  #ruleset-json .json-number { color: #fca5a5; }
+  #ruleset-json .json-boolean { color: #c4b5fd; }
+  #ruleset-json .json-null { color: #9ca3af; }
+</style>
+
+<script>
+  function copyRulesetJson() {
+    const jsonEl = document.getElementById('ruleset-json');
+    const text = jsonEl.textContent;
+
+    navigator.clipboard.writeText(text).then(() => {
+      // Show feedback
+      const btn = event.target.closest('button');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg> Copied!';
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+      }, 2000);
+    });
+  }
+
+  // Format and syntax highlight the JSON on load
+  document.addEventListener('DOMContentLoaded', function() {
+    const jsonEl = document.getElementById('ruleset-json');
+    if (jsonEl) {
+      try {
+        const rawJson = jsonEl.textContent;
+        const parsed = JSON.parse(rawJson);
+        const formatted = JSON.stringify(parsed, null, 2);
+
+        // Apply syntax highlighting
+        const highlighted = formatted
+          .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+          .replace(/: "([^"]*)"/g, ': <span class="json-string">"$1"</span>')
+          .replace(/: (\d+)/g, ': <span class="json-number">$1</span>')
+          .replace(/: (true|false)/g, ': <span class="json-boolean">$1</span>')
+          .replace(/: (null)/g, ': <span class="json-null">$1</span>');
+
+        jsonEl.innerHTML = highlighted;
+      } catch (e) {
+        console.error('Failed to format JSON:', e);
+      }
+    }
+  });
+</script>

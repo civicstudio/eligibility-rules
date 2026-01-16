@@ -1,0 +1,196 @@
+# Auto-aggregated list of all services
+# Each entry references a service from the jurisdictions folder
+
+- id: snap
+  name: Supplemental Nutrition Assistance Program
+  alternate_names: [SNAP, Food Stamps]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/snap/
+  category: food-assistance
+  service_type: benefit
+
+- id: medicaid
+  name: Medicaid
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/medicaid/
+  category: healthcare
+  service_type: benefit
+
+- id: ssi
+  name: Supplemental Security Income
+  alternate_names: [SSI]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/ssi/
+  category: income-support
+  service_type: benefit
+
+- id: ssdi
+  name: Social Security Disability Insurance
+  alternate_names: [SSDI]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/ssdi/
+  category: disability
+  service_type: benefit
+
+- id: medicare
+  name: Medicare
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/medicare/
+  category: healthcare
+  service_type: benefit
+
+- id: section-8
+  name: Section 8 Housing Choice Voucher
+  alternate_names: [HCV, Section 8]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/section-8/
+  category: housing
+  service_type: benefit
+
+- id: wic
+  name: Special Supplemental Nutrition Program for Women, Infants, and Children
+  alternate_names: [WIC]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/wic/
+  category: food-assistance
+  service_type: benefit
+
+- id: liheap
+  name: Low Income Home Energy Assistance Program
+  alternate_names: [LIHEAP]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/liheap/
+  category: utilities
+  service_type: assistance
+
+- id: tanf
+  name: Temporary Assistance for Needy Families
+  alternate_names: [TANF, Welfare]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/tanf/
+  category: income-support
+  service_type: benefit
+
+- id: eitc
+  name: Earned Income Tax Credit
+  alternate_names: [EITC, EIC]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/eitc/
+  category: tax
+  service_type: benefit
+
+- id: chip
+  name: Children's Health Insurance Program
+  alternate_names: [CHIP]
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/chip/
+  category: healthcare
+  service_type: benefit
+
+- id: social-security-retirement
+  name: Social Security Retirement Benefits
+  jurisdiction: Federal
+  jurisdiction_id: united-states
+  jurisdiction_url: /jurisdictions/federal/
+  url: /services/social-security-retirement/
+  category: income-support
+  service_type: benefit
+
+- id: calfresh
+  name: CalFresh
+  alternate_names: [California Food Stamps, SNAP California]
+  jurisdiction: California
+  jurisdiction_id: california
+  jurisdiction_url: /jurisdictions/states/california/
+  url: /services/calfresh/
+  category: food-assistance
+  service_type: benefit
+
+- id: medi-cal
+  name: Medi-Cal
+  alternate_names: [California Medicaid]
+  jurisdiction: California
+  jurisdiction_id: california
+  jurisdiction_url: /jurisdictions/states/california/
+  url: /services/medi-cal/
+  category: healthcare
+  service_type: benefit
+
+- id: calworks
+  name: CalWORKs
+  alternate_names: [California TANF]
+  jurisdiction: California
+  jurisdiction_id: california
+  jurisdiction_url: /jurisdictions/states/california/
+  url: /services/calworks/
+  category: income-support
+  service_type: benefit
+
+- id: cal-eitc
+  name: California Earned Income Tax Credit
+  alternate_names: [CalEITC]
+  jurisdiction: California
+  jurisdiction_id: california
+  jurisdiction_url: /jurisdictions/states/california/
+  url: /services/cal-eitc/
+  category: tax
+  service_type: benefit
+
+- id: general-assistance
+  name: General Assistance
+  jurisdiction: Solano County
+  jurisdiction_id: solano
+  jurisdiction_url: /jurisdictions/states/california/counties/solano/
+  url: /services/general-assistance/
+  category: income-support
+  service_type: benefit
+
+- id: in-home-supportive-services
+  name: In-Home Supportive Services
+  alternate_names: [IHSS]
+  jurisdiction: Solano County
+  jurisdiction_id: solano
+  jurisdiction_url: /jurisdictions/states/california/counties/solano/
+  url: /services/in-home-supportive-services/
+  category: disability
+  service_type: benefit
+
+- id: senior-services
+  name: Senior Services
+  jurisdiction: Vacaville
+  jurisdiction_id: vacaville
+  jurisdiction_url: /jurisdictions/states/california/counties/solano/cities/vacaville/
+  url: /services/senior-services/
+  category: senior-services
+  service_type: assistance
+
+- id: utility-assistance
+  name: Utility Assistance Program
+  jurisdiction: Vacaville
+  jurisdiction_id: vacaville
+  jurisdiction_url: /jurisdictions/states/california/counties/solano/cities/vacaville/
+  url: /services/utility-assistance/
+  category: utilities
+  service_type: assistance

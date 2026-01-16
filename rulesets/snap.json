@@ -1,0 +1,78 @@
+{
+  "service_id": "snap",
+  "name": "Supplemental Nutrition Assistance Program",
+  "jurisdiction_id": "united-states",
+  "effective_date": "2024-10-01",
+  "rules": [
+    {
+      "id": "income-gross",
+      "key": "household_income_fpl",
+      "operator": "less_than_or_equal",
+      "value": 130,
+      "unit": "percent",
+      "requirement": "required",
+      "label": "Gross Income",
+      "description": "Gross monthly income must be at or below 130% of the Federal Poverty Level for your household size.",
+      "source_url": "https://www.fns.usda.gov/snap/recipient/eligibility"
+    },
+    {
+      "id": "income-net",
+      "key": "household_net_income_fpl",
+      "operator": "less_than_or_equal",
+      "value": 100,
+      "unit": "percent",
+      "requirement": "required",
+      "label": "Net Income",
+      "description": "Net monthly income (after deductions) must be at or below 100% of the Federal Poverty Level.",
+      "source_url": "https://www.fns.usda.gov/snap/recipient/eligibility"
+    },
+    {
+      "id": "assets",
+      "key": "countable_assets",
+      "operator": "less_than_or_equal",
+      "value": 2750,
+      "unit": "dollars",
+      "requirement": "required",
+      "label": "Asset Limit",
+      "description": "Countable resources must be $2,750 or less ($4,250 if household includes elderly/disabled member).",
+      "source_url": "https://www.fns.usda.gov/snap/recipient/eligibility"
+    },
+    {
+      "id": "residency",
+      "key": "residency",
+      "operator": "equals",
+      "value": "US",
+      "requirement": "required",
+      "label": "U.S. Residency",
+      "description": "Must reside in the United States."
+    },
+    {
+      "id": "citizenship",
+      "key": "citizenship_status",
+      "operator": "in",
+      "values": ["us_citizen", "us_national", "qualified_alien"],
+      "requirement": "required",
+      "label": "Citizenship/Immigration",
+      "description": "Must be a U.S. citizen, U.S. national, or qualified alien.",
+      "source_url": "https://www.fns.usda.gov/snap/eligibility/citizen/non-citizen-policy"
+    },
+    {
+      "id": "work-requirements",
+      "key": "age",
+      "operator": "between",
+      "min": 18,
+      "max": 49,
+      "requirement": "required",
+      "label": "Work Requirements",
+      "description": "Able-bodied adults without dependents (ABAWDs) aged 18-49 must meet work requirements unless exempt.",
+      "conditions": [
+        {"id": "work-hours", "key": "work_hours_per_week", "operator": "greater_than_or_equal", "value": 20, "description": "Work at least 20 hours per week"}
+      ],
+      "any_of": [
+        {"id": "exempt-disabled", "key": "has_disability", "operator": "equals", "value": true, "description": "Has a disability"},
+        {"id": "exempt-dependent", "key": "has_dependent_child", "operator": "equals", "value": true, "description": "Cares for a dependent child"},
+        {"id": "exempt-pregnant", "key": "is_pregnant", "operator": "equals", "value": true, "description": "Is pregnant"}
+      ]
+    }
+  ]
+}
