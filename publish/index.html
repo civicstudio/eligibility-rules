@@ -1,0 +1,445 @@
+---
+layout: default
+title: "Publish Official Rules"
+---
+
+{% include nav.html %}
+
+<main class="mx-auto max-w-7xl px-6 py-12">
+  <!-- Hero -->
+  <div class="text-center mb-16">
+    <h1 class="text-4xl font-bold text-gray-900 sm:text-5xl">
+      Publish Official Rules
+    </h1>
+    <p class="mt-6 text-lg text-gray-600 max-w-3xl mx-auto">
+      Publish your agency's eligibility rules with cryptographic provenance. Your schema is signed, timestamped, and verifiable by anyone.
+    </p>
+  </div>
+
+  <!-- Why Publish -->
+  <div class="mb-16">
+    <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Why Publish with Provenance?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="rounded-2xl border border-gray-200 p-6">
+        <div class="flex size-12 items-center justify-center rounded-lg bg-primary-100 mb-4">
+          <svg
+            class="size-6 text-primary-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+            />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Verifiable Authority</h3>
+        <p class="text-gray-600 text-sm">
+          Citizens and developers can cryptographically verify that rules came from your agency, not a third party.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-gray-200 p-6">
+        <div class="flex size-12 items-center justify-center rounded-lg bg-primary-100 mb-4">
+          <svg
+            class="size-6 text-primary-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Timestamped History</h3>
+        <p class="text-gray-600 text-sm">
+          Every version of your rules is timestamped and immutable. Prove what rules were in effect on any date.
+        </p>
+      </div>
+
+      <div class="rounded-2xl border border-gray-200 p-6">
+        <div class="flex size-12 items-center justify-center rounded-lg bg-primary-100 mb-4">
+          <svg
+            class="size-6 text-primary-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+            />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Interoperability</h3>
+        <p class="text-gray-600 text-sm">
+          Published schemas integrate with benefits screeners, AI assistants, and other agencies automatically.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publication Pipeline -->
+  <div class="mb-16">
+    <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">How It Works</h2>
+
+    <div class="max-w-4xl mx-auto">
+      <!-- Step 1 -->
+      <div class="relative pl-8 pb-12 border-l-2 border-gray-200">
+        <div class="absolute -left-3 top-0 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-sm font-bold">1</div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Export Your Rules</h3>
+        <p class="text-gray-600 mb-4">
+          Export eligibility rules from your existing system—data catalog, benefits API, or policy documents—into the EligibilityRules.org YAML schema.
+        </p>
+        <div class="rounded-lg bg-gray-50 p-4">
+          <pre class="text-sm text-gray-700 overflow-x-auto"><code># Your agency's rules in standard format
+id: your-program
+name: Your Program Name
+jurisdiction_id: your-state
+agency_id: your-agency
+
+ruleset:
+  rules:
+    - id: income-limit
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 200
+      unit: percent
+      source_url: https://your-agency.gov/eligibility</code></pre>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="relative pl-8 pb-12 border-l-2 border-gray-200">
+        <div class="absolute -left-3 top-0 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-sm font-bold">2</div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Validate Against Schema</h3>
+        <p class="text-gray-600 mb-4">
+          Run your YAML through our JSON Schema validators to ensure it meets the standard format and contains all required fields.
+        </p>
+        <div class="rounded-lg bg-gray-50 p-4">
+          <pre class="text-sm text-gray-700 overflow-x-auto"><code>$ npm run validate data/jurisdictions/states/your-state/services/your-program.yaml
+
+✓ Schema validation passed
+✓ All source URLs are reachable
+✓ Required fields present</code></pre>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="relative pl-8 pb-12 border-l-2 border-gray-200">
+        <div class="absolute -left-3 top-0 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-sm font-bold">3</div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Sign with Agency Key</h3>
+        <p class="text-gray-600 mb-4">
+          Sign the canonical hash of your ruleset with your agency's cryptographic key. This can integrate with existing .gov PKI infrastructure.
+        </p>
+        <div class="rounded-lg bg-gray-50 p-4">
+          <pre class="text-sm text-gray-700 overflow-x-auto"><code># Generate content hash
+$ sha256sum your-program.yaml
+a1b2c3d4e5f6... your-program.yaml
+
+# Sign with agency key
+$ openssl dgst -sha256 -sign agency-key.pem your-program.yaml > signature.sig
+
+# Provenance record
+{
+  "schema_hash": "sha256:a1b2c3d4e5f6...",
+  "signer": "agency.gov",
+  "timestamp": "2026-01-14T12:00:00Z",
+  "signature": "base64:..."
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="relative pl-8 pb-12 border-l-2 border-gray-200">
+        <div class="absolute -left-3 top-0 flex size-6 items-center justify-center rounded-full bg-primary-600 text-white text-sm font-bold">4</div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Anchor to Public Ledger</h3>
+        <p class="text-gray-600 mb-4">
+          The signature and metadata are anchored to a public transparency log or blockchain. This creates an immutable, timestamped record that anyone can verify.
+        </p>
+        <div class="rounded-lg bg-gray-50 p-4 space-y-3">
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 mt-0.5">
+              <svg
+                class="size-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                />
+              </svg>
+            </div>
+            <div>
+              <span class="font-medium text-gray-900">Transparency Log</span>
+              <span class="text-gray-600 text-sm ml-2">Append-only log (like Certificate Transparency)</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="flex-shrink-0 mt-0.5">
+              <svg
+                class="size-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 7.5l-2.25-1.313M21 7.5v2.25m0-2.25l-2.25 1.313M3 7.5l2.25-1.313M3 7.5l2.25 1.313M3 7.5v2.25m9 3l2.25-1.313M12 12.75l-2.25-1.313M12 12.75V15m0 6.75l2.25-1.313M12 21.75V19.5m0 2.25l-2.25-1.313m0-16.875L12 2.25l2.25 1.313M21 14.25v2.25l-2.25 1.313m-13.5 0L3 16.5v-2.25"
+                />
+              </svg>
+            </div>
+            <div>
+              <span class="font-medium text-gray-900">Blockchain Anchor</span>
+              <span class="text-gray-600 text-sm ml-2">Optional anchoring to public blockchain for maximum durability</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="relative pl-8">
+        <div class="absolute -left-3 top-0 flex size-6 items-center justify-center rounded-full bg-green-600 text-white text-sm font-bold">
+          <svg
+            class="size-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4.5 12.75l6 6 9-13.5"
+            />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Published & Verifiable</h3>
+        <p class="text-gray-600">
+          Your rules are now live on EligibilityRules.org with a verification badge. Anyone can verify the provenance chain from your agency to the current rules.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verification Example -->
+  <div class="mb-16 bg-gray-50 rounded-2xl p-8">
+    <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">What Verification Looks Like</h2>
+    <div class="max-w-3xl mx-auto">
+      <div class="rounded-xl border border-gray-200 bg-white p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="flex size-10 items-center justify-center rounded-full bg-green-100">
+            <svg
+              class="size-6 text-green-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+              />
+            </svg>
+          </div>
+          <div>
+            <div class="font-semibold text-gray-900">Verified Official Source</div>
+            <div class="text-sm text-gray-500">Public Department of Prototyping</div>
+          </div>
+        </div>
+        <dl class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <dt class="text-gray-500">Schema Hash</dt>
+            <dd class="font-mono text-gray-900 truncate">sha256:a1b2c3d4e5f6...</dd>
+          </div>
+          <div>
+            <dt class="text-gray-500">Signed By</dt>
+            <dd class="text-gray-900">example.gov</dd>
+          </div>
+          <div>
+            <dt class="text-gray-500">Published</dt>
+            <dd class="text-gray-900">January 14, 2026</dd>
+          </div>
+          <div>
+            <dt class="text-gray-500">Anchor</dt>
+            <dd class="text-gray-900">Block #18,432,100</dd>
+          </div>
+        </dl>
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <a
+            href=""
+            class="text-sm text-primary-600 hover:text-primary-500 font-medium"
+          >
+            View full provenance chain &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Get Started -->
+  <div class="text-center">
+    <h2 class="text-2xl font-bold text-gray-900 mb-4">Ready to Publish?</h2>
+    <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+      Contact us to set up your agency's publishing pipeline. We'll help you export, validate, and sign your eligibility rules.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a
+        href="mailto:publish@eligibilityrules.org"
+        class="inline-flex items-center gap-2 rounded-md bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-500"
+      >
+        <svg
+          class="size-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+          />
+        </svg>
+        Contact Us
+      </a>
+      <a
+        href="/contribute/"
+        class="text-sm font-semibold text-gray-900 hover:text-gray-700"
+      >
+        Or contribute via GitHub <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Verify & Update -->
+  <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="rounded-2xl border border-gray-200 p-8">
+      <div class="flex size-12 items-center justify-center rounded-lg bg-green-100 mb-6">
+        <svg
+          class="size-6 text-green-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Verify Published Rules</h3>
+      <p class="text-gray-600 mb-6">
+        Anyone can verify that rules are authentic and unmodified using the provenance chain.
+      </p>
+      <div class="rounded-lg bg-gray-50 p-4 mb-4">
+        <pre class="text-sm text-gray-700 overflow-x-auto"><code># Fetch the ruleset and provenance
+$ curl https://eligibilityrules.org/api/v1/services/calfresh
+
+# Verify signature against agency's public key
+$ eligibility-rules verify calfresh.yaml \
+    --provenance provenance.json \
+    --keyserver keys.eligibilityrules.org
+
+✓ Signature valid
+✓ Signed by: example.gov
+✓ Timestamp: 2026-01-14T12:00:00Z
+✓ Anchor verified: block #18,432,100</code></pre>
+      </div>
+      <p class="text-sm text-gray-500">
+        Verification can also be done in-browser on any service detail page by clicking the verification badge.
+      </p>
+    </div>
+
+    <div class="rounded-2xl border border-gray-200 p-8">
+      <div class="flex size-12 items-center justify-center rounded-lg bg-blue-100 mb-6">
+        <svg
+          class="size-6 text-blue-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+          />
+        </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-gray-900 mb-3">Update Published Rules</h3>
+      <p class="text-gray-600 mb-6">
+        When your eligibility rules change, publish an update with a new signed version.
+      </p>
+      <div class="rounded-lg bg-gray-50 p-4 mb-4">
+        <pre class="text-sm text-gray-700 overflow-x-auto"><code># 1. Update your YAML file with new rules
+$ vi your-program.yaml
+
+# 2. Validate the updated schema
+$ npm run validate your-program.yaml
+
+# 3. Sign the new version
+$ eligibility-rules sign your-program.yaml \
+    --key agency-key.pem \
+    --effective-date 2026-02-01
+
+# 4. Submit via PR or API
+$ eligibility-rules publish your-program.yaml</code></pre>
+      </div>
+      <p class="text-sm text-gray-500">
+        Previous versions remain in the provenance chain. You can query rules as of any historical date.
+      </p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="mt-16 pt-16 border-t border-gray-200">
+    <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+    <dl class="max-w-3xl mx-auto space-y-6">
+      <div class="rounded-xl border border-gray-200 p-6">
+        <dt class="font-semibold text-gray-900">What if our rules change frequently?</dt>
+        <dd class="mt-2 text-gray-600">
+          Each update creates a new signed version with its own timestamp. The full history is preserved, so you can always prove what rules were in effect at any point in time.
+        </dd>
+      </div>
+      <div class="rounded-xl border border-gray-200 p-6">
+        <dt class="font-semibold text-gray-900">Do we need blockchain expertise?</dt>
+        <dd class="mt-2 text-gray-600">
+          No. We handle the anchoring process. Your team just needs to export rules in YAML format and sign with your existing keys. The blockchain anchor is optional and transparent to you.
+        </dd>
+      </div>
+      <div class="rounded-xl border border-gray-200 p-6">
+        <dt class="font-semibold text-gray-900">Can we use our existing PKI?</dt>
+        <dd class="mt-2 text-gray-600">
+          Yes. The signing process integrates with standard X.509 certificates and existing .gov PKI infrastructure. We support RSA, ECDSA, and Ed25519 keys.
+        </dd>
+      </div>
+      <div class="rounded-xl border border-gray-200 p-6">
+        <dt class="font-semibold text-gray-900">What about rules we can't make public?</dt>
+        <dd class="mt-2 text-gray-600">
+          EligibilityRules.org focuses on publicly documented eligibility criteria. If certain rules are confidential, you can publish the public subset while keeping internal rules in your own systems.
+        </dd>
+      </div>
+    </dl>
+  </div>
+</main>
+
+{% include footer.html %}
