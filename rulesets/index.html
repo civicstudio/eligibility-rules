@@ -13,6 +13,37 @@ title: "Rulesets API"
     </p>
   </div>
 
+  <!-- Try the Demo CTA -->
+  <div class="mb-8 rounded-xl bg-primary-50 border border-primary-200 p-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h2 class="text-lg font-semibold text-primary-900">Try the Rules Engine</h2>
+        <p class="mt-1 text-sm text-primary-700">
+          See how rulesets are validated against user attributes in our interactive demo.
+        </p>
+      </div>
+      <a
+        href="/demo/"
+        class="inline-flex items-center gap-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 whitespace-nowrap"
+      >
+        <svg
+          class="size-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z"
+          />
+        </svg>
+        Launch Demo
+      </a>
+    </div>
+  </div>
+
   <!-- API Info -->
   <div class="mb-8 rounded-xl bg-gray-50 border border-gray-200 p-6">
     <h2 class="text-lg font-semibold text-gray-900 mb-3">Usage</h2>
@@ -30,7 +61,7 @@ curl {{ site.url }}/rulesets/calfresh.json</code></pre>
   <!-- Rulesets List -->
   <div class="mb-8">
     <h2 class="text-xl font-semibold text-gray-900 mb-4">Available Rulesets</h2>
-    <p class="text-sm text-gray-500 mb-6">{{ site.data.services.size }} rulesets available</p>
+    <p class="text-sm text-gray-500 mb-6">{{ site.rulesets.size }} rulesets available</p>
 
     <div class="border border-gray-200 rounded-xl overflow-hidden">
       <table class="min-w-full divide-y divide-gray-200">
@@ -43,30 +74,36 @@ curl {{ site.url }}/rulesets/calfresh.json</code></pre>
               Jurisdiction
             </th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Rules
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Endpoint
             </th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          {% for service in site.data.services %}
+          {% for ruleset in site.rulesets %}
           <tr class="hover:bg-gray-50">
             <td class="px-6 py-4">
               <a
-                href="{{ service.url }}"
+                href="/services/{{ ruleset.service_id }}/"
                 class="text-primary-600 hover:text-primary-500 font-medium"
               >
-                {{ service.name }}
+                {{ ruleset.ruleset.name }}
               </a>
             </td>
             <td class="px-6 py-4 text-sm text-gray-500">
-              {{ service.jurisdiction }}
+              {{ ruleset.ruleset.jurisdiction_id | capitalize }}
+            </td>
+            <td class="px-6 py-4 text-sm text-gray-500">
+              {{ ruleset.ruleset.rules.size }} rules
             </td>
             <td class="px-6 py-4">
               <a
-                href="/rulesets/{{ service.id }}.json"
+                href="{{ ruleset.url }}"
                 class="inline-flex items-center gap-1.5 text-sm font-mono text-gray-700 bg-gray-100 px-2 py-1 rounded hover:bg-gray-200"
               >
-                /rulesets/{{ service.id }}.json
+                /rulesets/{{ ruleset.name }}.json
                 <svg
                   class="size-4 text-gray-400"
                   fill="none"

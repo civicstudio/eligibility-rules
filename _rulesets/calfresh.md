@@ -1,0 +1,83 @@
+---
+name: calfresh
+service_id: calfresh
+ruleset:
+  service_id: calfresh
+  name: CalFresh
+  jurisdiction_id: california
+  effective_date: "2024-10-01"
+  rules:
+    - id: income-gross
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 200
+      unit: percent
+      requirement: required
+      label: Gross Income
+      description: "Gross monthly income must be at or below 200% of the Federal Poverty Level (California uses Broad-Based Categorical Eligibility)."
+      source_url: "https://www.cdss.ca.gov/calfresh/eligibility"
+    - id: residency
+      key: state_residency
+      operator: equals
+      value: CA
+      requirement: required
+      label: California Residency
+      description: "Must be a California resident."
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - permanent_resident
+        - refugee
+        - asylee
+        - trafficking_victim
+        - cuban_haitian_entrant
+      requirement: required
+      label: Citizenship/Immigration
+      description: "Must be a U.S. citizen or qualified immigrant. California extends benefits to some immigrant categories not covered federally."
+      source_url: "https://www.cdss.ca.gov/calfresh/eligibility"
+    - id: work-requirements
+      key: age
+      operator: between
+      min: 18
+      max: 49
+      requirement: required
+      label: ABAWD Work Requirements
+      description: "Able-bodied adults without dependents (ABAWDs) aged 18-49 must meet work requirements. California has obtained waivers for many counties."
+      any_of:
+        - id: exempt-waiver-county
+          key: county_abawd_waiver
+          operator: equals
+          value: true
+          description: "County has ABAWD waiver"
+        - id: exempt-disabled
+          key: has_disability
+          operator: equals
+          value: true
+          description: "Has a disability"
+        - id: exempt-dependent
+          key: has_dependent_child
+          operator: equals
+          value: true
+          description: "Cares for a dependent child"
+    - id: students
+      key: is_college_student
+      operator: equals
+      value: true
+      requirement: optional
+      label: Student Eligibility
+      description: "College students must meet additional criteria unless exempt (working 20+ hrs/week, work-study, CalWORKs, etc.)."
+      conditions:
+        - id: student-exemption
+          key: student_exemption_reason
+          operator: in
+          values:
+            - working_20_hours
+            - work_study
+            - calworks
+            - eop
+            - calfresh_employment_training
+            - parent_under_12
+          description: "Must meet a student exemption"
+---

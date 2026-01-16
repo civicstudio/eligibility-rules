@@ -14,6 +14,9 @@ collections:
   jurisdictions:
     output: true
     permalink: /jurisdictions/:path/
+  rulesets:
+    output: true
+    permalink: /rulesets/:name.json
 
 defaults:
   - scope:
@@ -26,6 +29,11 @@ defaults:
       type: "jurisdictions"
     values:
       layout: "jurisdiction"
+  - scope:
+      path: ""
+      type: "rulesets"
+    values:
+      layout: "ruleset-json"
 
 # Load YAML data files
 data_dir: data
