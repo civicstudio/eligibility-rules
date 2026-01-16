@@ -1,0 +1,659 @@
+---
+layout: default
+title: "Rules Engine Demo"
+---
+
+<div class="bg-gray-50 min-h-screen">
+  {% include nav.html %}
+
+  <main class="mx-auto max-w-[1600px] px-4 py-6">
+    <!-- Page Header -->
+    <div class="mb-6 text-center">
+      <h1 class="text-2xl font-bold text-gray-900">Rules Engine Demo</h1>
+      <p class="mt-1 text-sm text-gray-600">
+        See how eligibility rules are evaluated. Edit the user attributes, view the ruleset, and see the result.
+      </p>
+    </div>
+
+    <!-- Three-Panel Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 h-[calc(100vh-180px)]">
+
+      <!-- Panel 1: User Attributes -->
+      <div class="flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div class="px-4 py-4 bg-blue-50 border-b border-blue-100 h-28">
+          <div class="flex items-center gap-2">
+            <span class="flex size-6 items-center justify-center rounded-full bg-blue-600 text-white text-xs font-bold">1</span>
+            <h2 class="font-semibold text-gray-900">User Attributes</h2>
+          </div>
+          <p class="mt-1 text-xs text-gray-600 ml-8">
+            The applicant's information as JSON.
+          </p>
+          <div class="mt-2 ml-8 flex gap-2">
+            <button
+              id="load-eligible-btn"
+              type="button"
+              class="text-xs text-blue-600 hover:text-blue-500 hover:underline cursor-pointer"
+            >
+              Load eligible example
+            </button>
+            <span class="text-gray-300">|</span>
+            <button
+              id="load-ineligible-btn"
+              type="button"
+              class="text-xs text-blue-600 hover:text-blue-500 hover:underline cursor-pointer"
+            >
+              Load ineligible example
+            </button>
+          </div>
+        </div>
+        <div class="flex-1 overflow-hidden p-4">
+          <pre
+            id="user-attributes"
+            class="w-full h-full font-mono text-sm bg-gray-900 text-gray-100 p-4 rounded-lg overflow-auto"
+          ></pre>
+        </div>
+      </div>
+
+      <!-- Panel 2: Eligibility Ruleset -->
+      <div class="flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div class="px-4 py-4 bg-purple-50 border-b border-purple-100 h-28">
+          <div class="flex items-center gap-2">
+            <span class="flex size-6 items-center justify-center rounded-full bg-purple-600 text-white text-xs font-bold">2</span>
+            <h2 class="font-semibold text-gray-900">Eligibility Ruleset</h2>
+          </div>
+          <p class="mt-1 text-xs text-gray-600 ml-8">
+            The rules that define eligibility.
+          </p>
+          <div class="mt-2 ml-8 flex gap-2">
+            <button
+              id="load-calfresh-btn"
+              type="button"
+              class="text-xs text-purple-600 hover:text-purple-500 hover:underline cursor-pointer font-medium"
+            >
+              CalFresh
+            </button>
+            <span class="text-gray-300">|</span>
+            <button
+              id="load-medicaid-btn"
+              type="button"
+              class="text-xs text-purple-600 hover:text-purple-500 hover:underline cursor-pointer"
+            >
+              Medicaid
+            </button>
+            <span class="text-gray-300">|</span>
+            <button
+              id="load-section8-btn"
+              type="button"
+              class="text-xs text-purple-600 hover:text-purple-500 hover:underline cursor-pointer"
+            >
+              Section 8
+            </button>
+          </div>
+        </div>
+        <div class="flex-1 overflow-auto p-4">
+          <pre
+            id="ruleset-display"
+            class="w-full h-full font-mono text-sm bg-gray-900 text-gray-100 p-4 rounded-lg overflow-auto"
+          ></pre>
+        </div>
+      </div>
+
+      <!-- Panel 3: Validation Result -->
+      <div class="flex flex-col bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div class="px-4 py-4 bg-green-50 border-b border-green-100 h-28">
+          <div class="flex items-center gap-2">
+            <span class="flex size-6 items-center justify-center rounded-full bg-green-600 text-white text-xs font-bold">3</span>
+            <h2 class="font-semibold text-gray-900">Validation Result</h2>
+          </div>
+          <p class="mt-1 text-xs text-gray-600 ml-8">
+            Output showing which rules passed, failed, or were skipped.
+          </p>
+          <div class="mt-2 ml-8">
+            <button
+              id="run-validation-btn"
+              type="button"
+              class="rounded-md bg-green-700 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2"
+            >
+              Run Validation
+            </button>
+          </div>
+        </div>
+        <div class="flex-1 overflow-auto p-4">
+          <div id="result-display" class="h-full">
+            <div class="flex flex-col items-center justify-center h-full text-gray-400">
+              <svg
+                class="size-12 mb-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z"
+                />
+              </svg>
+              <p class="text-sm">Click "Run Validation" to see results</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="mt-4 flex items-center justify-center gap-6 text-xs text-gray-500">
+      <div class="flex items-center gap-1.5">
+        <span class="size-3 rounded-full bg-green-500"></span>
+        <span>Passed</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <span class="size-3 rounded-full bg-red-500"></span>
+        <span>Failed</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <span class="size-3 rounded-full bg-yellow-500"></span>
+        <span>Skipped (missing data)</span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+  /* Syntax highlighting for JSON */
+  .json-key { color: #7dd3fc; }
+  .json-string { color: #86efac; }
+  .json-number { color: #fca5a5; }
+  .json-boolean { color: #c4b5fd; }
+  .json-null { color: #9ca3af; }
+
+
+  /* Result animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-item {
+    animation: fadeIn 0.2s ease-out forwards;
+  }
+
+  .result-item:nth-child(1) { animation-delay: 0ms; }
+  .result-item:nth-child(2) { animation-delay: 50ms; }
+  .result-item:nth-child(3) { animation-delay: 100ms; }
+  .result-item:nth-child(4) { animation-delay: 150ms; }
+  .result-item:nth-child(5) { animation-delay: 200ms; }
+</style>
+
+<script>
+  // Available rulesets
+  const rulesets = {
+    calfresh: {
+      service_id: 'calfresh',
+      name: 'CalFresh',
+      jurisdiction_id: 'california',
+      effective_date: '2024-10-01',
+      rules: [
+        {
+          id: 'income-gross',
+          key: 'household_income_fpl',
+          operator: 'less_than_or_equal',
+          value: 200,
+          unit: 'percent',
+          requirement: 'required',
+          label: 'Gross Income',
+          description: 'Gross monthly income must be at or below 200% of the Federal Poverty Level.'
+        },
+        {
+          id: 'residency',
+          key: 'state_residency',
+          operator: 'equals',
+          value: 'CA',
+          requirement: 'required',
+          label: 'California Residency',
+          description: 'Must be a California resident.'
+        },
+        {
+          id: 'citizenship',
+          key: 'citizenship_status',
+          operator: 'in',
+          values: ['us_citizen', 'permanent_resident', 'refugee', 'asylee'],
+          requirement: 'required',
+          label: 'Citizenship/Immigration',
+          description: 'Must be a U.S. citizen or qualified immigrant.'
+        },
+        {
+          id: 'work-requirements',
+          key: 'age',
+          operator: 'between',
+          min: 18,
+          max: 49,
+          requirement: 'required',
+          label: 'ABAWD Work Requirements',
+          description: 'ABAWDs aged 18-49 must meet work requirements unless exempt.',
+          any_of: [
+            { id: 'exempt-disabled', key: 'has_disability', operator: 'equals', value: true },
+            { id: 'exempt-dependent', key: 'has_dependent_child', operator: 'equals', value: true }
+          ]
+        }
+      ]
+    },
+    medicaid: {
+      service_id: 'medicaid',
+      name: 'Medicaid',
+      jurisdiction_id: 'federal',
+      effective_date: '2024-01-01',
+      rules: [
+        {
+          id: 'income',
+          key: 'household_income_fpl',
+          operator: 'less_than_or_equal',
+          value: 138,
+          unit: 'percent',
+          requirement: 'required',
+          label: 'Income Limit',
+          description: 'Household income must be at or below 138% of the Federal Poverty Level.'
+        },
+        {
+          id: 'residency',
+          key: 'us_residency',
+          operator: 'equals',
+          value: true,
+          requirement: 'required',
+          label: 'US Residency',
+          description: 'Must be a US resident.'
+        },
+        {
+          id: 'citizenship',
+          key: 'citizenship_status',
+          operator: 'in',
+          values: ['us_citizen', 'permanent_resident', 'refugee', 'asylee'],
+          requirement: 'required',
+          label: 'Citizenship/Immigration',
+          description: 'Must be a U.S. citizen or qualified immigrant.'
+        },
+        {
+          id: 'insurance',
+          key: 'has_employer_insurance',
+          operator: 'equals',
+          value: false,
+          requirement: 'required',
+          label: 'No Employer Insurance',
+          description: 'Must not have access to affordable employer-sponsored insurance.'
+        }
+      ]
+    },
+    section8: {
+      service_id: 'section-8',
+      name: 'Section 8 Housing Choice Voucher',
+      jurisdiction_id: 'federal',
+      effective_date: '2024-01-01',
+      rules: [
+        {
+          id: 'income',
+          key: 'household_income_ami',
+          operator: 'less_than_or_equal',
+          value: 50,
+          unit: 'percent',
+          requirement: 'required',
+          label: 'Income Limit',
+          description: 'Household income must be at or below 50% of Area Median Income (AMI).'
+        },
+        {
+          id: 'citizenship',
+          key: 'citizenship_status',
+          operator: 'in',
+          values: ['us_citizen', 'permanent_resident'],
+          requirement: 'required',
+          label: 'Citizenship',
+          description: 'At least one household member must be a US citizen or eligible immigrant.'
+        },
+        {
+          id: 'background',
+          key: 'has_drug_conviction',
+          operator: 'equals',
+          value: false,
+          requirement: 'required',
+          label: 'Background Check',
+          description: 'Must pass criminal background screening requirements.'
+        },
+        {
+          id: 'eviction-history',
+          key: 'evicted_from_public_housing',
+          operator: 'equals',
+          value: false,
+          requirement: 'required',
+          label: 'Eviction History',
+          description: 'Must not have been evicted from public housing in the past 3 years.'
+        }
+      ]
+    }
+  };
+
+  // Current active ruleset
+  let currentRuleset = rulesets.calfresh;
+
+  // Example data for each ruleset
+  const examples = {
+    calfresh: {
+      eligible: {
+        household_income_fpl: 150,
+        state_residency: 'CA',
+        citizenship_status: 'us_citizen',
+        age: 35,
+        has_disability: false,
+        has_dependent_child: true
+      },
+      ineligible: {
+        household_income_fpl: 250,
+        state_residency: 'TX',
+        citizenship_status: 'us_citizen',
+        age: 30,
+        has_disability: false,
+        has_dependent_child: false
+      }
+    },
+    medicaid: {
+      eligible: {
+        household_income_fpl: 120,
+        us_residency: true,
+        citizenship_status: 'us_citizen',
+        has_employer_insurance: false
+      },
+      ineligible: {
+        household_income_fpl: 200,
+        us_residency: true,
+        citizenship_status: 'us_citizen',
+        has_employer_insurance: true
+      }
+    },
+    section8: {
+      eligible: {
+        household_income_ami: 40,
+        citizenship_status: 'us_citizen',
+        has_drug_conviction: false,
+        evicted_from_public_housing: false
+      },
+      ineligible: {
+        household_income_ami: 60,
+        citizenship_status: 'us_citizen',
+        has_drug_conviction: false,
+        evicted_from_public_housing: true
+      }
+    }
+  };
+
+  // Current active ruleset key
+  let currentRulesetKey = 'calfresh';
+
+  // Load a ruleset
+  function loadRuleset(key) {
+    currentRulesetKey = key;
+    currentRuleset = rulesets[key];
+    document.getElementById('ruleset-display').innerHTML = highlightJson(currentRuleset);
+
+    // Update button styles
+    document.getElementById('load-calfresh-btn').classList.toggle('font-medium', key === 'calfresh');
+    document.getElementById('load-medicaid-btn').classList.toggle('font-medium', key === 'medicaid');
+    document.getElementById('load-section8-btn').classList.toggle('font-medium', key === 'section8');
+
+    // Load matching eligible example
+    loadEligibleExample();
+
+    // Clear results
+    document.getElementById('result-display').innerHTML = `
+      <div class="flex flex-col items-center justify-center h-full text-gray-400">
+        <svg class="size-12 mb-3" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z" />
+        </svg>
+        <p class="text-sm">Click "Run Validation" to see results</p>
+      </div>
+    `;
+  }
+
+  // Syntax highlight JSON
+  function highlightJson(obj, indent = 0) {
+    const spaces = '  '.repeat(indent);
+
+    if (obj === null) return '<span class="json-null">null</span>';
+    if (typeof obj === 'boolean') return `<span class="json-boolean">${obj}</span>`;
+    if (typeof obj === 'number') return `<span class="json-number">${obj}</span>`;
+    if (typeof obj === 'string') return `<span class="json-string">"${obj}"</span>`;
+
+    if (Array.isArray(obj)) {
+      if (obj.length === 0) return '[]';
+      const items = obj.map(item => spaces + '  ' + highlightJson(item, indent + 1));
+      return '[\n' + items.join(',\n') + '\n' + spaces + ']';
+    }
+
+    if (typeof obj === 'object') {
+      const keys = Object.keys(obj);
+      if (keys.length === 0) return '{}';
+      const items = keys.map(key => {
+        return spaces + '  <span class="json-key">"' + key + '"</span>: ' + highlightJson(obj[key], indent + 1);
+      });
+      return '{\n' + items.join(',\n') + '\n' + spaces + '}';
+    }
+
+    return String(obj);
+  }
+
+  function loadEligibleExample() {
+    document.getElementById('user-attributes').innerHTML = highlightJson(examples[currentRulesetKey].eligible);
+  }
+
+  function loadIneligibleExample() {
+    document.getElementById('user-attributes').innerHTML = highlightJson(examples[currentRulesetKey].ineligible);
+  }
+
+  function getAttributesFromDisplay() {
+    const text = document.getElementById('user-attributes').textContent;
+    return JSON.parse(text);
+  }
+
+  // Simple validation engine
+  function validate(ruleset, attributes) {
+    const result = {
+      valid: true,
+      service_id: ruleset.service_id,
+      timestamp: new Date().toISOString(),
+      passed: [],
+      failed: [],
+      skipped: []
+    };
+
+    for (const rule of ruleset.rules) {
+      const value = attributes[rule.key];
+
+      // Check if attribute is missing
+      if (value === undefined || value === null || value === '') {
+        if (rule.requirement !== 'optional') {
+          result.skipped.push({
+            id: rule.id,
+            key: rule.key,
+            label: rule.label,
+            reason: 'missing_attribute'
+          });
+        }
+        continue;
+      }
+
+      // Evaluate condition
+      let passed = false;
+      switch (rule.operator) {
+        case 'equals':
+          passed = value === rule.value;
+          break;
+        case 'less_than_or_equal':
+          passed = Number(value) <= Number(rule.value);
+          break;
+        case 'greater_than_or_equal':
+          passed = Number(value) >= Number(rule.value);
+          break;
+        case 'in':
+          passed = rule.values.includes(value);
+          break;
+        case 'between':
+          passed = Number(value) >= Number(rule.min) && Number(value) <= Number(rule.max);
+          break;
+      }
+
+      // Check any_of alternatives if main rule fails
+      if (!passed && rule.any_of && rule.any_of.length > 0) {
+        for (const alt of rule.any_of) {
+          const altValue = attributes[alt.key];
+          if (alt.operator === 'equals' && altValue === alt.value) {
+            passed = true;
+            break;
+          }
+        }
+      }
+
+      if (passed) {
+        result.passed.push({
+          id: rule.id,
+          key: rule.key,
+          label: rule.label,
+          value: value
+        });
+      } else {
+        result.failed.push({
+          id: rule.id,
+          key: rule.key,
+          label: rule.label,
+          value: value,
+          expected: describeExpectation(rule)
+        });
+        result.valid = false;
+      }
+    }
+
+    return result;
+  }
+
+  function describeExpectation(rule) {
+    switch (rule.operator) {
+      case 'equals': return `= ${rule.value}`;
+      case 'less_than_or_equal': return `≤ ${rule.value}${rule.unit ? ' ' + rule.unit : ''}`;
+      case 'greater_than_or_equal': return `≥ ${rule.value}${rule.unit ? ' ' + rule.unit : ''}`;
+      case 'in': return `in [${rule.values.join(', ')}]`;
+      case 'between': return `between ${rule.min} and ${rule.max}`;
+      default: return rule.value;
+    }
+  }
+
+  function renderResult(result) {
+    const container = document.getElementById('result-display');
+
+    // Overall status
+    const statusHtml = result.valid
+      ? `<div class="mb-4 p-3 rounded-lg bg-green-50 border border-green-200">
+           <div class="flex items-center gap-2">
+             <svg class="size-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+             </svg>
+             <span class="font-semibold text-green-800">Potentially Eligible</span>
+           </div>
+         </div>`
+      : `<div class="mb-4 p-3 rounded-lg bg-red-50 border border-red-200">
+           <div class="flex items-center gap-2">
+             <svg class="size-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+             </svg>
+             <span class="font-semibold text-red-800">Not Eligible</span>
+           </div>
+         </div>`;
+
+    // Rules breakdown
+    let rulesHtml = '<div class="space-y-2">';
+
+    for (const rule of result.passed) {
+      rulesHtml += `
+        <div class="result-item flex items-start gap-2 p-2 rounded bg-green-50 border border-green-100">
+          <svg class="size-4 text-green-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+          <div>
+            <div class="text-sm font-medium text-green-800">${rule.label}</div>
+            <div class="text-xs text-green-600"><code>${rule.key}</code> = ${JSON.stringify(rule.value)}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    for (const rule of result.failed) {
+      rulesHtml += `
+        <div class="result-item flex items-start gap-2 p-2 rounded bg-red-50 border border-red-100">
+          <svg class="size-4 text-red-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          <div>
+            <div class="text-sm font-medium text-red-800">${rule.label}</div>
+            <div class="text-xs text-red-600"><code>${rule.key}</code> = ${JSON.stringify(rule.value)} (expected ${rule.expected})</div>
+          </div>
+        </div>
+      `;
+    }
+
+    for (const rule of result.skipped) {
+      rulesHtml += `
+        <div class="result-item flex items-start gap-2 p-2 rounded bg-yellow-50 border border-yellow-100">
+          <svg class="size-4 text-yellow-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+          </svg>
+          <div>
+            <div class="text-sm font-medium text-yellow-800">${rule.label}</div>
+            <div class="text-xs text-yellow-600">Missing: <code>${rule.key}</code></div>
+          </div>
+        </div>
+      `;
+    }
+
+    rulesHtml += '</div>';
+
+    // Full JSON result
+    const jsonHtml = `
+      <details class="mt-4">
+        <summary class="text-xs text-gray-500 cursor-pointer hover:text-gray-700">View full JSON result</summary>
+        <pre class="mt-2 p-3 bg-gray-900 text-gray-100 rounded-lg text-xs overflow-auto max-h-48">${highlightJson(result)}</pre>
+      </details>
+    `;
+
+    container.innerHTML = statusHtml + rulesHtml + jsonHtml;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Load CalFresh ruleset by default
+    loadRuleset('calfresh');
+
+    // Ruleset buttons
+    document.getElementById('load-calfresh-btn').addEventListener('click', () => loadRuleset('calfresh'));
+    document.getElementById('load-medicaid-btn').addEventListener('click', () => loadRuleset('medicaid'));
+    document.getElementById('load-section8-btn').addEventListener('click', () => loadRuleset('section8'));
+
+    // Load example buttons
+    document.getElementById('load-eligible-btn').addEventListener('click', loadEligibleExample);
+    document.getElementById('load-ineligible-btn').addEventListener('click', loadIneligibleExample);
+
+    // Run validation button
+    document.getElementById('run-validation-btn').addEventListener('click', function() {
+      try {
+        const attributes = getAttributesFromDisplay();
+        const result = validate(currentRuleset, attributes);
+        renderResult(result);
+      } catch (e) {
+        document.getElementById('result-display').innerHTML = `
+          <div class="p-3 rounded-lg bg-red-50 border border-red-200">
+            <div class="flex items-center gap-2">
+              <svg class="size-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+              </svg>
+              <span class="font-semibold text-red-800">Invalid JSON</span>
+            </div>
+            <p class="mt-1 text-sm text-red-600">${e.message}</p>
+          </div>
+        `;
+      }
+    });
+  });
+</script>
