@@ -1,0 +1,312 @@
+---
+layout: default
+title: "Some Public Programs Should Be Public Programs"
+description: "Machine-readable eligibility rules for government services. Open, verifiable, and ready for the future of civic technology."
+---
+
+<div class="bg-white">
+  {% include nav.html %}
+
+  <main class="isolate">
+    <!-- Hero -->
+    <div class="relative pt-14">
+      <div
+        class="absolute inset-0 -z-10 opacity-20"
+        style="background-image: url('{{ site.baseurl }}/assets/img/rules-bg.png'); background-size: cover; background-position: center top; background-repeat: no-repeat;"
+        aria-hidden="true"
+      ></div>
+
+      <div class="py-24 sm:py-32 lg:py-40">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+          <div class="mx-auto max-w-3xl text-center">
+            <p class="text-base font-semibold text-primary-600 mb-4">A new paradigm for civic technology</p>
+            <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
+              Some Public Programs should be <span class="text-primary-600">public</span> programs
+            </h1>
+            <p class="mt-8 text-xl text-gray-600 leading-relaxed">
+              Eligibility rules for government services are public policy. They should be open, machine-readable, and verifiable by anyone.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="/demo/"
+                class="rounded-md bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-500 transition-colors"
+              >
+                See the Demo
+              </a>
+              <a
+                href="/services/"
+                class="text-base font-semibold text-gray-900 hover:text-gray-700"
+              >
+                Browse Programs <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Problem -->
+    <div class="bg-gray-900 py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl">
+          <h2 class="text-3xl font-bold text-white sm:text-4xl">
+            The rules exist. They're just locked away.
+          </h2>
+          <p class="mt-6 text-lg text-gray-300 leading-relaxed">
+            Every government program has eligibility rules. Income limits. Age requirements. Residency conditions. These rules determine who gets help and who doesn't.
+          </p>
+          <p class="mt-4 text-lg text-gray-300 leading-relaxed">
+            But these rules are buried in PDFs, scattered across agency websites, and encoded in proprietary systems. They're public policy implemented as black boxes.
+          </p>
+          <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="rounded-xl bg-gray-800 p-6">
+              <div class="text-3xl font-bold text-white">70+</div>
+              <div class="mt-2 text-sm text-gray-400">Federal benefit programs</div>
+            </div>
+            <div class="rounded-xl bg-gray-800 p-6">
+              <div class="text-3xl font-bold text-white">1000s</div>
+              <div class="mt-2 text-sm text-gray-400">State and local programs</div>
+            </div>
+            <div class="rounded-xl bg-gray-800 p-6">
+              <div class="text-3xl font-bold text-white">0</div>
+              <div class="mt-2 text-sm text-gray-400">Standardized rule formats</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Vision -->
+    <div class="py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+          <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">
+            Rules as Code
+          </h2>
+          <p class="mt-6 text-lg text-gray-600">
+            What if eligibility rules were published as structured data? Open. Versioned. Verifiable.
+          </p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <div class="rounded-2xl bg-gray-900 p-6 shadow-xl">
+              <pre class="text-sm text-gray-100 overflow-x-auto"><code class="language-yaml"><span class="text-sky-400">service_id:</span> <span class="text-green-400">snap</span>
+<span class="text-sky-400">name:</span> <span class="text-green-400">SNAP (Food Stamps)</span>
+
+<span class="text-sky-400">rules:</span>
+  - <span class="text-sky-400">id:</span> <span class="text-green-400">income-limit</span>
+    <span class="text-sky-400">key:</span> <span class="text-green-400">household_income_fpl</span>
+    <span class="text-sky-400">operator:</span> <span class="text-green-400">less_than_or_equal</span>
+    <span class="text-sky-400">value:</span> <span class="text-red-400">130</span>
+    <span class="text-sky-400">unit:</span> <span class="text-green-400">percent</span>
+    <span class="text-sky-400">description:</span> <span class="text-green-400">|</span>
+      <span class="text-green-400">Gross monthly income must be</span>
+      <span class="text-green-400">at or below 130% FPL.</span>
+    <span class="text-sky-400">source_url:</span> <span class="text-green-400">https://fns.usda.gov/...</span>
+
+  - <span class="text-sky-400">id:</span> <span class="text-green-400">citizenship</span>
+    <span class="text-sky-400">key:</span> <span class="text-green-400">citizenship_status</span>
+    <span class="text-sky-400">operator:</span> <span class="text-green-400">in</span>
+    <span class="text-sky-400">values:</span>
+      - <span class="text-green-400">us_citizen</span>
+      - <span class="text-green-400">qualified_alien</span></code></pre>
+            </div>
+          </div>
+
+          <div class="space-y-8">
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-primary-600">
+                  <svg
+                    class="size-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">Open by Default</h3>
+                <p class="mt-2 text-gray-600">
+                  Every rule is public, traceable to its source, and versioned with full history.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-primary-600">
+                  <svg
+                    class="size-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">Machine Readable</h3>
+                <p class="mt-2 text-gray-600">
+                  Structured data that AI assistants, benefit screeners, and developers can use directly.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <div class="flex size-10 items-center justify-center rounded-lg bg-primary-600">
+                  <svg
+                    class="size-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">Cryptographically Verifiable</h3>
+                <p class="mt-2 text-gray-600">
+                  Agency signatures and blockchain anchors prove authenticity and create an immutable audit trail.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Future -->
+    <div class="bg-gray-50 py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-3xl text-center">
+          <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">
+            Toward Smart Public Services
+          </h2>
+          <p class="mt-6 text-lg text-gray-600">
+            When eligibility rules are code, new possibilities emerge.
+          </p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="rounded-2xl bg-white border border-gray-200 p-8">
+            <div class="flex size-12 items-center justify-center rounded-lg bg-purple-100 mb-6">
+              <svg
+                class="size-6 text-purple-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">AI-Powered Navigation</h3>
+            <p class="text-gray-600">
+              Language models can reason over structured rules to help people find programs they qualify for, in plain language.
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-gray-200 p-8">
+            <div class="flex size-12 items-center justify-center rounded-lg bg-blue-100 mb-6">
+              <svg
+                class="size-6 text-blue-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Automatic Enrollment</h3>
+            <p class="text-gray-600">
+              With consent, systems could proactively match people to benefits they're eligible for, reducing the burden of discovery.
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-gray-200 p-8">
+            <div class="flex size-12 items-center justify-center rounded-lg bg-green-100 mb-6">
+              <svg
+                class="size-6 text-green-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">Policy Simulation</h3>
+            <p class="text-gray-600">
+              Researchers and policymakers can model the impact of rule changes before they're implemented.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">
+            Join the movement
+          </h2>
+          <p class="mt-6 text-lg text-gray-600">
+            We're building an open database of eligibility rules. Contribute a program, integrate the API, or help us spread the word.
+          </p>
+          <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="/contribute/"
+              class="rounded-md bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-500 transition-colors"
+            >
+              Contribute Rules
+            </a>
+            <a
+              href="/integration/"
+              class="rounded-md bg-white px-6 py-3 text-base font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-colors"
+            >
+              View API Docs
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  {% include footer.html %}
+</div>
