@@ -7,4 +7,102 @@
   gtag('js', new Date());
   gtag('config', 'G-2JTCTYZFLY');
 </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seeker: application link clicks (service pages)
+    document.querySelectorAll('a[href*="application_url"], .apply-online-link, a[href^="http"]').forEach(function(link) {
+      // Match "Apply Online" and mobile "Apply for..." buttons
+      if (link.textContent.trim().startsWith('Apply')) {
+        link.addEventListener('click', function() {
+          gtag('event', 'application_link_click', {
+            service_name: document.title.split(' - ')[0],
+            link_url: link.href,
+            link_location: link.closest('.lg\\:hidden') ? 'mobile_sticky' : 'sidebar'
+          });
+        });
+      }
+    });
+
+    // Provider: "Edit on GitHub" clicks
+    document.querySelectorAll('a[href*="github.com"][href*="/edit/"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        gtag('event', 'edit_on_github_click', {
+          service_name: document.title.split(' - ')[0],
+          file_path: link.href.split('/main/')[1] || ''
+        });
+      });
+    });
+
+    // Builder: "View as JSON" toggle on service pages
+    document.querySelectorAll('details').forEach(function(details) {
+      var summary = details.querySelector('summary');
+      if (summary && summary.textContent.trim() === 'View as JSON') {
+        summary.addEventListener('click', function() {
+          if (!details.open) {
+            gtag('event', 'view_ruleset_json', {
+              service_name: document.title.split(' - ')[0]
+            });
+          }
+        });
+      }
+    });
+
+    // Builder: copy JSON button
+    var copyBtn = document.querySelector('button[onclick="copyRulesetJson()"]');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function() {
+        gtag('event', 'copy_ruleset_json', {
+          service_name: document.title.split(' - ')[0]
+        });
+      });
+    }
+
+    // Seeker: demo eligibility check
+    var checkBtn = document.getElementById('check-eligibility-btn');
+    if (checkBtn) {
+      checkBtn.addEventListener('click', function() {
+        // Defer to let the validation run first
+        setTimeout(function() {
+          var resultEl = document.getElementById('validation-result');
+          var eligible = resultEl && resultEl.querySelector('.bg-green-50') !== null;
+          var passedCount = document.querySelectorAll('.rule-row.passed').length;
+          var failedCount = document.querySelectorAll('.rule-row.failed').length;
+          var skippedCount = document.querySelectorAll('.rule-row.skipped').length;
+
+          gtag('event', 'demo_eligibility_check', {
+            service_id: 'calfresh',
+            result: eligible ? 'eligible' : 'not_eligible',
+            rules_passed: passedCount,
+            rules_failed: failedCount,
+            rules_skipped: skippedCount
+          });
+        }, 100);
+      });
+    }
+
+    // Builder: validation events detail toggle (demo page)
+    document.querySelectorAll('details').forEach(function(details) {
+      var summary = details.querySelector('summary');
+      if (summary && summary.textContent.trim().includes('Validation Events')) {
+        summary.addEventListener('click', function() {
+          if (!details.open) {
+            gtag('event', 'view_validation_events', {
+              service_id: 'calfresh'
+            });
+          }
+        });
+      }
+    });
+
+    // Seeker: source URL clicks on service pages
+    document.querySelectorAll('a[title="View source"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        gtag('event', 'source_url_click', {
+          service_name: document.title.split(' - ')[0],
+          source_url: link.href
+        });
+      });
+    });
+  });
+</script>
 {% endif %}
