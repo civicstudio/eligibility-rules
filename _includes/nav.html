@@ -1,6 +1,16 @@
+{% comment %}
+  Unified navigation component.
+  Pass include.transparent = true for homepage-style transparent header.
+  Usage: {% include nav.html %} or {% include nav.html transparent=true %}
+{% endcomment %}
+
+{% if include.transparent %}
+<header class="absolute inset-x-0 top-0 z-50">
+{% else %}
 <header class="border-b border-gray-200">
+{% endif %}
   <nav
-    class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between"
+    class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between {% if include.transparent %}lg:px-8{% endif %}"
     aria-label="Global"
   >
     <a
@@ -11,37 +21,42 @@
     </a>
 
     <!-- Desktop nav -->
-    <div class="hidden md:flex gap-6">
+    <div class="hidden lg:flex lg:items-center lg:gap-x-8">
       <a
         href="/services/"
-        class="text-sm text-gray-600 hover:text-gray-900"
+        class="text-sm font-medium text-gray-600 hover:text-gray-900"
       >
         Services
       </a>
       <a
         href="/jurisdictions/"
-        class="text-sm text-gray-600 hover:text-gray-900"
+        class="text-sm font-medium text-gray-600 hover:text-gray-900"
       >
         Jurisdictions
       </a>
       <a
         href="/contribute/"
-        class="text-sm text-gray-600 hover:text-gray-900"
+        class="text-sm font-medium text-gray-600 hover:text-gray-900"
       >
         Contribute
+      </a>
+      <a
+        href="https://github.com/civicstudio/eligibility-rules"
+        class="text-sm font-medium text-gray-600 hover:text-gray-900"
+      >
+        GitHub <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
 
     <!-- Mobile menu button -->
     <button
       type="button"
-      class="md:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+      class="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
       aria-expanded="false"
-      onclick="toggleMobileMenu()"
+      onclick="toggleMobileNav()"
     >
       <span class="sr-only">Open main menu</span>
       <svg
-        id="menu-icon-open"
         class="size-6"
         fill="none"
         viewBox="0 0 24 24"
@@ -55,61 +70,86 @@
           d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
         />
       </svg>
-      <svg
-        id="menu-icon-close"
-        class="hidden size-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
     </button>
   </nav>
 
-  <!-- Mobile menu -->
+  <!-- Mobile menu panel (full-screen overlay) -->
   <div
-    id="mobile-menu"
-    class="hidden md:hidden"
+    id="mobile-nav-panel"
+    class="hidden lg:hidden"
+    role="dialog"
+    aria-modal="true"
   >
-    <div class="space-y-1 px-6 pb-4 pt-2">
-      <a
-        href="/services/"
-        class="block rounded-lg py-2 text-base font-medium text-gray-900 hover:bg-gray-50"
-      >
-        Services
-      </a>
-      <a
-        href="/jurisdictions/"
-        class="block rounded-lg py-2 text-base font-medium text-gray-900 hover:bg-gray-50"
-      >
-        Jurisdictions
-      </a>
-      <a
-        href="/contribute/"
-        class="block rounded-lg py-2 text-base font-medium text-gray-900 hover:bg-gray-50"
-      >
-        Contribute
-      </a>
+    <div class="fixed inset-0 z-50 bg-white px-6 py-6">
+      <div class="flex items-center justify-between">
+        <a
+          href="/"
+          class="font-semibold text-gray-900"
+        >
+          EligibilityRules<span class="text-primary-600">.org</span>
+        </a>
+        <button
+          type="button"
+          class="-m-2.5 rounded-md p-2.5 text-gray-700"
+          onclick="toggleMobileNav()"
+        >
+          <span class="sr-only">Close menu</span>
+          <svg
+            class="size-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="mt-6 flow-root">
+        <div class="-my-6 divide-y divide-gray-500/10">
+          <div class="space-y-2 py-6">
+            <a
+              href="/services/"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+            >
+              Services
+            </a>
+            <a
+              href="/jurisdictions/"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+            >
+              Jurisdictions
+            </a>
+            <a
+              href="/contribute/"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+            >
+              Contribute
+            </a>
+          </div>
+          <div class="py-6">
+            <a
+              href="https://github.com/civicstudio/eligibility-rules"
+              class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
 
 <script>
-  function toggleMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    const openIcon = document.getElementById('menu-icon-open');
-    const closeIcon = document.getElementById('menu-icon-close');
-    const isHidden = menu.classList.contains('hidden');
-
+  function toggleMobileNav() {
+    var menu = document.getElementById('mobile-nav-panel');
     menu.classList.toggle('hidden');
-    openIcon.classList.toggle('hidden');
-    closeIcon.classList.toggle('hidden');
+    document.body.classList.toggle('overflow-hidden');
   }
 </script>

@@ -1,7 +1,92 @@
-<footer class="mx-auto max-w-7xl px-6 pb-8">
-  <div class="border-t border-gray-200 pt-8 flex items-center justify-end gap-4 text-sm">
-    <a href="/integration/" class="text-primary-600 hover:text-primary-500">How to Integrate</a>
-    <a href="https://x.com/randw" class="text-primary-600 hover:text-primary-500">Get in Touch</a>
-    <a href="https://github.com/civicstudio/eligibility-rules" class="text-primary-600 hover:text-primary-500">GitHub</a>
+<footer class="border-t border-gray-200 mt-16">
+  <div class="mx-auto max-w-7xl px-6 py-12">
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-4">
+      <!-- Identity -->
+      <div class="sm:col-span-2">
+        <a
+          href="/"
+          class="font-semibold text-gray-900"
+        >
+          EligibilityRules<span class="text-primary-600">.org</span>
+        </a>
+        <p class="mt-3 text-sm text-gray-500 max-w-sm">
+          An open, machine-readable database of government service eligibility rules. Browse, contribute, and build upon.
+        </p>
+      </div>
+
+      <!-- Browse -->
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900">Browse</h3>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li>
+            <a
+              href="/services/"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              All Services
+            </a>
+          </li>
+          <li>
+            <a
+              href="/jurisdictions/"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              Jurisdictions
+            </a>
+          </li>
+          <li>
+            <a
+              href="/demo/"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              Demo
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contribute -->
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900">Contribute</h3>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li>
+            <a
+              href="/contribute/"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              Contributing Guide
+            </a>
+          </li>
+          <li>
+            <a
+              href="/integration/"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              Integration
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/civicstudio/eligibility-rules"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://x.com/randw"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              Contact
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-8 border-t border-gray-200 pt-6 text-xs text-gray-400">
+      &copy; {{ 'now' | date: '%Y' }} EligibilityRules.org. Open source under MIT License.
+    </div>
   </div>
 </footer>
