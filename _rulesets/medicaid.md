@@ -1,5 +1,6 @@
 ---
 name: medicaid
+permalink: /rulesets/medicaid.json
 service_id: medicaid
 ruleset:
   service_id: medicaid

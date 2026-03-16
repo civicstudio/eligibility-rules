@@ -407,76 +407,7 @@ title: "Ruleset Viewer Demo"
 </style>
 
 <script>
-  // Sample CalFresh ruleset
-  const calfreshRuleset = {
-    service_id: 'calfresh',
-    name: 'CalFresh (California SNAP)',
-    jurisdiction: 'California',
-    effective_date: '2024-10-01',
-    description: 'CalFresh provides monthly food benefits to eligible low-income households via an EBT card.',
-    source_urls: [
-      'https://www.cdss.ca.gov/calfresh',
-      'https://www.getcalfresh.org/'
-    ],
-    rules: [
-      {
-        id: 'income-gross',
-        key: 'household_income_fpl',
-        operator: 'less_than_or_equal',
-        value: 200,
-        unit: 'percent',
-        requirement: 'required',
-        label: 'Gross Income',
-        description: 'Gross monthly income must be at or below 200% of the Federal Poverty Level.',
-        source_url: 'https://www.cdss.ca.gov/calfresh/eligibility'
-      },
-      {
-        id: 'residency',
-        key: 'state_residency',
-        operator: 'equals',
-        value: 'CA',
-        requirement: 'required',
-        label: 'California Residency',
-        description: 'Must be a California resident.'
-      },
-      {
-        id: 'citizenship',
-        key: 'citizenship_status',
-        operator: 'in',
-        values: ['us_citizen', 'permanent_resident', 'refugee', 'asylee', 'trafficking_victim'],
-        requirement: 'required',
-        label: 'Citizenship/Immigration',
-        description: 'Must be a U.S. citizen or qualified immigrant.',
-        source_url: 'https://www.cdss.ca.gov/calfresh/eligibility'
-      },
-      {
-        id: 'work-requirements',
-        key: 'age',
-        operator: 'between',
-        min: 18,
-        max: 49,
-        requirement: 'required',
-        label: 'ABAWD Work Requirements',
-        description: 'ABAWDs aged 18-49 must meet work requirements unless exempt.',
-        any_of: [
-          {
-            id: 'exempt-disabled',
-            key: 'has_disability',
-            operator: 'equals',
-            value: true,
-            description: 'Has a disability'
-          },
-          {
-            id: 'exempt-dependent',
-            key: 'has_dependent_child',
-            operator: 'equals',
-            value: true,
-            description: 'Cares for a dependent child'
-          }
-        ]
-      }
-    ]
-  };
+  let calfreshRuleset = null;
 
   document.addEventListener('DOMContentLoaded', function() {
     const engine = new ValidationEngine({
@@ -486,7 +417,18 @@ title: "Ruleset Viewer Demo"
       }
     });
 
+    // Fetch ruleset from JSON endpoint
+    fetch('/rulesets/calfresh.json')
+      .then(function(response) { return response.json(); })
+      .then(function(data) { calfreshRuleset = data; })
+      .catch(function(err) { console.error('Failed to load ruleset:', err); });
+
     document.getElementById('check-eligibility-btn').addEventListener('click', function() {
+      if (!calfreshRuleset) {
+        alert('Ruleset is still loading. Please try again.');
+        return;
+      }
+
       // Collect form values
       const attributes = {};
 

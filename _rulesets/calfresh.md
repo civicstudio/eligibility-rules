@@ -1,5 +1,6 @@
 ---
 name: calfresh
+permalink: /rulesets/calfresh.json
 service_id: calfresh
 ruleset:
   service_id: calfresh

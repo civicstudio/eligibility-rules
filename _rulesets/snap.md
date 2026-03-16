@@ -1,5 +1,6 @@
 ---
 name: snap
+permalink: /rulesets/snap.json
 service_id: snap
 ruleset:
   service_id: snap

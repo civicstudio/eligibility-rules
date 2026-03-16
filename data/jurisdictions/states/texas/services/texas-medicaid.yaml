@@ -1,0 +1,103 @@
+id: texas-medicaid
+name: Texas Medicaid
+alternate_names:
+  - Star Health
+  - Star+Plus
+jurisdiction_id: texas
+agency_id: hhsc
+service_type: benefit
+category: healthcare
+description: |
+  Texas Medicaid provides health coverage to eligible low-income
+  residents. Texas has not expanded Medicaid under the ACA, so
+  eligibility is limited to specific categories: children, pregnant
+  women, parents with very low income, elderly, and disabled.
+application_url: https://www.yourtexasbenefits.com/
+source_urls:
+  - https://www.hhs.texas.gov/services/health/medicaid-chip
+  - https://www.hhs.texas.gov/services/health/medicaid-chip/medicaid-chip-programs
+last_verified: 2026-03-16
+
+ruleset:
+  service_id: texas-medicaid
+  effective_date: 2024-01-01
+  rules:
+    - id: income-children
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 144
+      unit: percent
+      requirement: required
+      label: Income Limit (Children)
+      description: |
+        Children ages 6-18 qualify with household income up to 144%
+        FPL. Children under 6 qualify up to 198% FPL.
+      source_url: https://www.hhs.texas.gov/services/health/medicaid-chip/medicaid-chip-programs
+      conditions:
+        - id: is-child
+          key: age
+          operator: less_than
+          value: 19
+
+    - id: income-pregnant
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 198
+      unit: percent
+      requirement: required
+      label: Income Limit (Pregnant Women)
+      description: Pregnant women qualify with income up to 198% FPL.
+      source_url: https://www.hhs.texas.gov/services/health/medicaid-chip/medicaid-chip-programs
+      conditions:
+        - id: is-pregnant
+          key: is_pregnant
+          operator: equals
+          value: true
+
+    - id: income-parents
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 15
+      unit: percent
+      requirement: required
+      label: Income Limit (Parents/Caretakers)
+      description: |
+        Parents and caretaker relatives qualify only with extremely
+        low income (approximately 15% FPL). Texas has not expanded
+        Medicaid; childless adults generally do not qualify.
+      source_url: https://www.hhs.texas.gov/services/health/medicaid-chip/medicaid-chip-programs
+
+    - id: residency
+      key: state_residency
+      operator: equals
+      value: TX
+      requirement: required
+      label: Texas Residency
+      description: Must be a Texas resident.
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - permanent_resident
+        - refugee
+        - asylee
+      requirement: required
+      label: Citizenship/Immigration
+      description: |
+        Must be a U.S. citizen or qualified immigrant. Qualified
+        immigrants generally subject to a 5-year waiting period
+        (exceptions for children, pregnant women, refugees, asylees).
+      source_url: https://www.hhs.texas.gov/services/health/medicaid-chip
+
+    - id: no-childless-adults
+      key: is_childless_adult
+      operator: equals
+      value: true
+      requirement: disqualifying
+      label: No Childless Adult Coverage
+      description: |
+        Texas has not expanded Medicaid. Childless adults do not
+        qualify regardless of income, unless they are elderly (65+)
+        or have a qualifying disability.

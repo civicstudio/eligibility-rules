@@ -1,0 +1,8 @@
+id: texas
+name: Texas
+level: state
+parent: united-states
+geoid: "48"
+fips: "48"
+abbreviation: TX
+website: https://www.texas.gov/

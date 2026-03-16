@@ -1,0 +1,88 @@
+id: texas-chip
+name: Texas CHIP
+alternate_names:
+  - Children's Health Insurance Program (Texas)
+  - Children's Medicaid
+jurisdiction_id: texas
+agency_id: hhsc
+service_type: benefit
+category: healthcare
+description: |
+  Texas CHIP provides low-cost health coverage for children in
+  families that earn too much to qualify for Medicaid but cannot
+  afford private insurance. Texas has one of the largest CHIP
+  programs in the country.
+application_url: https://www.yourtexasbenefits.com/
+source_urls:
+  - https://www.hhs.texas.gov/services/health/medicaid-chip/medicaid-chip-programs/children-chip
+last_verified: 2026-03-16
+
+ruleset:
+  service_id: texas-chip
+  effective_date: 2024-01-01
+  rules:
+    - id: age
+      key: age
+      operator: less_than
+      value: 19
+      requirement: required
+      label: Age Requirement
+      description: Must be under 19 years old.
+      source_url: https://www.hhs.texas.gov/services/health/medicaid-chip/medicaid-chip-programs/children-chip
+
+    - id: income
+      key: household_income_fpl
+      operator: less_than_or_equal
+      value: 201
+      unit: percent
+      requirement: required
+      label: Income Limit
+      description: |
+        Household income must be at or below 201% of the Federal
+        Poverty Level. Children in families with income above
+        Medicaid limits but below 201% FPL qualify for CHIP.
+      source_url: https://www.hhs.texas.gov/services/health/medicaid-chip/medicaid-chip-programs/children-chip
+
+    - id: residency
+      key: state_residency
+      operator: equals
+      value: TX
+      requirement: required
+      label: Texas Residency
+      description: Must be a Texas resident.
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - permanent_resident
+        - refugee
+        - asylee
+      requirement: required
+      label: Citizenship/Immigration
+      description: |
+        Must be a U.S. citizen or qualified immigrant.
+        Lawfully residing children can enroll without a waiting
+        period.
+      source_url: https://www.hhs.texas.gov/services/health/medicaid-chip
+
+    - id: no-other-coverage
+      key: has_other_qualifying_coverage
+      operator: equals
+      value: false
+      requirement: required
+      label: No Other Coverage
+      description: |
+        Must not have had employer-sponsored health insurance
+        coverage in the past 90 days.
+
+    - id: not-medicaid-eligible
+      key: qualifies_for_medicaid
+      operator: equals
+      value: false
+      requirement: required
+      label: Not Medicaid Eligible
+      description: |
+        Must not qualify for Medicaid. CHIP covers the gap between
+        Medicaid and private insurance affordability.

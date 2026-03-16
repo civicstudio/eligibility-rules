@@ -1,0 +1,109 @@
+id: tanf-texas
+name: TANF Cash Assistance (Texas)
+alternate_names:
+  - Texas TANF
+  - Temporary Assistance for Needy Families (Texas)
+jurisdiction_id: texas
+agency_id: hhsc
+service_type: benefit
+category: income-support
+description: |
+  Texas TANF provides temporary cash assistance to families with
+  children who have very low income and limited resources. Texas
+  has some of the lowest TANF benefit levels in the country.
+application_url: https://www.yourtexasbenefits.com/
+source_urls:
+  - https://www.hhs.texas.gov/services/financial/cash-help
+last_verified: 2026-03-16
+
+ruleset:
+  service_id: tanf-texas
+  effective_date: 2024-01-01
+  rules:
+    - id: has-child
+      key: has_dependent_child
+      operator: equals
+      value: true
+      requirement: required
+      label: Dependent Child
+      description: |
+        Must have a dependent child under 18 in the household,
+        or be pregnant.
+      any_of:
+        - id: child-present
+          key: has_child_under_18
+          operator: equals
+          value: true
+          description: Has child under 18 in home
+        - id: pregnant
+          key: is_pregnant
+          operator: equals
+          value: true
+          description: Is pregnant
+
+    - id: income
+      key: household_income
+      operator: less_than
+      value: 188
+      unit: dollars
+      requirement: required
+      label: Income Limit
+      description: |
+        Maximum monthly income for a family of 3 is approximately
+        $188. Texas TANF income limits are among the lowest in the
+        nation. Limits vary by family size.
+      source_url: https://www.hhs.texas.gov/services/financial/cash-help
+
+    - id: assets
+      key: countable_assets
+      operator: less_than_or_equal
+      value: 1000
+      unit: dollars
+      requirement: required
+      label: Asset Limit
+      description: |
+        Countable resources must be $1,000 or less. One vehicle is
+        excluded; additional vehicles counted at fair market value.
+      source_url: https://www.hhs.texas.gov/services/financial/cash-help
+
+    - id: residency
+      key: state_residency
+      operator: equals
+      value: TX
+      requirement: required
+      label: Texas Residency
+      description: Must be a Texas resident.
+
+    - id: citizenship
+      key: citizenship_status
+      operator: in
+      values:
+        - us_citizen
+        - qualified_alien
+      requirement: required
+      label: Citizenship/Immigration
+      description: |
+        Must be a U.S. citizen or qualified immigrant with at least
+        5 years of residency.
+
+    - id: work-participation
+      key: participates_in_work_program
+      operator: equals
+      value: true
+      requirement: required
+      label: Work Participation
+      description: |
+        Adults must participate in Choices (Texas employment
+        program) unless exempt due to disability, caring for an
+        infant under 1, or domestic violence.
+
+    - id: time-limit
+      key: tanf_months
+      operator: less_than_or_equal
+      value: 60
+      requirement: required
+      label: Time Limit
+      description: |
+        60-month lifetime limit for adults. Texas also imposes
+        state time limits that may be shorter depending on
+        circumstances.

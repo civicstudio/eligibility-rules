@@ -281,29 +281,31 @@ end
 
 ## Roadmap
 
-### Phase 1: Foundation (MVP)
-- [ ] Create GitHub repository
-- [ ] Define JSON/YAML schemas
-- [ ] Seed with 10-20 federal programs
-- [ ] Static site with basic browsing
-- [ ] CONTRIBUTING.md with clear instructions
-- [ ] Domain: eligibilityrules.org
+### Phase 1: Foundation (MVP) — Complete
+- [x] Create GitHub repository
+- [x] Define JSON/YAML schemas (4 schemas: service, ruleset, agency, jurisdiction)
+- [x] Seed with 10-20 federal programs (12 federal services)
+- [x] Static site with basic browsing (Jekyll + Tailwind v4)
+- [x] CONTRIBUTING.md with clear instructions
+- [x] Domain: eligibilityrules.org
 
-### Phase 2: State Coverage
-- [ ] Add 5 states as pilots (CA, TX, NY, FL, IL)
-- [ ] State-specific programs (CalFresh, TANF variants)
-- [ ] Improve navigation UI
+### Phase 2: State Coverage — In Progress
+- [x] State-specific programs (California: CalFresh, Medi-Cal, CalWORKs, Cal-EITC)
+- [x] Improve navigation UI (jurisdiction hierarchy, service filtering)
+- [ ] Add more states (TX, NY, FL, IL)
 - [ ] Search functionality
 
-### Phase 3: Local Coverage
+### Phase 3: Local Coverage — In Progress
+- [x] County-level programs (Solano County: General Assistance, IHSS)
+- [x] City-level programs (Vacaville: Senior Services, Utility Assistance)
 - [ ] Add major cities (NYC, LA, Chicago, Houston)
-- [ ] County-level programs
 - [ ] Special districts
 
-### Phase 4: Interactive Features
-- [ ] Eligibility screener (preliminary)
-- [ ] API for programmatic access
-- [ ] Migrate to Elixir/Phoenix if needed
+### Phase 4: Interactive Features — In Progress
+- [x] Eligibility screener (CalFresh demo with validation engine)
+- [x] JSON ruleset endpoints (`/rulesets/{service-id}.json`)
+- [ ] Multi-program screener
+- [ ] REST API for programmatic access
 
 ### Phase 5: Community Growth
 - [ ] Outreach to civic tech community

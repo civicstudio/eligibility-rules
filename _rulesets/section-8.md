@@ -1,5 +1,6 @@
 ---
 name: section-8
+permalink: /rulesets/section-8.json
 service_id: section-8
 ruleset:
   service_id: section-8

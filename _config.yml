@@ -41,8 +41,7 @@ data_dir: data
 exclude:
   - package.json
   - package-lock.json
-  - postcss.config.js
-  - tailwind.config.js
   - node_modules
+  - scripts
   - Gemfile
   - Gemfile.lock
